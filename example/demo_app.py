@@ -11,12 +11,17 @@ from rest_utils import SQLAlchemy
 import os
 import datetime
 from flask import Flask
+from rest_utils.api_exception import handler_app
 
+# 创建APP
 app = Flask(__name__)
+# 处理通用异常
+handler_app(app)
+# 模型
 db = SQLAlchemy(app)
 
+# 测试数据库路径
 DB_LOC = os.path.abspath(os.path.join(os.path.dirname(__file__), "test.db"))
-
 app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///%s' % DB_LOC
 
 
@@ -39,6 +44,7 @@ class Category(db.Model):
 
 
 def restless():
+    # 绑定模型对应的api
     from flask_restless import APIManager
     with app.app_context():
         manager = APIManager(app, flask_sqlalchemy_db=db)
