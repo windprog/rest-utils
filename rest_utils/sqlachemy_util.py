@@ -29,7 +29,8 @@ def get_session():
     session = getattr(g, '_session', None)
     if session is None:
         if not getattr(current_app, "db", None):
-            raise Exception("Please use rest_utils.SQLAlchemy.")
+            raise Exception("Please use rest_utils.SQLAlchemy. example:"
+                            "https://github.com/windprog/rest-utils/blob/master/example/demo_app.py#L10")
         session = g._session = current_app.db.session()
     return session
 
