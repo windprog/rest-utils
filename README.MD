@@ -2,5 +2,5 @@
 
 ## API
 
-cd example
-bash init.sh
+    cd example
+    bash init.sh
