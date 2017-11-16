@@ -11,7 +11,12 @@ Desc    :
 """
 from setuptools import setup
 
-from rest_utils import __version__, __author__, __author_email__, __description__, __url__, __title__
+__version__ = "0.0.1"
+__author__ = "windprog"
+__author_email__ = "windprog@gmail.com"
+__description__ = "gunicorn wrapper. support worker"
+__title__ = 'rest-utils'
+__url__ = "https://github.com/windprog/rest-utils"
 
 try:
     INSTALL_REQUIRES = [r for r in open('requirements.txt').read().split('\n') if len(r) > 0]
