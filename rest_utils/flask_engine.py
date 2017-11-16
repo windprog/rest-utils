@@ -88,7 +88,7 @@ def run(app_generator, options):
 class Runserver(Command):
     "run gunicorn server"
 
-    def __init__(self, app, bind, port):
+    def __init__(self, app, bind="127.0.0.1", port=4488):
         self.app = app
         self.bind, self.port = bind, port
         super(Runserver, self).__init__()
