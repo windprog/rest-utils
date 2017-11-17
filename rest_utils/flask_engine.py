@@ -96,9 +96,12 @@ class Runserver(Command):
     def get_options(self):
         return [
             Option('--worker_class', help='gunicorn worker class', default="gevent"),
+            Option('--capture_output', help='gunicorn log capture stderr stdout to stdout', default=True),
+            Option('--enable_stdio_inheritance', help='gunicorn log immediately', default=True),
+            Option('--max_requests', help='gunicorn arg', default=2000),
             Option('--workers', help='gunicorn worker num', default=get_process_num()),
             Option('--daemon', help='gunicorn daemon', default=False),
-            Option('--timeout', help='gunicorn timeout', default=60),
+            Option('--timeout', help='gunicorn timeout', default=600),
             Option('--sql_debug', help='print sqlachemy sql', default=False),
             Option('--bind', help='gunicorn bind addr. example:127.0.0.1:8080',
                 default="%s:%s" % (
@@ -108,4 +111,19 @@ class Runserver(Command):
         ]
 
     def run(self, **kwargs):
+        for bool_field in [
+            "capture_output",
+            "enable_stdio_inheritance",
+        ]:
+            if bool_field not in kwargs:
+                continue
+            value = kwargs[bool_field]
+            if isinstance(value, basestring):
+                if value.lower() == "false":
+                    value = False
+                elif value.lower() == "true":
+                    value = True
+                else:
+                    value = True
+            kwargs[bool_field] = value
         run(lambda: self.app, kwargs)
