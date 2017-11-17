@@ -17,7 +17,7 @@ def get_request_id(length=5):
     return uuid.uuid4().get_hex()[:length]
 
 
-def get_current_trace_id():
+def flask_current_trace_id():
     if getattr(g, "trace_id", None):
         trace_id = g.trace_id
     else:
@@ -31,7 +31,7 @@ class RequestIDLogFilter(logging.Filter):
     """
 
     def filter(self, log_record):
-        trace_id = get_current_trace_id()
+        trace_id = flask_current_trace_id()
         ip = ""
         try:
             ip = request.remote_addr
