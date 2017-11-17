@@ -12,6 +12,7 @@ import os
 import datetime
 from flask import Flask
 from rest_utils.api_exception import handler_app
+import logging
 
 # 创建APP
 app = Flask(__name__)
@@ -19,6 +20,16 @@ app = Flask(__name__)
 handler_app(app)
 # 模型
 db = SQLAlchemy(app)
+
+logger = logging.getLogger(__name__)
+
+@app.route('/')
+def index():
+    from random import randint
+    a, b = randint(1, 15), randint(1, 15)
+    logging.info('global level Adding two random numbers {} {}'.format(a, b))
+    logger.info('module level Adding two random numbers {} {}'.format(a, b))
+    return str(a + b)
 
 # 测试数据库路径
 DB_LOC = os.path.abspath(os.path.join(os.path.dirname(__file__), "test.db"))
