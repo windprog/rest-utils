@@ -34,10 +34,8 @@ def parse_arg():
 
 
 def get_options(*args, **kwargs):
-    import config
-
-    bind = kwargs.get('BIND', config.API_BIND)
-    port = kwargs.get('PORT', config.API_PORT)
+    bind = kwargs.get('BIND', "0.0.0.0")
+    port = kwargs.get('PORT', 4488)
     return {
         'worker_class': 'gevent',
         'workers': kwargs.get('PROCESS', get_process_num()),
@@ -88,9 +86,9 @@ def run(app_generator, options):
 class Runserver(Command):
     "run gunicorn server"
 
-    def __init__(self, app, bind="127.0.0.1", port=4488):
+    def __init__(self, app, bind="0.0.0.0", port=4488):
         self.app = app
-        self.bind, self.port = bind, port
+        self.default_bind, self.default_port = bind, port
         super(Runserver, self).__init__()
 
     def get_options(self):
@@ -98,6 +96,7 @@ class Runserver(Command):
             Option('--worker_class', help='gunicorn worker class', default="gevent"),
             Option('--capture_output', help='gunicorn log capture stderr stdout to stdout', default=True),
             Option('--enable_stdio_inheritance', help='gunicorn log immediately', default=True),
+            Option('--accesslog', help='gunicorn access log', default="-"),
             Option('--max_requests', help='gunicorn arg', default=2000),
             Option('--workers', help='gunicorn worker num', default=get_process_num()),
             Option('--daemon', help='gunicorn daemon', default=False),
@@ -105,7 +104,7 @@ class Runserver(Command):
             Option('--sql_debug', help='print sqlachemy sql', default=False),
             Option('--bind', help='gunicorn bind addr. example:127.0.0.1:8080',
                 default="%s:%s" % (
-                    str(self.bind), str(self.port)
+                    str(self.default_bind), str(self.default_port)
                 )
             ),
         ]

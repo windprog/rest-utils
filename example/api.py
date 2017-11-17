@@ -8,6 +8,7 @@ Date    :   17/11/15
 Desc    :   
 """
 from gevent.monkey import patch_all
+
 patch_all()
 
 import common  # 实现引用上级目录
@@ -18,6 +19,7 @@ from rest_utils.flask_migrate import migrate_skip
 from rest_utils.flask_engine import Runserver
 
 from demo_app import app, db
+
 manager = Manager(app)
 migrate = Migrate(app, db)
 
