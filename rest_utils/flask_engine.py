@@ -99,7 +99,7 @@ class Runserver(Command):
             Option('--capture_output', help='gunicorn log capture stderr stdout to stdout', default=True),
             Option('--enable_stdio_inheritance', help='gunicorn log immediately', default=True),
             Option('--accesslog', help='gunicorn access log', default="-"),
-            Option('--loglevel', help='gunicorn access log', default="info"),
+            Option('--loglevel', help='gunicorn log level', default="info"),
             Option('--max_requests', help='gunicorn arg', default=2000),
             Option('--workers', help='gunicorn worker num', default=get_process_num()),
             Option('--daemon', help='gunicorn daemon', default=False),
