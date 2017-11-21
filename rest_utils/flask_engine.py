@@ -15,6 +15,8 @@ import logging
 from gunicorn.app.base import Application
 from flask_script import Manager, Command, Option
 
+logger = logging.getLogger(__name__)
+
 
 def get_process_num(power=1):
     return multiprocessing.cpu_count() * power or 1
@@ -97,6 +99,7 @@ class Runserver(Command):
             Option('--capture_output', help='gunicorn log capture stderr stdout to stdout', default=True),
             Option('--enable_stdio_inheritance', help='gunicorn log immediately', default=True),
             Option('--accesslog', help='gunicorn access log', default="-"),
+            Option('--loglevel', help='gunicorn access log', default="info"),
             Option('--max_requests', help='gunicorn arg', default=2000),
             Option('--workers', help='gunicorn worker num', default=get_process_num()),
             Option('--daemon', help='gunicorn daemon', default=False),
@@ -125,4 +128,23 @@ class Runserver(Command):
                 else:
                     value = True
             kwargs[bool_field] = value
+        if kwargs.pop("accesslog"):
+            # 处理日志
+            from log import init_flask_log
+            from flask import request
+            init_flask_log(getattr(logging, kwargs.get("loglevel", "info").upper()))
+
+            @self.app.after_request
+            def after_request_log(res):
+                full_path = request.full_path
+                if full_path.endswith("?"):
+                    full_path = full_path[:-1]
+                logger.info('"{method} {fullpath} HTTP/1.1" {status_code} {res_content_type} -'.format(
+                    method=request.method,
+                    fullpath=full_path,
+                    status_code=res.status_code,
+                    res_content_type=res.headers.get("Content-Type")
+                ))
+                return res
+
         run(lambda: self.app, kwargs)

@@ -31,10 +31,17 @@ class RequestIDLogFilter(logging.Filter):
     """
 
     def filter(self, log_record):
-        trace_id = flask_current_trace_id()
+        try:
+            trace_id = flask_current_trace_id()
+        except:
+            trace_id = ""
         ip = ""
         try:
-            ip = request.remote_addr
+            if request.headers.getlist("X-Forwarded-For"):
+                # 处理代理结果
+                ip = request.headers.getlist("X-Forwarded-For")[0].split(',')[0].strip()
+            else:
+                ip = request.remote_addr
         except:
             pass
         log_record.trace_id = trace_id
@@ -48,6 +55,13 @@ class RequestIDLogFilter(logging.Filter):
 # def init_flask_log():
 # Setup logging
 def init_flask_log(level=logging.INFO):
+    global_logger = logging.getLogger()
+    global_logger.setLevel(level)
+    for h in global_logger.handlers:
+        for f in h.filters:
+            if isinstance(f, RequestIDLogFilter):
+                logging.warning("Ready init logger")
+                return
     handler = logging.StreamHandler()
     handler.setFormatter(
         logging.Formatter(
@@ -56,11 +70,11 @@ def init_flask_log(level=logging.INFO):
         )
     )
     handler.addFilter(RequestIDLogFilter())
-    logging.getLogger().addHandler(handler)
-    logging.getLogger().setLevel(level)
+    global_logger.addHandler(handler)
 
 
 if __name__ == '__main__':
+    init_flask_log()
     init_flask_log()
     app = Flask(__name__)
     with app.app_context():

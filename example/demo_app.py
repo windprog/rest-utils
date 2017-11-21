@@ -23,6 +23,7 @@ db = SQLAlchemy(app)
 
 logger = logging.getLogger(__name__)
 
+
 @app.route('/')
 def index():
     from random import randint
@@ -30,6 +31,7 @@ def index():
     logging.info('global level Adding two random numbers {} {}'.format(a, b))
     logger.info('module level Adding two random numbers {} {}'.format(a, b))
     return str(a + b)
+
 
 # 测试数据库路径
 DB_LOC = os.path.abspath(os.path.join(os.path.dirname(__file__), "test.db"))
@@ -62,5 +64,6 @@ def restless():
         manager.create_api(Post, methods=['GET', 'PUT', 'POST'])
         manager.create_api(Category, methods=['GET', 'PUT', 'POST'])
         return manager
+
 
 restless()
