@@ -98,7 +98,7 @@ class Runserver(Command):
             Option('--worker_class', help='gunicorn worker class', default="gevent"),
             Option('--capture_output', help='gunicorn log capture stderr stdout to stdout', default=True),
             Option('--enable_stdio_inheritance', help='gunicorn log immediately', default=True),
-            Option('--accesslog', help='gunicorn access log', default="-"),
+            Option('--accesslog', help='gunicorn access log; value:"" is disable.', default="-"),
             Option('--loglevel', help='gunicorn log level', default="info"),
             Option('--max_requests', help='gunicorn arg', default=2000),
             Option('--workers', help='gunicorn worker num', default=get_process_num()),
@@ -128,11 +128,14 @@ class Runserver(Command):
                 else:
                     value = True
             kwargs[bool_field] = value
+
+        # 处理日志
+        from log import init_flask_log
+        init_flask_log(getattr(logging, kwargs.get("loglevel", "info").upper()))
+
         if kwargs.pop("accesslog"):
             # 处理日志
-            from log import init_flask_log
             from flask import request
-            init_flask_log(getattr(logging, kwargs.get("loglevel", "info").upper()))
 
             @self.app.after_request
             def after_request_log(res):

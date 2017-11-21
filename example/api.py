@@ -37,5 +37,4 @@ if __name__ == '__main__':
         port=4488,
         bind="0.0.0.0",
     ))
-    init_flask_log()  # 添加request id log
     manager.run()
