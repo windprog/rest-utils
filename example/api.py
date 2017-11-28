@@ -17,7 +17,6 @@ from flask_migrate import Migrate, MigrateCommand
 
 from rest_utils.flask_migrate import migrate_skip
 from rest_utils.flask_engine import Runserver
-from rest_utils.log import init_flask_log
 from demo_app import app, db
 
 manager = Manager(app)
