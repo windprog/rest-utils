@@ -11,7 +11,7 @@ Desc    :
 """
 from setuptools import setup
 
-__version__ = "0.0.4"
+__version__ = "0.0.5"
 __author__ = "windprog"
 __author_email__ = "windprog@gmail.com"
 __description__ = "gunicorn wrapper. support worker"
