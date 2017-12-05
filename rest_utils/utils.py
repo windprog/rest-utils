@@ -153,13 +153,15 @@ class ConsistentHashRing(object):
         return self._nodes[self._keys[start]]
 
 
-def is_open(ip, port):
+def is_open(ip, port, timeout=2):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
+        s.settimeout(timeout)
         s.connect((ip, int(port)))
-        s.shutdown(2)
+        s.shutdown(socket.SHUT_RDWR)  # 关闭读写
+        s.close()  # 关闭连接
         return True
-    except:
+    except Exception as e:
         return False
 
 
