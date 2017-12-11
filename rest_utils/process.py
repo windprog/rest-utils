@@ -21,6 +21,9 @@ from rest_utils.common import null_context
 IS_WINDOWS = get_system() == "windows"
 logger = logging.getLogger(__name__)
 
+if IS_WINDOWS:
+    raise Exception("Not Support Windows!")
+
 
 def set_uonblock(f):
     """
