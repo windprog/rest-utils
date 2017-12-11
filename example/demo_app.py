@@ -7,6 +7,7 @@ E-mail  :   windprog@gmail.com
 Date    :   17/11/15
 Desc    :   
 """
+# 与from flask_sqlalchemy import SQLAlchemy 使用形式一样
 from rest_utils import SQLAlchemy
 import os
 import datetime

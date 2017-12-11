@@ -13,3 +13,7 @@
     cd example
     bash init.sh
     python api.py runserver
+    
+## 使用
+
+    curl http://localhost:4488/api/post
