@@ -200,6 +200,14 @@ def prof_call(func, *args):
     return ret
 
 
+def get_system():
+    import platform
+
+    os = platform.system().lower()
+    if os.startswith('cygwin'):
+        os = 'windows'
+    return os
+
 if __name__ == '__main__':
     cr = ConsistentHashRing(100)
 
