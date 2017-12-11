@@ -5,7 +5,11 @@
     cat ~/.pypirc
     python setup.py sdist upload -r pypi
 
-## API
+## 安装
 
+    virtualenv env
+    source env/bin/activate
+    pip install git+http://ao:ao123456@10.213.144.145/share/rest-utils.git
     cd example
     bash init.sh
+    python api.py runserver

@@ -189,6 +189,17 @@ def get_ip():
     return ip
 
 
+def prof_call(func, *args):
+    from cProfile import Profile
+    from pstats import Stats
+    # 输出函数调用性能分析。
+    prof = Profile(builtins=False)
+    ret = prof.runcall(func, *args)
+
+    Stats(prof).sort_stats("cumtime").print_stats()
+    return ret
+
+
 if __name__ == '__main__':
     cr = ConsistentHashRing(100)
 
