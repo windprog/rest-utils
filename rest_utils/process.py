@@ -214,7 +214,8 @@ class Command(object):
         with self._lock:
             if self._terminate:
                 raise Exception("Don't kill again!")
-            if self.process.poll() is None:
+            if self.process.poll() is not None:
+                # 进程已经死掉了
                 logger.info("pid:{pid} process_ready_death".format(pid=self.process.pid))
                 after_kill()
                 return
