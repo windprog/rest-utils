@@ -14,6 +14,6 @@
     bash init.sh
     python api.py runserver
     
-## 使用
+## 测试
 
     curl http://localhost:4488/api/post
