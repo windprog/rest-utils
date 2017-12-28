@@ -17,3 +17,8 @@
 ## 测试
 
     curl http://localhost:4488/api/post
+
+
+## example
+
+    查看exmaple/api.py
