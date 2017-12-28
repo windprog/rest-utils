@@ -9,7 +9,7 @@
 
     virtualenv env
     source env/bin/activate
-    pip install git+http://ao:ao123456@10.213.144.145/share/rest-utils.git
+    pip install -i http://10.213.144.145:8080/root/all/+simple/ --trusted-host 10.213.144.145 rest-utils
     cd example
     bash init.sh
     python api.py runserver
