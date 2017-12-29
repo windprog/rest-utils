@@ -27,5 +27,8 @@ migrate_skip(migrate, skip_list)
 
 if __name__ == '__main__':
     manager.add_command('db', MigrateCommand)
-    manager.add_command('runserver', Runserver())
+    manager.add_command('runserver', Runserver(
+        bind="0.0.0.0",
+        port=4488
+    ))
     manager.run()
