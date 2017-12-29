@@ -8,4 +8,5 @@ gevent
 gunicorn
 flask_restless
 setproctitle
+futures
 #mysqlclient
