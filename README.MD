@@ -3,7 +3,7 @@
 ## 发布
 
     cat ~/.pypirc
-    python setup.py sdist upload -r pypi
+    python setup.py sdist upload -r share
 
 ## 安装
 
