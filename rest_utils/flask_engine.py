@@ -7,6 +7,7 @@ E-mail  :   windprog@gmail.com
 Date    :   17/11/8
 Desc    :   
 """
+import time
 import six
 import sys
 import multiprocessing
@@ -15,7 +16,23 @@ import logging
 from gunicorn.app.base import Application
 from flask_script import Command, Option
 
-logger = logging.getLogger(__name__)
+
+def setup_info_log():
+    logger_ = logging.getLogger(__name__)
+    handler = logging.StreamHandler(sys.stdout)
+    handler.setFormatter(
+        logging.Formatter(
+            fmt='%(asctime)s %(levelname)-7s %(message)s',
+            datefmt='%Y-%m-%d %H:%M:%S'
+        )
+    )
+    logger_.addHandler(handler)
+    logger_.propagate = 0
+    logger_.setLevel(logging.INFO)
+    return logger_
+
+
+logger = setup_info_log()
 
 
 def get_process_num(power=1):
@@ -61,6 +78,53 @@ def after_request_log(res):
         res_content_type=res.headers.get("Content-Type")
     ))
     return res
+
+
+class LogRequestMiddleware(object):
+    """Simple log request info middleware.  Wraps a WSGI application and profiles
+    a request.
+    """
+
+    def __init__(self, app):
+        self._app = app
+
+    def __call__(self, environ, start_response):
+        response_body = []
+        logger_kw = {}
+
+        def catching_start_response(status, headers, exc_info=None):
+            logger_kw["status"] = status.split()[0]
+            for key, value in headers:
+                if key == 'Content-Length':
+                    logger_kw["length"] = str(value)
+                elif key == 'Content-Type':
+                    logger_kw["res_content_type"] = value
+                elif key == "X-Forwarded-For":
+                    if "forwarded_ip" not in logger_kw:
+                        logger_kw["forwarded_ip"] = value.split(',')[0].strip()
+            start_response(status, headers, exc_info)
+            return response_body.append
+
+        def runapp():
+            appiter = self._app(environ, catching_start_response)
+            response_body.extend(appiter)
+            if hasattr(appiter, 'close'):
+                appiter.close()
+
+        start = time.time()
+        runapp()
+        body = b''.join(response_body)
+        elapsed = time.time() - start
+        logger_kw["delay"] = str(round(elapsed, 2))
+
+        logger.info('"{method} {fullpath} HTTP/1.1" {status} {length} {res_content_type} {ip} {delay}'.format(
+            method=environ['REQUEST_METHOD'].upper(),
+            fullpath=environ["RAW_URI"],
+            ip=logger_kw.get("forwarded_ip") or environ['REMOTE_ADDR'],
+            **logger_kw
+        ))
+
+        return [body]
 
 
 class GunicornApplication(Application):
@@ -109,6 +173,9 @@ class Runserver(Command):
 
     def get_options(self):
         return [
+            Option('--host', '-h', help='gunicorn bind host', default=self.default_bind),
+            Option('--port', '-p', help='gunicorn bind port', default=str(self.default_port)),
+
             Option('--worker_class', help='gunicorn worker class', default="gthread"),
             Option('--capture_output', help='gunicorn log capture stderr stdout to stdout', default=True),
             Option('--enable_stdio_inheritance', help='gunicorn log immediately', default=True),
@@ -120,11 +187,15 @@ class Runserver(Command):
             Option('--daemon', help='gunicorn daemon', default=False),
             Option('--timeout', help='gunicorn timeout', default=600),
             Option('--sql_debug', help='print sqlachemy sql', default=False),
-            Option('--host', '-h', help='gunicorn bind host', default=self.default_bind),
-            Option('--port', '-p', help='gunicorn bind port', default=str(self.default_port)),
+            Option('--profile', help='print cProfile result', default=False),
+
         ]
 
     def __call__(self, app, **kwargs):
+        # 处理日志
+        from .log import set_default_flask_log
+        from werkzeug.contrib.profiler import ProfilerMiddleware
+
         for bool_field in [
             "capture_output",
             "enable_stdio_inheritance",
@@ -141,9 +212,7 @@ class Runserver(Command):
                     value = True
             kwargs[bool_field] = value
 
-        # 处理日志
-        from log import init_flask_log
-        init_flask_log(getattr(logging, kwargs.get("loglevel", "info").upper()))
+        set_default_flask_log(getattr(logging, kwargs.get("loglevel", "info").upper()))
 
         if kwargs.pop("accesslog"):
             # 处理日志
@@ -152,4 +221,11 @@ class Runserver(Command):
         # 处理端口
         kwargs["bind"] = "%s:%s" % (kwargs.pop("host"), kwargs.pop("port"))
 
-        run(lambda: app, kwargs)
+        run_app = app
+
+        if kwargs.pop("profile"):
+            run_app = ProfilerMiddleware(app)
+
+        run_app = LogRequestMiddleware(run_app)
+
+        run(lambda: run_app, kwargs)

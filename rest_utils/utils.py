@@ -189,12 +189,12 @@ def get_ip():
     return ip
 
 
-def prof_call(func, *args):
+def prof_call(func, *args, **kw):
     from cProfile import Profile
     from pstats import Stats
     # 输出函数调用性能分析。
     prof = Profile(builtins=False)
-    ret = prof.runcall(func, *args)
+    ret = prof.runcall(func, *args, **kw)
 
     Stats(prof).sort_stats("cumtime").print_stats()
     return ret
@@ -207,6 +207,7 @@ def get_system():
     if os.startswith('cygwin'):
         os = 'windows'
     return os
+
 
 if __name__ == '__main__':
     cr = ConsistentHashRing(100)
