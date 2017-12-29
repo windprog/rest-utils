@@ -13,7 +13,7 @@ import multiprocessing
 import logging
 
 from gunicorn.app.base import Application
-from flask_script import Manager, Command, Option
+from flask_script import Command, Option
 
 logger = logging.getLogger(__name__)
 
@@ -46,6 +46,21 @@ def get_options(*args, **kwargs):
         'timeout': 60,
         'sql_debug': kwargs.get('SQL_DEBUG', False)
     }
+
+
+def after_request_log(res):
+    from flask import request
+
+    full_path = request.full_path
+    if full_path.endswith("?"):
+        full_path = full_path[:-1]
+    logger.info('"{method} {fullpath} HTTP/1.1" {status_code} {res_content_type} -'.format(
+        method=request.method,
+        fullpath=full_path,
+        status_code=res.status_code,
+        res_content_type=res.headers.get("Content-Type")
+    ))
+    return res
 
 
 class GunicornApplication(Application):
@@ -88,31 +103,28 @@ def run(app_generator, options):
 class Runserver(Command):
     "run gunicorn server"
 
-    def __init__(self, app, bind="0.0.0.0", port=4488):
-        self.app = app
+    def __init__(self, bind="0.0.0.0", port=4488, **ignore):
         self.default_bind, self.default_port = bind, port
         super(Runserver, self).__init__()
 
     def get_options(self):
         return [
-            Option('--worker_class', help='gunicorn worker class', default="gevent"),
+            Option('--worker_class', help='gunicorn worker class', default="gthread"),
             Option('--capture_output', help='gunicorn log capture stderr stdout to stdout', default=True),
             Option('--enable_stdio_inheritance', help='gunicorn log immediately', default=True),
             Option('--accesslog', help='gunicorn access log; value:"" is disable.', default="-"),
             Option('--loglevel', help='gunicorn log level', default="info"),
             Option('--max_requests', help='gunicorn arg', default=0),
             Option('--workers', help='gunicorn worker num', default=get_process_num()),
+            Option('--threads', help='gunicorn worker num', default=4),
             Option('--daemon', help='gunicorn daemon', default=False),
             Option('--timeout', help='gunicorn timeout', default=600),
             Option('--sql_debug', help='print sqlachemy sql', default=False),
-            Option('--bind', help='gunicorn bind addr. example:127.0.0.1:8080',
-                default="%s:%s" % (
-                    str(self.default_bind), str(self.default_port)
-                )
-            ),
+            Option('--host', '-h', help='gunicorn bind host', default=self.default_bind),
+            Option('--port', '-p', help='gunicorn bind port', default=str(self.default_port)),
         ]
 
-    def run(self, **kwargs):
+    def __call__(self, app, **kwargs):
         for bool_field in [
             "capture_output",
             "enable_stdio_inheritance",
@@ -135,19 +147,9 @@ class Runserver(Command):
 
         if kwargs.pop("accesslog"):
             # 处理日志
-            from flask import request
+            app.after_request(after_request_log)
 
-            @self.app.after_request
-            def after_request_log(res):
-                full_path = request.full_path
-                if full_path.endswith("?"):
-                    full_path = full_path[:-1]
-                logger.info('"{method} {fullpath} HTTP/1.1" {status_code} {res_content_type} -'.format(
-                    method=request.method,
-                    fullpath=full_path,
-                    status_code=res.status_code,
-                    res_content_type=res.headers.get("Content-Type")
-                ))
-                return res
+        # 处理端口
+        kwargs["bind"] = "%s:%s" % (kwargs.pop("host"), kwargs.pop("port"))
 
-        run(lambda: self.app, kwargs)
+        run(lambda: app, kwargs)
