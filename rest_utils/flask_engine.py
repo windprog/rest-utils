@@ -100,7 +100,7 @@ class Runserver(Command):
             Option('--enable_stdio_inheritance', help='gunicorn log immediately', default=True),
             Option('--accesslog', help='gunicorn access log; value:"" is disable.', default="-"),
             Option('--loglevel', help='gunicorn log level', default="info"),
-            Option('--max_requests', help='gunicorn arg', default=2000),
+            Option('--max_requests', help='gunicorn arg', default=0),
             Option('--workers', help='gunicorn worker num', default=get_process_num()),
             Option('--daemon', help='gunicorn daemon', default=False),
             Option('--timeout', help='gunicorn timeout', default=600),
