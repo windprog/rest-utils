@@ -187,7 +187,7 @@ class Runserver(Command):
             Option('--daemon', help='gunicorn daemon', default=False),
             Option('--timeout', help='gunicorn timeout', default=600),
             Option('--sql_debug', help='print sqlachemy sql', default=False),
-            Option('--profile', help='print cProfile result', default=False),
+            Option('--profile', help='print cProfile result. value:yes/no', default="no"),
 
         ]
 
@@ -223,7 +223,7 @@ class Runserver(Command):
 
         run_app = app
 
-        if kwargs.pop("profile"):
+        if kwargs.pop("profile", "").lower() != "no":
             run_app = ProfilerMiddleware(app)
 
         run_app = LogRequestMiddleware(run_app)
