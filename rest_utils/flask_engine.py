@@ -12,13 +12,15 @@ import six
 import sys
 import multiprocessing
 import logging
+import re
 
 from gunicorn.app.base import Application
 from flask_script import Command, Option
 from flask import Flask
 
 TRACE_ID = "Trace-Id"
-
+LOG_FORMAT = '[{trace_id}] "{method} {fullpath} HTTP/1.1" {status} {length} {res_content_type} {ip} {delay}'
+LOG_FIELDS = re.findall("{(\w+)}", LOG_FORMAT)
 
 def setup_info_log():
     logger_ = logging.getLogger(__name__)
@@ -122,12 +124,19 @@ class LogRequestMiddleware(object):
         elapsed = time.time() - start
         logger_kw["delay"] = str(round(elapsed, 2))
 
-        logger.info('[{trace_id}] "{method} {fullpath} HTTP/1.1" {status} {length} {res_content_type} {ip} {delay}'.format(
+        logger_kw.update(dict(
             method=environ['REQUEST_METHOD'].upper(),
             fullpath=environ["RAW_URI"],
-            ip=logger_kw.get("forwarded_ip") or environ['REMOTE_ADDR'],
-            **logger_kw
+            ip=logger_kw.get("forwarded_ip") or environ['REMOTE_ADDR']
         ))
+
+        # 格式化日志
+        local_log_format = LOG_FORMAT
+        for key in LOG_FIELDS:
+            if key not in logger_kw:
+                local_log_format = local_log_format.replace("{%s} " % key, "").replace("{%s}" % key, "")
+
+        logger.info(local_log_format.format(**logger_kw))
 
         return [body]
 
@@ -224,29 +233,29 @@ class Runserver(Command):
                 continue
             value = kwargs[bool_field]
             if isinstance(value, basestring):
-                if value.lower() == "false":
+                c_value = value.lower()
+                if c_value == "false" or c_value == "no":
                     value = False
-                elif value.lower() == "true":
+                elif c_value == "true" or c_value == "yes":
                     value = True
                 else:
                     value = True
             kwargs[bool_field] = value
 
+        run_app = app
+
         set_default_flask_log(getattr(logging, kwargs.get("loglevel", "info").upper()))
+
+        if kwargs.pop("profile", False):
+            run_app = ProfilerMiddleware(app)
 
         if kwargs.pop("accesslog"):
             # 处理日志
-            app.after_request(after_request_log)
+            # app.after_request(after_request_log)
+            run_app = LogRequestMiddleware(run_app)
 
         # 处理端口
         kwargs["bind"] = "%s:%s" % (kwargs.pop("host"), kwargs.pop("port"))
-
-        run_app = app
-
-        if kwargs.pop("profile", "").lower() != "no":
-            run_app = ProfilerMiddleware(app)
-
-        run_app = LogRequestMiddleware(run_app)
 
         server = GunicornApplication(lambda: run_app, app, kwargs)
         server.run()
