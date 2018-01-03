@@ -15,6 +15,9 @@ import logging
 
 from gunicorn.app.base import Application
 from flask_script import Command, Option
+from flask import Flask
+
+TRACE_ID = "Trace-Id"
 
 
 def setup_info_log():
@@ -102,6 +105,8 @@ class LogRequestMiddleware(object):
                 elif key == "X-Forwarded-For":
                     if "forwarded_ip" not in logger_kw:
                         logger_kw["forwarded_ip"] = value.split(',')[0].strip()
+                elif key == TRACE_ID:
+                    logger_kw["trace_id"] = value
             start_response(status, headers, exc_info)
             return response_body.append
 
@@ -117,7 +122,7 @@ class LogRequestMiddleware(object):
         elapsed = time.time() - start
         logger_kw["delay"] = str(round(elapsed, 2))
 
-        logger.info('"{method} {fullpath} HTTP/1.1" {status} {length} {res_content_type} {ip} {delay}'.format(
+        logger.info('[{trace_id}] "{method} {fullpath} HTTP/1.1" {status} {length} {res_content_type} {ip} {delay}'.format(
             method=environ['REQUEST_METHOD'].upper(),
             fullpath=environ["RAW_URI"],
             ip=logger_kw.get("forwarded_ip") or environ['REMOTE_ADDR'],
@@ -128,8 +133,11 @@ class LogRequestMiddleware(object):
 
 
 class GunicornApplication(Application):
-    def __init__(self, app_generator, options=None):
+    def __init__(self, app_generator, raw_flask_ins, options=None):
+
         self.app_generator = app_generator
+        assert isinstance(raw_flask_ins, Flask)
+        self.raw_flask_ins = raw_flask_ins
         self.options = options or {}
         super(GunicornApplication, self).__init__()
 
@@ -138,30 +146,34 @@ class GunicornApplication(Application):
             if key in self.cfg.settings and value is not None:
                 self.cfg.set(key.lower(), value)
 
-    def set_up_flask(self, app):
+    def set_up_flask(self):
         from flask import Flask
-        if isinstance(app, Flask):
-            # sqlalchemy.engine.base.Engine
-            app.config.setdefault(
-                "SQLALCHEMY_ECHO",
-                self.options.get('sql_debug', False)
-            )
+        # sqlalchemy.engine.base.Engine
+        self.raw_flask_ins.config.setdefault(
+            "SQLALCHEMY_ECHO",
+            self.options.get('sql_debug', False)
+        )
+
+        # add trace id
+        class TraceableResponse(self.raw_flask_ins.response_class):
+            def __init__(self, *args, **kwargs):
+                from .log import flask_current_trace_id
+
+                super(TraceableResponse, self).__init__(*args, **kwargs)
+                self.headers.setdefault(TRACE_ID, flask_current_trace_id())
+
+        self.raw_flask_ins.response_class = TraceableResponse
 
     def load(self):
         self.init_logger()
         app = self.app_generator()
-        self.set_up_flask(app)
+        self.set_up_flask()
         return app
 
     def init_logger(self):
         logging.getLogger('requests').setLevel(logging.ERROR)
         logging.getLogger('werkzeug').setLevel(logging.ERROR)
         logging.getLogger('tornado.access').setLevel(logging.ERROR)
-
-
-def run(app_generator, options):
-    server = GunicornApplication(app_generator, options)
-    sys.exit(server.run())
 
 
 class Runserver(Command):
@@ -188,7 +200,6 @@ class Runserver(Command):
             Option('--timeout', help='gunicorn timeout', default=600),
             Option('--sql_debug', help='print sqlachemy sql', default=False),
             Option('--profile', help='print cProfile result. value:yes/no', default="no"),
-
         ]
 
     def __call__(self, app, **kwargs):
@@ -228,4 +239,5 @@ class Runserver(Command):
 
         run_app = LogRequestMiddleware(run_app)
 
-        run(lambda: run_app, kwargs)
+        server = GunicornApplication(lambda: run_app, app, kwargs)
+        server.run()
