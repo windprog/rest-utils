@@ -22,6 +22,7 @@ TRACE_ID = "Trace-Id"
 LOG_FORMAT = '[{trace_id}] "{method} {fullpath} HTTP/1.1" {status} {length} {res_content_type} {ip} {delay}'
 LOG_FIELDS = re.findall("{(\w+)}", LOG_FORMAT)
 
+
 def setup_info_log():
     logger_ = logging.getLogger(__name__)
     handler = logging.StreamHandler(sys.stdout)
@@ -142,11 +143,9 @@ class LogRequestMiddleware(object):
 
 
 class GunicornApplication(Application):
-    def __init__(self, app_generator, raw_flask_ins, options=None):
-
-        self.app_generator = app_generator
-        assert isinstance(raw_flask_ins, Flask)
-        self.raw_flask_ins = raw_flask_ins
+    def __init__(self, app, options=None):
+        assert isinstance(app, Flask)
+        self.app = app
         self.options = options or {}
         super(GunicornApplication, self).__init__()
 
@@ -156,15 +155,14 @@ class GunicornApplication(Application):
                 self.cfg.set(key.lower(), value)
 
     def set_up_flask(self):
-        from flask import Flask
         # sqlalchemy.engine.base.Engine
-        self.raw_flask_ins.config.setdefault(
+        self.app.config.setdefault(
             "SQLALCHEMY_ECHO",
             self.options.get('sql_debug', False)
         )
 
         # add trace id
-        class TraceableResponse(self.raw_flask_ins.response_class):
+        class TraceableResponse(self.app.response_class):
             def __init__(self, *args, **kwargs):
                 super(TraceableResponse, self).__init__(*args, **kwargs)
                 self.set_trace_id()
@@ -180,13 +178,12 @@ class GunicornApplication(Application):
                 res.set_trace_id()
                 return res
 
-        self.raw_flask_ins.response_class = TraceableResponse
+        self.app.response_class = TraceableResponse
 
     def load(self):
         self.init_logger()
-        app = self.app_generator()
         self.set_up_flask()
-        return app
+        return self.app
 
     def init_logger(self):
         logging.getLogger('requests').setLevel(logging.ERROR)
@@ -243,20 +240,20 @@ class Runserver(Command):
                     value = True
             kwargs[bool_field] = value
 
-        run_app = app
-
         set_default_flask_log(getattr(logging, kwargs.get("loglevel", "info").upper()))
 
+        app.raw_wsgi_app = app.wsgi_app
+
         if kwargs.pop("profile"):
-            run_app = ProfilerMiddleware(app)
+            app.wsgi_app = ProfilerMiddleware(app.wsgi_app)
 
         if kwargs.pop("accesslog"):
             # 处理日志
             # app.after_request(after_request_log)
-            run_app = LogRequestMiddleware(run_app)
+            app.wsgi_app = LogRequestMiddleware(app.wsgi_app)
 
         # 处理端口
         kwargs["bind"] = "%s:%s" % (kwargs.pop("host"), kwargs.pop("port"))
 
-        server = GunicornApplication(lambda: run_app, app, kwargs)
+        server = GunicornApplication(app, kwargs)
         server.run()
