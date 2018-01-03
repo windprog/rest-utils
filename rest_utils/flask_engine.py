@@ -168,7 +168,7 @@ class GunicornApplication(Application):
                 self.set_trace_id()
 
             def set_trace_id(self):
-                from .log import flask_current_trace_id
+                from .flask_trace import flask_current_trace_id
 
                 self.headers.setdefault(TRACE_ID, flask_current_trace_id())
 
@@ -221,7 +221,8 @@ class Runserver(Command):
 
     def __call__(self, app, **kwargs):
         # 处理日志
-        from .log import set_log_format, get_flask_id
+        from .log import set_log_format
+        from .flask_trace import get_flask_id
         from werkzeug.contrib.profiler import ProfilerMiddleware
 
         for bool_field in [
