@@ -18,6 +18,14 @@ def get_request_id(length=5):
     return uuid.uuid4().get_hex()[:length]
 
 
+def check_flask_env():
+    try:
+        request.environ
+        return True
+    except:
+        return False
+
+
 def flask_current_trace_id():
     if getattr(g, "trace_id", None):
         trace_id = g.trace_id
@@ -26,26 +34,37 @@ def flask_current_trace_id():
     return trace_id
 
 
-def modify_log_record_obj(log_record):
-    try:
+def flask_current_client_ip():
+    if getattr(g, "ip", None):
+        return g.ip
+    forwarded_ip = request.headers.getlist("X-Forwarded-For")
+    if forwarded_ip:
+        # 处理代理结果
+        try:
+            ip = forwarded_ip[0].split(',')[0].strip()
+        except:
+            ip = ""
+    else:
+        ip = request.remote_addr
+
+    g.ip = ip
+    return ip
+
+
+def get_flask_id(log):
+    if check_flask_env():
         trace_id = flask_current_trace_id()
-    except:
-        trace_id = ""
-    ip = ""
-    try:
-        if request.headers.getlist("X-Forwarded-For"):
-            # 处理代理结果
-            ip = request.headers.getlist("X-Forwarded-For")[0].split(',')[0].strip()
-        else:
-            ip = request.remote_addr
-    except:
-        pass
-    log_record.trace_id = trace_id
-    flask_name = "-%s" % ip if ip else ""
-    if log_record.name != "root":
-        flask_name = "-%s-%s" % (ip, log_record.name)
-    log_record.flask_name = flask_name
-    return log_record
+        ip = flask_current_client_ip()
+
+        return "-".join([
+            item for item in [
+                trace_id,
+                ip,
+                log.name if log.name != "root" else "",
+            ] if item
+        ])
+    else:
+        return log.name
 
 
 class LevelFilter(logging.Filter):
@@ -53,70 +72,91 @@ class LevelFilter(logging.Filter):
     Log filter to inject the current request id of the request under `log_record.request_id`
     """
 
-    def __init__(self, lower=None, upper=None):
+    def __init__(self, id_getter, lower=logging.NOTSET, upper=logging.CRITICAL):
         """
 
-        :param lower: 最小级别
-        :param upper: 最大级别
+        :param id_getter: 获取当前log的id，例如记录request id。默认为logger名
+        :param lower: 最小值
+        :param upper: 最大值
         """
         super(LevelFilter, self).__init__()
         self.lower = lower
         self.upper = upper
+        self.id_getter = id_getter
 
     def filter(self, log_record):
         levelno = log_record.levelno
 
-        if self.lower:
-            if levelno < self.lower:
-                return False
-        if self.upper:
-            if levelno > self.upper:
-                return False
-        return True
+        if self.lower <= levelno <= self.upper:
+            log_record.id = self.id_getter(log_record)
+            return True
+        return False
 
 
-class RequestIDLogFilter(LevelFilter):
-    def filter(self, log_record):
-        ret = super(RequestIDLogFilter, self).filter(log_record)
-        if not ret:
-            return ret
-        modify_log_record_obj(log_record)
-        return True
-
-
-def get_handler(stream, level, filter_):
+def get_handler(fmt, datefmt, stream, level, filter):
     stdout_handler = logging.StreamHandler(stream)
-    stdout_handler.setFormatter(
-        logging.Formatter(
-            fmt='%(asctime)s %(levelname)-7s [%(trace_id)s%(flask_name)s] [%(filename)s:%(lineno)d] %(message)s',
-            datefmt='%Y-%m-%d %H:%M:%S'
-        )
-    )
-    stdout_handler.addFilter(filter_)
+    stdout_handler.setFormatter(logging.Formatter(fmt=fmt, datefmt=datefmt))
+    stdout_handler.addFilter(filter)
     stdout_handler.setLevel(level=level)
     return stdout_handler
 
 
-def set_default_flask_log(level=logging.INFO):
+def set_log_format(
+        id_getter=lambda log: log.name,
+        level=logging.INFO,
+        enable_err2out=True,
+        fmt='%(asctime)s %(levelname)-7s [%(id)s] [%(filename)s:%(lineno)d] %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S',
+):
+    """
+    ERROR日志打印到stderr里，可由enable_err2out控制是否输出到stdout里
+    :param id_getter: 获取id的方式,默认为log名称
+    :param level: 日志级别
+    :param enable_err2out: 把ERROR日志打印到stdout里
+    :param fmt: Formatter fmt
+    :param datefmt: Formatter datefmt
+    :return:
+    """
     global_logger = logging.getLogger()
-    if global_logger.handlers:
-        return
     global_logger.setLevel(level)
+
+    # 清空原有handler
+    for handler in global_logger.handlers:
+        global_logger.removeHandler(handler)
+    # 添加handler
     global_logger.addHandler(get_handler(
-        sys.stdout, level=level,
-        filter_=RequestIDLogFilter()
+        fmt=fmt,
+        datefmt=datefmt,
+        stream=sys.stdout,
+        level=level,
+        filter=LevelFilter(
+            id_getter=id_getter,
+            lower=level,
+            upper=logging.CRITICAL if enable_err2out else logging.WARNING,
+        )
     ))
     global_logger.addHandler(get_handler(
-        sys.stderr, level=logging.ERROR,
-        filter_=RequestIDLogFilter(upper=logging.ERROR)
+        fmt=fmt,
+        datefmt=datefmt,
+        stream=sys.stderr,
+        level=logging.ERROR,
+        filter=LevelFilter(
+            id_getter=id_getter,
+            lower=logging.ERROR,
+            upper=logging.CRITICAL,
+        )
     ))
 
 
 if __name__ == '__main__':
-    set_default_flask_log()
-    set_default_flask_log()
     app = Flask(__name__)
+    set_log_format(get_flask_id, enable_err2out=False)
     with app.app_context():
-        logging.info("test")
-        logging.info("test")
-        logging.error("error")
+        # normal env
+        logging.info("normal env info")
+        logging.error("normal env error")
+
+    with app.test_request_context():
+        # request env
+        logging.info("request env info")
+        logging.error("request env error")

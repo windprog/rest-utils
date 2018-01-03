@@ -181,14 +181,16 @@ class GunicornApplication(Application):
         self.app.response_class = TraceableResponse
 
     def load(self):
-        self.init_logger()
         self.set_up_flask()
         return self.app
 
-    def init_logger(self):
-        logging.getLogger('requests').setLevel(logging.ERROR)
-        logging.getLogger('werkzeug').setLevel(logging.ERROR)
-        logging.getLogger('tornado.access').setLevel(logging.ERROR)
+
+def init_logger():
+    logging.getLogger('requests').setLevel(logging.ERROR)
+    logging.getLogger('werkzeug').setLevel(logging.ERROR)
+    logging.getLogger('tornado.access').setLevel(logging.ERROR)
+
+    gunicorn_err = logging.getLogger('gunicorn.error')
 
 
 class Runserver(Command):
@@ -219,7 +221,7 @@ class Runserver(Command):
 
     def __call__(self, app, **kwargs):
         # 处理日志
-        from .log import set_default_flask_log
+        from .log import set_log_format, get_flask_id
         from werkzeug.contrib.profiler import ProfilerMiddleware
 
         for bool_field in [
@@ -240,7 +242,13 @@ class Runserver(Command):
                     value = True
             kwargs[bool_field] = value
 
-        set_default_flask_log(getattr(logging, kwargs.get("loglevel", "info").upper()))
+        if not logging.getLogger().handlers:
+            # 设置默认日志处理
+            set_log_format(
+                id_getter=get_flask_id,
+                level=getattr(logging, kwargs.get("loglevel", "info").upper()),
+                enable_err2out=True,
+            )
 
         app.raw_wsgi_app = app.wsgi_app
 
