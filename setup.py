@@ -34,5 +34,5 @@ setup(
     author_email=__author_email__,
     packages=['rest_utils', 'rest_utils.worker'],
     install_requires=install_requires,
-    data_files=[(".", ['requirements.txt'])]
+    data_files=[(".", ['requirements.txt'])],  # save requirements.txt to install package
 )
