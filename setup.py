@@ -14,7 +14,7 @@ from pip.req import parse_requirements
 from pip.download import PipSession
 from setuptools import setup
 
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __author__ = "windprog"
 __author_email__ = "windprog@gmail.com"
 __description__ = "gunicorn wrapper. support worker"

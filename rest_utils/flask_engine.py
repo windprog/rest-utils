@@ -228,6 +228,7 @@ class Runserver(Command):
         for bool_field in [
             "capture_output",
             "enable_stdio_inheritance",
+            "profile",
         ]:
             if bool_field not in kwargs:
                 continue
@@ -246,7 +247,7 @@ class Runserver(Command):
 
         set_default_flask_log(getattr(logging, kwargs.get("loglevel", "info").upper()))
 
-        if kwargs.pop("profile", False):
+        if kwargs.pop("profile"):
             run_app = ProfilerMiddleware(app)
 
         if kwargs.pop("accesslog"):
