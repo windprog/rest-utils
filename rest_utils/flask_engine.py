@@ -157,10 +157,19 @@ class GunicornApplication(Application):
         # add trace id
         class TraceableResponse(self.raw_flask_ins.response_class):
             def __init__(self, *args, **kwargs):
+                super(TraceableResponse, self).__init__(*args, **kwargs)
+                self.set_trace_id()
+
+            def set_trace_id(self):
                 from .log import flask_current_trace_id
 
-                super(TraceableResponse, self).__init__(*args, **kwargs)
                 self.headers.setdefault(TRACE_ID, flask_current_trace_id())
+
+            @classmethod
+            def force_type(cls, response, environ=None):
+                res = super(TraceableResponse, cls).force_type(response, environ)
+                res.set_trace_id()
+                return res
 
         self.raw_flask_ins.response_class = TraceableResponse
 
