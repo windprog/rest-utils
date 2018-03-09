@@ -16,7 +16,7 @@ import threading
 import logging
 
 from rest_utils.utils import get_system
-from rest_utils.common import null_context
+from rest_utils.utils import null_context
 
 IS_WINDOWS = get_system() == "windows"
 logger = logging.getLogger(__name__)

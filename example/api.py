@@ -11,7 +11,7 @@ import common  # 实现引用上级目录
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 
-from rest_utils.flask_migrate import migrate_skip
+from rest_utils import migrate_skip
 from rest_utils.flask_engine import Runserver
 from demo_app import app, db
 

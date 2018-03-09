@@ -7,7 +7,7 @@ E-mail  :   windprog@gmail.com
 Date    :   17/12/11
 Desc    :   
 """
-from rest_utils.process import Command
+from rest_utils.utils import Command
 
 
 def run_ping():

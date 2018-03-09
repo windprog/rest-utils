@@ -22,3 +22,8 @@
 ## example
 
     查看exmaple/api.py
+
+
+# Change Log
+
+* 0.4.0 添加 RESTful marshmallow support

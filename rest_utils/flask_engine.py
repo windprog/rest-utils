@@ -62,7 +62,7 @@ def get_options(*args, **kwargs):
     bind = kwargs.get('BIND', "0.0.0.0")
     port = kwargs.get('PORT', 4488)
     return {
-        'worker_class': 'gevent',
+        'worker_class': 'gthread',
         'workers': kwargs.get('PROCESS', get_process_num()),
         'bind': "%s:%s" % (bind, port),
         'daemon': False,

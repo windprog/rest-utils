@@ -8,20 +8,17 @@ Date    :   17/11/15
 Desc    :   
 """
 # 与from flask_sqlalchemy import SQLAlchemy 使用形式一样
-from rest_utils import SQLAlchemy
 import os
 import datetime
 from flask import Flask
-from rest_utils.api_exception import handler_app
 import logging
+from flask_sqlalchemy import SQLAlchemy
+from rest_utils import APIManager
 
 # 创建APP
 app = Flask(__name__)
-# 处理通用异常
-handler_app(app)
 # 模型
 db = SQLAlchemy(app)
-
 logger = logging.getLogger(__name__)
 
 
@@ -57,14 +54,13 @@ class Category(db.Model):
     name = db.Column(db.String(50), nullable=False)
 
 
-def restless():
+def build_api():
+    # api管理
+    manager = APIManager(app, db)
     # 绑定模型对应的api
-    from flask_restless import APIManager
-    with app.app_context():
-        manager = APIManager(app, flask_sqlalchemy_db=db)
-        manager.create_api(Post, methods=['GET', 'PUT', 'POST'])
-        manager.create_api(Category, methods=['GET', 'PUT', 'POST'])
-        return manager
+    manager.add(Post, methods=['GET', 'PUT', 'POST'])
+    manager.add(Category, methods=['GET', 'PUT', 'POST'])
+    return manager
 
 
-restless()
+build_api()

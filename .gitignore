@@ -99,6 +99,8 @@ ENV/
 
 # mypy
 .mypy_cache/
+.pytest_cache
 
 example/test.db
 example/migrations/
+stuff/

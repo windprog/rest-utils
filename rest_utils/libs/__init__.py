@@ -4,8 +4,6 @@
 """
 Author  :   windpro
 E-mail  :   windprog@gmail.com
-Date    :   17/11/15
+Date    :   2018/3/6
 Desc    :   
 """
-from .sa_util import migrate_skip
-from .manager import APIManager

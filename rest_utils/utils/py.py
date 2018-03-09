@@ -4,7 +4,7 @@
 """
 Author  :   windpro
 E-mail  :   windprog@gmail.com
-Date    :   16/12/28
+Date    :   2018/3/6
 Desc    :   
 """
 import signal
@@ -16,6 +16,20 @@ import six
 long = six.integer_types[-1]
 
 from six.moves import range as xrange
+
+__all__ = [
+    "get_all_class",
+    "delay_initialization",
+    "InstanceDescriptor",
+    "ignore_signal",
+    "ConsistentHashRing",
+    "is_open",
+    "get_ip",
+    "prof_call",
+    "get_system",
+    "NullContext",
+    "null_context",
+]
 
 
 def get_all_class(model, check_attr):
@@ -208,6 +222,17 @@ def get_system():
         os = 'windows'
     return os
 
+
+class NullContext(object):
+
+    def __enter__(self):
+        pass
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        pass
+
+
+null_context = NullContext()
 
 if __name__ == '__main__':
     cr = ConsistentHashRing(100)
