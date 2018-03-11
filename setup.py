@@ -14,7 +14,7 @@ from pip.req import parse_requirements
 from pip.download import PipSession
 from setuptools import setup
 
-__version__ = "0.4.0"
+__version__ = "0.4.1"
 __author__ = "windprog"
 __author_email__ = "windprog@gmail.com"
 __description__ = "gunicorn wrapper. support worker"
@@ -32,7 +32,7 @@ setup(
     url=__url__,
     author=__author__,
     author_email=__author_email__,
-    packages=['rest_utils', 'rest_utils.worker'],
+    packages=['rest_utils', 'rest_utils.worker', 'rest_utils.utils', 'rest_utils.libs', 'rest_utils.ma'],
     install_requires=install_requires,
     data_files=[(".", ['requirements.txt'])],  # save requirements.txt to install package
 )
