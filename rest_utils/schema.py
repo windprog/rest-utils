@@ -54,8 +54,8 @@ DEFAULT_MODEL_OPTS = {
     "model_converter": ModelConverter,
     "include_fk": True,  # 展示外键
     # restfull api相关配置
-    "key_field": None,
-    "alias_name": None,
+    "key_field": None,  # /users/@windpro
+    "endpoint": None,
     "match_fields": [],  # 用于_match参数搜索的字段
     "results_per_page": 10,  # 默认每页返回数目。None则不限制返回条数
     "max_results_per_page": 100,  # 最大每页返回数目。None则不限制返回条数

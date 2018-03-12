@@ -161,7 +161,7 @@ class FlaskTestBase(TestCase):
     @staticmethod
     def assertRestException(response, type_):
         assert response.status_code >= 300
-        error_type = loads(response.data)["error"]
+        error_type = loads(response.data)["type"]
         assert error_type == unicode(type_), error_type
 
     def assertListItemEqual(self, list1, list2, msg=None):

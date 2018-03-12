@@ -77,12 +77,12 @@ def _get_schema_endpoint(schema):
     :return:
     """
     tablename = schema.opts.model.__tablename__
-    if not schema.opts.alias_name:
+    if not schema.opts.endpoint:
         # 默认使用表名
         return tablename,
     else:
         # 自定义名称
-        return schema.opts.alias_name, tablename
+        return schema.opts.endpoint, tablename
 
 
 def get_schema_endpoint(schema):
@@ -740,6 +740,24 @@ class APIManager(object):
         self.schemas.get(collection_name)
 
     def add(self, schema, **kwargs):
+        """
+        添加api
+        :param schema: "ModelSchema" or "sqlalchemy model" instance
+        :param methods: 注册的HTTP方法。有：'GET': 查询, "POST": 新增, "PUT": 修改, "DELETE": 删除
+        :param include_fk: 展示外键. 默认:True
+        :param key_field: 查找字段。如：/users/@windpro
+        :param endpoint: 资源名称。默认为tablename
+        :param match_fields: 搜索的字段。默认：[]. 如:["name"]
+        :param filters: 查询资源时使用的filters。如def get_users(): return [Users.name=="windpro"]
+        :param create: 创建实例回调方法。(model, data)
+        :param update: 修改实例回调方法。(instance, data)
+        :param delete: 删除实例回调方法。(instance)
+        :param created: commit数据库之后的创建实例回调方法。(instance)
+        :param updated: commit数据库之后的修改实例回调方法。(instance)
+        :param deleted: commit数据库之后的删除实例回调方法。(instance)
+        :param kwargs:
+        :return:
+        """
         if isinstance(schema, type) and issubclass(schema, ModelSchema):
             # schema
             schema = schema

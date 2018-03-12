@@ -26,4 +26,4 @@
 
 # Change Log
 
-* 0.4.0 添加 RESTful marshmallow support
+* 0.4.1 添加 RESTful marshmallow support

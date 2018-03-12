@@ -299,8 +299,8 @@ class TestGetting(SqliteManagerTestBase):
 
         """
         super(TestGetting, self).setUp()
-        self.manager.add(self.Artist, alias_name="artists")
-        self.manager.add(self.Track, alias_name="tracks")
+        self.manager.add(self.Artist, endpoint="artists")
+        self.manager.add(self.Track, endpoint="tracks")
         self.manager.add(self.Playlist)
 
     def get_response(self, uri, status_code, params=None, has_data=True,

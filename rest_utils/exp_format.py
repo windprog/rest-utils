@@ -13,7 +13,7 @@ from .exception import (
     PermissionDenied,
     ResourceRelationNotExists,
     IllegalRequestData,
-    MethodNotAcceptable,
+    # MethodNotAcceptable,
 )
 from .utils import get_class
 
@@ -96,12 +96,12 @@ def raise_request_format_error(error_type):
     ))
 
 
-def raise_validate_methods(method, cls):
-    raise MethodNotAcceptable(dict(
-        method=method,
-        endpoint=cls.endpoint(),
-        support_methods=u','.join(cls.__methods__)
-    ))
+# def raise_validate_methods(method, cls):
+#     raise MethodNotAcceptable(dict(
+#         method=method,
+#         endpoint=cls.endpoint(),
+#         support_methods=u','.join(cls.__methods__)
+#     ))
 
 
 def raise_args_exception(key):

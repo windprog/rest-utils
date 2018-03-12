@@ -16,7 +16,7 @@ import logging
 import json
 import six
 from requests import codes
-
+from marshmallow.compat import iteritems
 
 JSON_TYPES = tuple([float, unicode, str, NoneType] + list(six.integer_types))
 
@@ -75,7 +75,7 @@ class RestException(Exception):
     def to_dict(self):
         """Return a dictionary representation of the exception."""
         as_dict = {
-            "error": self.type,  # 异常类型
+            "type": self.type,  # 异常类型
             "msg": self.format_msg,  # 错误描述（内部)
             "detail": self.detail,  # 用户自定义数据
         }
@@ -184,12 +184,12 @@ class IllegalRequestData(RestException):
     status = codes.BAD_REQUEST
 
 
-class MethodNotAcceptable(RestException):
-    """
-    访问行为限制
-    """
-    # 11001
-    status = codes.FORBIDDEN
+# class MethodNotAcceptable(RestException):
+#     """
+#     访问行为限制
+#     """
+#     # 11001
+#     status = codes.FORBIDDEN
 
 
 class StatementErrorException(RestException):
