@@ -39,6 +39,16 @@ def set_uonblock(f):
 
 
 class Command(object):
+    """
+    使用例子：
+    cmd = ['ping', '-c', '10', 'www.qq.com']
+    c = Command(arg=cmd)
+    c.wait_kill(timeout=20)
+    print c.finish
+    print c.killed
+    print repr(c.last_stdout)
+    print repr(c.last_stderr)
+    """
     def __init__(self, arg, shell=False, lock=True, output_count=1000):
         """
         call shell-command and either return its output or kill it

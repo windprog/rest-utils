@@ -7,6 +7,7 @@ E-mail  :   windprog@gmail.com
 Date    :   2017/12/28
 Desc    :   
 """
+import logging
 from sqlalchemy.orm.util import class_mapper, object_mapper
 from sqlalchemy.orm.exc import UnmappedInstanceError
 from flask import current_app, request, jsonify, g
@@ -172,16 +173,19 @@ def check_need_modify(instance, data):
     return False
 
 
-def is_sa_mapped(cls):
+def is_sa_mapped(cls, log=False):
     """
     判断是否为sqlalchemy orm model
     :param cls:
+    :param log: 是否记录日志
     :return:
     """
     try:
         class_mapper(cls)
         return True
-    except:
+    except Exception as e:
+        if log:
+            logging.exception("type_check_warning")
         return False
 
 

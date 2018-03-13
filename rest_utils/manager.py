@@ -762,7 +762,7 @@ class APIManager(object):
             # schema
             schema = schema
             model = schema.opts.model
-        elif is_sa_mapped(schema):
+        elif is_sa_mapped(schema, log=True):
             # ORM模型
             model = schema
             schema = auto_build_schema(model)
@@ -783,3 +783,4 @@ class APIManager(object):
 
         # 记录schemas
         self.schemas[view.endpont] = schema
+        return view

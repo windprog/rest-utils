@@ -14,11 +14,11 @@ from pip.req import parse_requirements
 from pip.download import PipSession
 from setuptools import setup
 
-__version__ = "0.4.1"
+__version__ = "0.4.2"
 __author__ = "windprog"
 __author_email__ = "windprog@gmail.com"
 __description__ = "gunicorn wrapper. support worker"
-__title__ = 'rest-utils'
+__title__ = 'Rest-Utils'
 __url__ = "https://github.com/windprog/rest-utils"
 
 req = os.path.join(os.path.dirname(__file__), 'requirements.txt')
