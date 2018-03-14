@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Customizing restful - Rest-Utils Document</title>
+        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome-4.5.0.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="../../css/highlight.css">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        <script src="../../js/jquery-1.10.2.min.js"></script>
+        <script src="../../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../../js/highlight.pack.js"></script> 
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../..">Rest-Utils Document</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                    <li >
+                        <a href="../..">Home</a>
+                    </li>
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Guide <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            
+<li >
+    <a href="../auto-bind/">Auto bind</a>
+</li>
+                            
+<li >
+    <a href="../creating-api-endpoints/">Creating api endpoints</a>
+</li>
+                            
+<li class="active">
+    <a href="./">Customizing restful</a>
+</li>
+                            
+<li >
+    <a href="../interfaces/">Interfaces</a>
+</li>
+                            
+<li >
+    <a href="../quickstart/">Quickstart</a>
+</li>
+                            
+<li >
+    <a href="../specification/">Specification</a>
+</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Read source <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            
+<li >
+    <a href="../../read-source/other/">Other</a>
+</li>
+                            
+<li >
+    <a href="../../read-source/source/">Source</a>
+</li>
+                            
+<li >
+    <a href="../../read-source/testing/">Testing</a>
+</li>
+                        </ul>
+                    </li>
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                    <li >
+                        <a rel="next" href="../creating-api-endpoints/">
+                            <i class="fa fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../interfaces/">
+                            Next <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#methods">methods</a></li>
+        <li class="main "><a href="#endpoint">endpoint</a></li>
+        <li class="main "><a href="#include_fk">include_fk</a></li>
+        <li class="main "><a href="#key_field">key_field</a></li>
+        <li class="main "><a href="#endpoint_1">endpoint</a></li>
+        <li class="main "><a href="#match_fields">match_fields</a></li>
+        <li class="main "><a href="#_1">字段例子</a></li>
+        <li class="main "><a href="#filters">filters</a></li>
+        <li class="main "><a href="#create">create</a></li>
+        <li class="main "><a href="#update">update</a></li>
+        <li class="main "><a href="#delete">delete</a></li>
+        <li class="main "><a href="#created">created</a></li>
+        <li class="main "><a href="#updated">updated</a></li>
+        <li class="main "><a href="#deleted">deleted</a></li>
+        <li class="main "><a href="#_2">回调方法例子</a></li>
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<h2 id="methods">methods</h2>
+<pre><code>注册的HTTP方法。有：'GET': 查询, "POST": 新增, "PUT": 修改, "DELETE": 删除。
+默认情况下，APIManager.create_api() 会创建只读接口; 其他的method会被拒绝访问。
+</code></pre>
+<p>apimanager.add(User, methods=['GET', 'POST', 'DELETE'])</p>
+<p>具体添加的内容和使用方法可<a href="../interfaces/">详情</a>.</p>
+<h2 id="endpoint">endpoint</h2>
+<p>默认情况下，APIManager.create_api()添加的模型或schema使用的interface名称为模型表名。可以手动指定名称</p>
+<pre><code class="python">person_blueprint = api.add(User, endpoint=&quot;peoples&quot;)
+</code></pre>
+
+<h2 id="include_fk">include_fk</h2>
+<pre><code>展示外键. 默认:True
+</code></pre>
+<h2 id="key_field">key_field</h2>
+<pre><code>查找字段。
+如：/users/@windpro
+</code></pre>
+<h2 id="endpoint_1">endpoint</h2>
+<pre><code>资源名称。默认为tablename
+</code></pre>
+<h2 id="match_fields">match_fields</h2>
+<pre><code>搜索的字段。默认：[].
+</code></pre>
+<h2 id="_1">字段例子</h2>
+<pre><code class="python">from models import Users
+from rest_utils import ModelSchema
+
+class UsersSchema(ModelSchema):
+    class Meta:
+        model = Users
+        methods = ['GET', &quot;POST&quot;, &quot;PUT&quot;, &quot;DELETE&quot;]
+        include_fk = True
+        key_field = &quot;name&quot;
+        endpoint = &quot;users&quot;
+        match_fields = [&quot;name&quot;]
+
+api.add(UsersSchema)
+</code></pre>
+
+<h2 id="filters">filters</h2>
+<pre><code>查询资源时使用的filters。如def get_users(): return [Users.name=="windpro"]
+</code></pre>
+<h2 id="create">create</h2>
+<pre><code>创建实例回调方法。(model, data)
+</code></pre>
+<h2 id="update">update</h2>
+<pre><code>修改实例回调方法。(instance, data)
+</code></pre>
+<h2 id="delete">delete</h2>
+<pre><code>删除实例回调方法。(instance)
+</code></pre>
+<h2 id="created">created</h2>
+<pre><code>commit数据库之后的创建实例回调方法。(instance)
+</code></pre>
+<h2 id="updated">updated</h2>
+<pre><code>commit数据库之后的修改实例回调方法。(instance)
+</code></pre>
+<h2 id="deleted">deleted</h2>
+<pre><code>commit数据库之后的删除实例回调方法。(instance)
+</code></pre>
+<h2 id="_2">回调方法例子</h2>
+<pre><code class="python">from models import Users
+from rest_utils import ModelSchema
+
+class UsersSchema(ModelSchema):
+    class Meta:
+        model = Users
+        methods = ['GET', &quot;POST&quot;, &quot;PUT&quot;, &quot;DELETE&quot;]
+
+        @staticmethod
+        def filters():
+            return [Users.name==&quot;windprozhao&quot;]
+
+        @staticmethod
+        def create(model, data):
+            return model(**data)
+
+        @staticmethod
+        def update(instance, data):
+            for key, value in data.items():
+                setattr(instance, key, value)
+            return instance
+        @staticmethod
+        def delete(instance):
+            return instance
+
+        @staticmethod
+        def created(instance):
+            return instance
+        @staticmethod
+        def updated(instance):
+            return instance
+        @staticmethod
+        def deleted(instance):
+            return instance
+
+api.add(UsersSchema)
+</code></pre></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>var base_url = '../..';</script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/require.js"></script>
+        <script src="../../search/search.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td><kbd>&larr;</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td><kbd>&rarr;</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    </body>
+</html>

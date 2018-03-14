@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Other - Rest-Utils Document</title>
+        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome-4.5.0.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="../../css/highlight.css">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        <script src="../../js/jquery-1.10.2.min.js"></script>
+        <script src="../../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../../js/highlight.pack.js"></script> 
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../..">Rest-Utils Document</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                    <li >
+                        <a href="../..">Home</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Guide <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            
+<li >
+    <a href="../../guide/auto-bind/">Auto bind</a>
+</li>
+                            
+<li >
+    <a href="../../guide/creating-api-endpoints/">Creating api endpoints</a>
+</li>
+                            
+<li >
+    <a href="../../guide/customizing-restful/">Customizing restful</a>
+</li>
+                            
+<li >
+    <a href="../../guide/interfaces/">Interfaces</a>
+</li>
+                            
+<li >
+    <a href="../../guide/quickstart/">Quickstart</a>
+</li>
+                            
+<li >
+    <a href="../../guide/specification/">API words</a>
+</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Read source <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            
+<li class="active">
+    <a href="./">Other</a>
+</li>
+                            
+<li >
+    <a href="../source/">Source</a>
+</li>
+                            
+<li >
+    <a href="../testing/">Testing</a>
+</li>
+                        </ul>
+                    </li>
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                    <li >
+                        <a rel="next" href="../../guide/specification/">
+                            <i class="fa fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../source/">
+                            Next <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#_1">用户自定义异常</a></li>
+            <li><a href="#_2">抛出自定义异常</a></li>
+        <li class="main "><a href="#schema">模型 schema 参数说明</a></li>
+            <li><a href="#_3">多数据库</a></li>
+            <li><a href="#qa-solution">QA solution</a></li>
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<h2 id="_1">用户自定义异常</h2>
+<h3 id="_2">抛出自定义异常</h3>
+<p>定义异常:</p>
+<pre><code class="python">from rest_utils import RestException
+class MeException(RestException):
+    &quot;&quot;&quot;
+    自定义错误信息
+    &quot;&quot;&quot;
+    status = 403  # HTTP 错误码
+</code></pre>
+
+<p>抛出异常</p>
+<pre><code class="python">raise MeException({&quot;info&quot;:&quot;test&quot;})
+</code></pre>
+
+<p>前端输出:</p>
+<pre><code>status_code:403
+{
+    &quot;type&quot;: &quot;MeException&quot;,  # 异常类型
+    &quot;msg&quot;: &quot;自定义错误信息&quot;,  # 错误描述（内部)
+    &quot;detail&quot;: {&quot;info&quot;:&quot;test&quot;},  # 用户自定义数据
+}
+</code></pre>
+
+<h1 id="schema">模型 schema 参数说明</h1>
+<pre><code>该参数作用于APIManager.add 或 ModelSchema.Meta:
+</code></pre>
+<h2 id="_3">多数据库</h2>
+<h3 id="_4">定义方式</h3>
+<p>可参考 <a href="http://flask-sqlalchemy.pocoo.org/2.1/binds/#referring-to-binds">flask-sqlalchemy官方文档</a></p>
+<h2 id="qa-solution">QA solution</h2>
+<h3 id="operationalerror-operationalerror-unable-to-open-database-file-none-none">OperationalError: (OperationalError) unable to open database file None None</h3>
+<pre><code>Based on sqlalchemy documentation:
+
+sqlite:////db_absolute_path
+
+sqlite:///db_relative_path
+(notice that the second line above has only 3 slashes) In my case providing relative path helped.
+</code></pre></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>var base_url = '../..';</script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/require.js"></script>
+        <script src="../../search/search.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td><kbd>&larr;</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td><kbd>&rarr;</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    </body>
+</html>

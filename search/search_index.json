@@ -1,0 +1,394 @@
+{
+    "docs": [
+        {
+            "location": "/", 
+            "text": "Home\n\n\nIntroduction\n\n\nRest-Utils \u4e3a\u4f7f\u7528 SQLAlchemy (or Flask-SQLAlchemy) \u5b9a\u4e49\u7684\u6570\u636e\u5e93\u6a21\u578b\u63d0\u4f9b\u7b80\u5355\u7684Restful APIs\u751f\u6210\u3002\n\u751f\u6210\u7684API\u4ee5JSON\u683c\u5f0f\u53d1\u9001\u548c\u63a5\u6536\u6d88\u606f\u3002\n\u4f7f\u7528 marshmallow \u4f7f\u5f97\u8f6c\u6362\u975e\u5e38\u4fbf\u6377\u3002\n\n\nFor more information, see the\n\n\n\n\ndocumentation\n,\n\n\nPython Package Index listing\n,\n\n\nsource code repository\n.\n\n\n\n\nInstall\n\n\n# \u53ef\u4ee5\u4eceGitHub\u7684\u9875\u9762\u4e0b\u8f7d\u3002 \u4e0d\u8fc7\u63a8\u8350\u4f7f\u7528pip\uff0cvirtualenv\u5b89\u88c5\u3002\npip install Rest-Utils\n\n\n\nQuick Start\n\n\n\u5feb\u901f\u5f00\u59cb", 
+            "title": "Home"
+        }, 
+        {
+            "location": "/#home", 
+            "text": "", 
+            "title": "Home"
+        }, 
+        {
+            "location": "/#introduction", 
+            "text": "Rest-Utils \u4e3a\u4f7f\u7528 SQLAlchemy (or Flask-SQLAlchemy) \u5b9a\u4e49\u7684\u6570\u636e\u5e93\u6a21\u578b\u63d0\u4f9b\u7b80\u5355\u7684Restful APIs\u751f\u6210\u3002\n\u751f\u6210\u7684API\u4ee5JSON\u683c\u5f0f\u53d1\u9001\u548c\u63a5\u6536\u6d88\u606f\u3002\n\u4f7f\u7528 marshmallow \u4f7f\u5f97\u8f6c\u6362\u975e\u5e38\u4fbf\u6377\u3002  For more information, see the   documentation ,  Python Package Index listing ,  source code repository .", 
+            "title": "Introduction"
+        }, 
+        {
+            "location": "/#install", 
+            "text": "# \u53ef\u4ee5\u4eceGitHub\u7684\u9875\u9762\u4e0b\u8f7d\u3002 \u4e0d\u8fc7\u63a8\u8350\u4f7f\u7528pip\uff0cvirtualenv\u5b89\u88c5\u3002\npip install Rest-Utils", 
+            "title": "Install"
+        }, 
+        {
+            "location": "/#quick-start", 
+            "text": "\u5feb\u901f\u5f00\u59cb", 
+            "title": "Quick Start"
+        }, 
+        {
+            "location": "/guide/auto-bind/", 
+            "text": "\u81ea\u52a8\u7ed1\u5b9a\u6570\u636e\u5e93\u6a21\u5f0f\n\n\n\u672c\u6846\u67b6\u652f\u6301\u76f4\u63a5\u4ece\u5df2\u6709\u6570\u636e\u5e93\u4e2d\u5bfc\u5165\u5b57\u6bb5\u548c\u5173\u7cfb\uff0c\u751f\u6210api\u3002\u5b9e\u73b0\u65e0\u7f16\u7801\u60c5\u51b5\u4e0b\u7684restful api \u64cd\u4f5c\u6570\u636e\u5e93\u3002\n\n\n\n# wget https://github.com/lerocha/chinook-database/raw/master/ChinookDatabase/DataSources/Chinook_Sqlite_AutoIncrementPKs.sqlite\nimport flask\nfrom flask_sqlalchemy import SQLAlchemy\nfrom rest_utils import APIManager\n\napp = flask.Flask(__name__)\napp.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./Chinook_Sqlite_AutoIncrementPKs.sqlite'\ndb = SQLAlchemy(app)\napi = APIManager(app, db=db)\napi.auto_create()\napp.run()\n\n\n\n\n\u6d4b\u8bd5\n\n\ncurl http://127.0.0.1:5000/api/Track?_num=20\n_expand=1", 
+            "title": "Auto bind"
+        }, 
+        {
+            "location": "/guide/auto-bind/#_1", 
+            "text": "\u672c\u6846\u67b6\u652f\u6301\u76f4\u63a5\u4ece\u5df2\u6709\u6570\u636e\u5e93\u4e2d\u5bfc\u5165\u5b57\u6bb5\u548c\u5173\u7cfb\uff0c\u751f\u6210api\u3002\u5b9e\u73b0\u65e0\u7f16\u7801\u60c5\u51b5\u4e0b\u7684restful api \u64cd\u4f5c\u6570\u636e\u5e93\u3002  # wget https://github.com/lerocha/chinook-database/raw/master/ChinookDatabase/DataSources/Chinook_Sqlite_AutoIncrementPKs.sqlite\nimport flask\nfrom flask_sqlalchemy import SQLAlchemy\nfrom rest_utils import APIManager\n\napp = flask.Flask(__name__)\napp.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./Chinook_Sqlite_AutoIncrementPKs.sqlite'\ndb = SQLAlchemy(app)\napi = APIManager(app, db=db)\napi.auto_create()\napp.run()", 
+            "title": "\u81ea\u52a8\u7ed1\u5b9a\u6570\u636e\u5e93\u6a21\u5f0f"
+        }, 
+        {
+            "location": "/guide/auto-bind/#_2", 
+            "text": "curl http://127.0.0.1:5000/api/Track?_num=20 _expand=1", 
+            "title": "\u6d4b\u8bd5"
+        }, 
+        {
+            "location": "/guide/creating-api-endpoints/", 
+            "text": "Models\n\n\n\u60f3\u4f7f\u7528\u672c\u6846\u67b6\uff0c\u4f60\u9700\u8981\u5148\u5b9a\u4e49\u6570\u636e\u5e93\u6a21\u578b\u3002\u53ef\u9009\uff1aSQLAlchemy or Flask-SQLALchemy.\n\n\n\n#!/usr/bin/python\n# -*- coding: utf-8 -*-\nimport flask\nfrom flask_sqlalchemy import SQLAlchemy\n\napp = flask.Flask(__name__)\napp.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./test.db'\ndb = SQLAlchemy(app)\n\nclass User(db.Model):\n    __tablename__ = 'users'\n    id = db.Column(db.Integer, primary_key=True, autoincrement=True)\n    name = db.Column(db.Unicode(32), unique=True)\n    posts = db.relationship(\n        'Post',\n        backref=db.backref('user')\n    )\n\n\nclass Post(db.Model):\n    __tablename__ = \nposts\n\n    id = db.Column(db.Integer, primary_key=True)\n    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))\n    title = db.Column(db.String(80), nullable=False)\n    body = db.Column(db.Text)\n    pub_date = db.Column(db.DateTime, nullable=False)\n\n\ndb.create_all()\n\n\n\n\nIf you are using pure SQLAlchemy:\n\n\n#!/usr/bin/python\n# -*- coding: utf-8 -*-\nfrom flask import Flask\nfrom sqlalchemy import Column, Date, DateTime, Float, Integer, Unicode, Text, String\nfrom sqlalchemy import ForeignKey\nfrom sqlalchemy import create_engine\nfrom sqlalchemy.ext.declarative import declarative_base\nfrom sqlalchemy.orm import backref, relationship\n\napp = Flask(__name__)\nengine = create_engine('sqlite:///./test.db', convert_unicode=True)\n\nBase = declarative_base()\nBase.metadata.bind = engine\n\nclass User(Base):\n    __tablename__ = 'users'\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(Unicode(32), unique=True)\n    posts = relationship(\n        'Post',\n        backref=backref('user')\n    )\n\n\nclass Post(Base):\n    __tablename__ = \nposts\n\n    id = Column(Integer, primary_key=True)\n    user_id = Column(Integer, ForeignKey('users.id'))\n    title = Column(String(80), nullable=False)\n    body = Column(Text)\n    pub_date = Column(DateTime, nullable=False)\n\n\nBase.metadata.create_all()\n\n\n\n\nAPIManager\n\n\n\u62e5\u6709\u6a21\u578b\u4e4b\u540e\uff0c\u5c31\u53ef\u4ee5\u5f00\u59cb\u6dfb\u52a0api\u3002\n\n\n\nimport rest_utils\n\napi = rest_utils.APIManager(app, db=db)\n\n\n\n\nOr if you are using pure SQLAlchemy, specify the session you created above instead:\n\n\n\napi = rest_utils.APIManager(app, engine=engine)\n\n\n\n\ncreate the API\n\n\nperson_blueprint = api.add(User, methods=['GET', 'POST', 'DELETE'])\n\n\n\n\nNote that you can specify which HTTP methods are available for each API endpoint. There are several more customization options; for more information, see \nCustomizing the Restful interface\n.", 
+            "title": "Creating api endpoints"
+        }, 
+        {
+            "location": "/guide/creating-api-endpoints/#models", 
+            "text": "\u60f3\u4f7f\u7528\u672c\u6846\u67b6\uff0c\u4f60\u9700\u8981\u5148\u5b9a\u4e49\u6570\u636e\u5e93\u6a21\u578b\u3002\u53ef\u9009\uff1aSQLAlchemy or Flask-SQLALchemy.  #!/usr/bin/python\n# -*- coding: utf-8 -*-\nimport flask\nfrom flask_sqlalchemy import SQLAlchemy\n\napp = flask.Flask(__name__)\napp.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./test.db'\ndb = SQLAlchemy(app)\n\nclass User(db.Model):\n    __tablename__ = 'users'\n    id = db.Column(db.Integer, primary_key=True, autoincrement=True)\n    name = db.Column(db.Unicode(32), unique=True)\n    posts = db.relationship(\n        'Post',\n        backref=db.backref('user')\n    )\n\n\nclass Post(db.Model):\n    __tablename__ =  posts \n    id = db.Column(db.Integer, primary_key=True)\n    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))\n    title = db.Column(db.String(80), nullable=False)\n    body = db.Column(db.Text)\n    pub_date = db.Column(db.DateTime, nullable=False)\n\n\ndb.create_all()  If you are using pure SQLAlchemy:  #!/usr/bin/python\n# -*- coding: utf-8 -*-\nfrom flask import Flask\nfrom sqlalchemy import Column, Date, DateTime, Float, Integer, Unicode, Text, String\nfrom sqlalchemy import ForeignKey\nfrom sqlalchemy import create_engine\nfrom sqlalchemy.ext.declarative import declarative_base\nfrom sqlalchemy.orm import backref, relationship\n\napp = Flask(__name__)\nengine = create_engine('sqlite:///./test.db', convert_unicode=True)\n\nBase = declarative_base()\nBase.metadata.bind = engine\n\nclass User(Base):\n    __tablename__ = 'users'\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(Unicode(32), unique=True)\n    posts = relationship(\n        'Post',\n        backref=backref('user')\n    )\n\n\nclass Post(Base):\n    __tablename__ =  posts \n    id = Column(Integer, primary_key=True)\n    user_id = Column(Integer, ForeignKey('users.id'))\n    title = Column(String(80), nullable=False)\n    body = Column(Text)\n    pub_date = Column(DateTime, nullable=False)\n\n\nBase.metadata.create_all()", 
+            "title": "Models"
+        }, 
+        {
+            "location": "/guide/creating-api-endpoints/#apimanager", 
+            "text": "\u62e5\u6709\u6a21\u578b\u4e4b\u540e\uff0c\u5c31\u53ef\u4ee5\u5f00\u59cb\u6dfb\u52a0api\u3002  import rest_utils\n\napi = rest_utils.APIManager(app, db=db)  Or if you are using pure SQLAlchemy, specify the session you created above instead:  api = rest_utils.APIManager(app, engine=engine)", 
+            "title": "APIManager"
+        }, 
+        {
+            "location": "/guide/creating-api-endpoints/#create-the-api", 
+            "text": "person_blueprint = api.add(User, methods=['GET', 'POST', 'DELETE'])  Note that you can specify which HTTP methods are available for each API endpoint. There are several more customization options; for more information, see  Customizing the Restful interface .", 
+            "title": "create the API"
+        }, 
+        {
+            "location": "/guide/customizing-restful/", 
+            "text": "methods\n\n\n\u6ce8\u518c\u7684HTTP\u65b9\u6cd5\u3002\u6709\uff1a'GET': \u67e5\u8be2, \"POST\": \u65b0\u589e, \"PUT\": \u4fee\u6539, \"DELETE\": \u5220\u9664\u3002\n\u9ed8\u8ba4\u60c5\u51b5\u4e0b\uff0cAPIManager.create_api() \u4f1a\u521b\u5efa\u53ea\u8bfb\u63a5\u53e3; \u5176\u4ed6\u7684method\u4f1a\u88ab\u62d2\u7edd\u8bbf\u95ee\u3002\n\n\n\napimanager.add(User, methods=['GET', 'POST', 'DELETE'])\n\n\n\u5177\u4f53\u6dfb\u52a0\u7684\u5185\u5bb9\u548c\u4f7f\u7528\u65b9\u6cd5\u53ef\n\u8be6\u60c5\n.\n\n\nendpoint\n\n\n\u9ed8\u8ba4\u60c5\u51b5\u4e0b\uff0cAPIManager.create_api()\u6dfb\u52a0\u7684\u6a21\u578b\u6216schema\u4f7f\u7528\u7684interface\u540d\u79f0\u4e3a\u6a21\u578b\u8868\u540d\u3002\u53ef\u4ee5\u624b\u52a8\u6307\u5b9a\u540d\u79f0\n\n\nperson_blueprint = api.add(User, endpoint=\npeoples\n)\n\n\n\n\ninclude_fk\n\n\n\u5c55\u793a\u5916\u952e. \u9ed8\u8ba4:True\n\n\n\nkey_field\n\n\n\u67e5\u627e\u5b57\u6bb5\u3002\n\u5982\uff1a/users/@windpro\n\n\n\nendpoint\n\n\n\u8d44\u6e90\u540d\u79f0\u3002\u9ed8\u8ba4\u4e3atablename\n\n\n\nmatch_fields\n\n\n\u641c\u7d22\u7684\u5b57\u6bb5\u3002\u9ed8\u8ba4\uff1a[].\n\n\n\n\u5b57\u6bb5\u4f8b\u5b50\n\n\nfrom models import Users\nfrom rest_utils import ModelSchema\n\nclass UsersSchema(ModelSchema):\n    class Meta:\n        model = Users\n        methods = ['GET', \nPOST\n, \nPUT\n, \nDELETE\n]\n        include_fk = True\n        key_field = \nname\n\n        endpoint = \nusers\n\n        match_fields = [\nname\n]\n\napi.add(UsersSchema)\n\n\n\n\nfilters\n\n\n\u67e5\u8be2\u8d44\u6e90\u65f6\u4f7f\u7528\u7684filters\u3002\u5982def get_users(): return [Users.name==\"windpro\"]\n\n\n\ncreate\n\n\n\u521b\u5efa\u5b9e\u4f8b\u56de\u8c03\u65b9\u6cd5\u3002(model, data)\n\n\n\nupdate\n\n\n\u4fee\u6539\u5b9e\u4f8b\u56de\u8c03\u65b9\u6cd5\u3002(instance, data)\n\n\n\ndelete\n\n\n\u5220\u9664\u5b9e\u4f8b\u56de\u8c03\u65b9\u6cd5\u3002(instance)\n\n\n\ncreated\n\n\ncommit\u6570\u636e\u5e93\u4e4b\u540e\u7684\u521b\u5efa\u5b9e\u4f8b\u56de\u8c03\u65b9\u6cd5\u3002(instance)\n\n\n\nupdated\n\n\ncommit\u6570\u636e\u5e93\u4e4b\u540e\u7684\u4fee\u6539\u5b9e\u4f8b\u56de\u8c03\u65b9\u6cd5\u3002(instance)\n\n\n\ndeleted\n\n\ncommit\u6570\u636e\u5e93\u4e4b\u540e\u7684\u5220\u9664\u5b9e\u4f8b\u56de\u8c03\u65b9\u6cd5\u3002(instance)\n\n\n\n\u56de\u8c03\u65b9\u6cd5\u4f8b\u5b50\n\n\nfrom models import Users\nfrom rest_utils import ModelSchema\n\nclass UsersSchema(ModelSchema):\n    class Meta:\n        model = Users\n        methods = ['GET', \nPOST\n, \nPUT\n, \nDELETE\n]\n\n        @staticmethod\n        def filters():\n            return [Users.name==\nwindprozhao\n]\n\n        @staticmethod\n        def create(model, data):\n            return model(**data)\n\n        @staticmethod\n        def update(instance, data):\n            for key, value in data.items():\n                setattr(instance, key, value)\n            return instance\n        @staticmethod\n        def delete(instance):\n            return instance\n\n        @staticmethod\n        def created(instance):\n            return instance\n        @staticmethod\n        def updated(instance):\n            return instance\n        @staticmethod\n        def deleted(instance):\n            return instance\n\napi.add(UsersSchema)", 
+            "title": "Customizing restful"
+        }, 
+        {
+            "location": "/guide/customizing-restful/#methods", 
+            "text": "\u6ce8\u518c\u7684HTTP\u65b9\u6cd5\u3002\u6709\uff1a'GET': \u67e5\u8be2, \"POST\": \u65b0\u589e, \"PUT\": \u4fee\u6539, \"DELETE\": \u5220\u9664\u3002\n\u9ed8\u8ba4\u60c5\u51b5\u4e0b\uff0cAPIManager.create_api() \u4f1a\u521b\u5efa\u53ea\u8bfb\u63a5\u53e3; \u5176\u4ed6\u7684method\u4f1a\u88ab\u62d2\u7edd\u8bbf\u95ee\u3002  apimanager.add(User, methods=['GET', 'POST', 'DELETE'])  \u5177\u4f53\u6dfb\u52a0\u7684\u5185\u5bb9\u548c\u4f7f\u7528\u65b9\u6cd5\u53ef \u8be6\u60c5 .", 
+            "title": "methods"
+        }, 
+        {
+            "location": "/guide/customizing-restful/#endpoint", 
+            "text": "\u9ed8\u8ba4\u60c5\u51b5\u4e0b\uff0cAPIManager.create_api()\u6dfb\u52a0\u7684\u6a21\u578b\u6216schema\u4f7f\u7528\u7684interface\u540d\u79f0\u4e3a\u6a21\u578b\u8868\u540d\u3002\u53ef\u4ee5\u624b\u52a8\u6307\u5b9a\u540d\u79f0  person_blueprint = api.add(User, endpoint= peoples )", 
+            "title": "endpoint"
+        }, 
+        {
+            "location": "/guide/customizing-restful/#include_fk", 
+            "text": "\u5c55\u793a\u5916\u952e. \u9ed8\u8ba4:True", 
+            "title": "include_fk"
+        }, 
+        {
+            "location": "/guide/customizing-restful/#key_field", 
+            "text": "\u67e5\u627e\u5b57\u6bb5\u3002\n\u5982\uff1a/users/@windpro", 
+            "title": "key_field"
+        }, 
+        {
+            "location": "/guide/customizing-restful/#endpoint_1", 
+            "text": "\u8d44\u6e90\u540d\u79f0\u3002\u9ed8\u8ba4\u4e3atablename", 
+            "title": "endpoint"
+        }, 
+        {
+            "location": "/guide/customizing-restful/#match_fields", 
+            "text": "\u641c\u7d22\u7684\u5b57\u6bb5\u3002\u9ed8\u8ba4\uff1a[].", 
+            "title": "match_fields"
+        }, 
+        {
+            "location": "/guide/customizing-restful/#_1", 
+            "text": "from models import Users\nfrom rest_utils import ModelSchema\n\nclass UsersSchema(ModelSchema):\n    class Meta:\n        model = Users\n        methods = ['GET',  POST ,  PUT ,  DELETE ]\n        include_fk = True\n        key_field =  name \n        endpoint =  users \n        match_fields = [ name ]\n\napi.add(UsersSchema)", 
+            "title": "\u5b57\u6bb5\u4f8b\u5b50"
+        }, 
+        {
+            "location": "/guide/customizing-restful/#filters", 
+            "text": "\u67e5\u8be2\u8d44\u6e90\u65f6\u4f7f\u7528\u7684filters\u3002\u5982def get_users(): return [Users.name==\"windpro\"]", 
+            "title": "filters"
+        }, 
+        {
+            "location": "/guide/customizing-restful/#create", 
+            "text": "\u521b\u5efa\u5b9e\u4f8b\u56de\u8c03\u65b9\u6cd5\u3002(model, data)", 
+            "title": "create"
+        }, 
+        {
+            "location": "/guide/customizing-restful/#update", 
+            "text": "\u4fee\u6539\u5b9e\u4f8b\u56de\u8c03\u65b9\u6cd5\u3002(instance, data)", 
+            "title": "update"
+        }, 
+        {
+            "location": "/guide/customizing-restful/#delete", 
+            "text": "\u5220\u9664\u5b9e\u4f8b\u56de\u8c03\u65b9\u6cd5\u3002(instance)", 
+            "title": "delete"
+        }, 
+        {
+            "location": "/guide/customizing-restful/#created", 
+            "text": "commit\u6570\u636e\u5e93\u4e4b\u540e\u7684\u521b\u5efa\u5b9e\u4f8b\u56de\u8c03\u65b9\u6cd5\u3002(instance)", 
+            "title": "created"
+        }, 
+        {
+            "location": "/guide/customizing-restful/#updated", 
+            "text": "commit\u6570\u636e\u5e93\u4e4b\u540e\u7684\u4fee\u6539\u5b9e\u4f8b\u56de\u8c03\u65b9\u6cd5\u3002(instance)", 
+            "title": "updated"
+        }, 
+        {
+            "location": "/guide/customizing-restful/#deleted", 
+            "text": "commit\u6570\u636e\u5e93\u4e4b\u540e\u7684\u5220\u9664\u5b9e\u4f8b\u56de\u8c03\u65b9\u6cd5\u3002(instance)", 
+            "title": "deleted"
+        }, 
+        {
+            "location": "/guide/customizing-restful/#_2", 
+            "text": "from models import Users\nfrom rest_utils import ModelSchema\n\nclass UsersSchema(ModelSchema):\n    class Meta:\n        model = Users\n        methods = ['GET',  POST ,  PUT ,  DELETE ]\n\n        @staticmethod\n        def filters():\n            return [Users.name== windprozhao ]\n\n        @staticmethod\n        def create(model, data):\n            return model(**data)\n\n        @staticmethod\n        def update(instance, data):\n            for key, value in data.items():\n                setattr(instance, key, value)\n            return instance\n        @staticmethod\n        def delete(instance):\n            return instance\n\n        @staticmethod\n        def created(instance):\n            return instance\n        @staticmethod\n        def updated(instance):\n            return instance\n        @staticmethod\n        def deleted(instance):\n            return instance\n\napi.add(UsersSchema)", 
+            "title": "\u56de\u8c03\u65b9\u6cd5\u4f8b\u5b50"
+        }, 
+        {
+            "location": "/guide/interfaces/", 
+            "text": "GET /api/users\n\n\n\u8fd4\u56de\u6240\u6709\u7684Person instances.\n\n\nGET /api/users\n\nHTTP/1.1 200 OK\n{\n  \"total\": 3,\n  \"items\": [{\"id\": 1, \"name\": \"windpro\"}, ...]\n}\n\n\n\n\u8be6\u7ec6\u67e5\u8be2\u53c2\u6570\u53ef\u4ee5\u53c2\u770b\nGET Params\n.\n\u4f8b\u5982\uff1a\n\n\nGET /api/users?name=windpro HTTP/1.1\n\nHTTP/1.1 200 OK\n{\n  \"total\": 1,\n  \"items\": [{\"id\": 1, \"name\": \"windpro\"}]\n}\n\n\n\nGET /api/person/(int: id)\n\n\n\u4f7f\u7528id\u67e5\u8be2\u5e76\u8fd4\u56de\u5355\u4e2a\u5b9e\u4f8b\u3002\u540c\u6837\u652f\u6301\nGET Params\n.\n\n\nHTTP/1.1 200 OK\n\n{\n  \"id\": 1,\n  \"name\": \"windpro\"\n}\n\n\n\nGET /api/person/(string: key_field)\n\n\n\u4f7f\u7528\u914d\u7f6e\u4e2d\u7684keyfield\u67e5\u8be2\u5e76\u8fd4\u56de\u5355\u4e2a\u5b9e\u4f8b\u3002\n\n\napimanager.add(User, methods=['GET', 'POST', 'DELETE'], key_field=\nname\n)\n# request\nrequests.get(\n/api/users/@windpro\n)\n\n\n\n\nPOST /api/person\n\n\n\u521b\u5efa\u4e00\u4e2a\u6216\u8005\u591a\u4e2a\u5b9e\u4f8b\n\n\n\nSample Request\n\n\n\u521b\u5efa\u4e00\u4e2a\u5b9e\u4f8b\u3002\n\n\nPOST /api/users HTTP/1.1\n\n{\n  \"name\": \"windpro\"\n}\n\n\n\n\u521b\u5efa\u591a\u4e2a\u5b9e\u4f8b\u3002\n\n\nPOST /api/users HTTP/1.1\n\n[\n  {\n    \"name\": \"windpro\"\n  },\n  {\n    \"name\": \"alex\"\n  }\n]\n\n\n\nSample Response\n\n\nHTTP/1.1 201 Created\n\n{\n  \"id\": 1,\n  \"name\": \"windpro\"\n}\n\n\n\nPOST /api/person/(id or key_field)\n\n\n\u521b\u5efa\u5b9e\u4f8b\u3002\u8bf7\u6c42\u548c\u8fd4\u56de\u7c7b\u4f3c\u4e8e\nPOST /api/person\n\n\nPUT or PATCH /api/person\n\n\n\u4fee\u6539\u4e00\u4e2a\u6216\u591a\u4e2a\u5b9e\u4f8b.\u5f53\u5b9e\u4f8b\u4e0d\u5b58\u5728\u7684\u65f6\u5019\u4f1a\u521b\u5efa\u5b9e\u4f8b\u3002\n\n\n\nSample Request\n\n\nPUT /api/users HTTP/1.1\n\n{\n  \"id\": 1,\n  \"age\": 26\n}\n\n\n\nSample Response\n\n\nHTTP/1.1 200 OK\n\n{\n  \"id\": 1,\n  \"name\": \"windpro\",\n  \"age\": 26\n}\n\n\n\nPUT or PATCH /api/person/(id or key_field)\n\n\n\u4fee\u6539\u5b9e\u4f8b\u3002\u8bf7\u6c42\u548c\u8fd4\u56de\u7c7b\u4f3c\u4e8e\nPUT /api/person\n\n\nDELETE /api/person/(id or key_field)\n\n\n\u5220\u9664\u5b9e\u4f8b\n\n\nSample response:\n\n\nHTTP/1.1 204 No Content\n\n\n\nGET /api/users/(id or key_field)/groups\n\n\n\u8fd4\u56de\u6240\u6709\u7684Person\u4e0b\u7684groups\u5173\u7cfb\n\n\nGET /api/users/1/grups\n\nHTTP/1.1 200 OK\n{\n  \"total\": 2,\n  \"items\": [{\"id\": 1, \"name\": \"admin\"}, ...]\n}\n\n\n\n\u8be6\u7ec6\u67e5\u8be2\u53c2\u6570\u53ef\u4ee5\u53c2\u770b\nGET Params\n.\n\u4f8b\u5982\uff1a\n\n\nGET /api/users/1/grups?name=admin HTTP/1.1\n\nHTTP/1.1 200 OK\n{\n  \"total\": 1,\n  \"items\": [{\"id\": 1, \"name\": \"admin\"}]\n}\n\n\n\nPOST /api/users/(id or key_field)/groups\n\n\n\u65b0\u589e\u4e00\u4e2a\u6216\u591a\u4e2aPerson.groups\u5173\u7cfb\n\n\n\nSample Request\n\n\n\u6dfb\u52a0\u4e00\u4e2a\u5b50\u8d44\u6e90\u3002\n\n\nPOST /api/users/1/groups HTTP/1.1\n\n{\n  \"name\": \"admin\"\n}\n\n\n\n\u6dfb\u52a0\u591a\u4e2a\u5b50\u8d44\u6e90\u3002\n\n\nPOST /api/users/1/groups HTTP/1.1\n\n[\n  {\n    \"name\": \"admin\"\n  },\n  {\n    \"name\": \"normal\"\n  }\n]\n\n\n\nSample Response\n\n\nHTTP/1.1 200 OK\n\n{\n  \"id\": 1,\n  \"name\": \"windpro\"\n}\n\n\n\nPUT or PATCH /api/users/(id or key_field)/groups\n\n\n\u66ff\u6362Person.groups\u5173\u7cfb\uff0c\u539f\u6709\u7684groups\u5c06\u88ab\u6e05\u7a7a\n\n\n\nSample Request\n\n\n\u66ff\u6362\u591a\u4e2a\u5b50\u8d44\u6e90\u3002\n\n\nPUT /api/users/1/groups HTTP/1.1\n\n[\n  {\n    \"name\": \"admin\"\n  },\n  {\n    \"name\": \"normal\"\n  }\n]\n\n\n\nSample Response\n\n\nHTTP/1.1 200 OK\n\n[\n  {\n    \"id\": 1,\n    \"name\": \"admin\"\n  },\n  {\n    \"id\": 2,\n    \"name\": \"normal\"\n  }\n]\n\n\n\nDELETE /api/users/(id or key_field)/groups\n\n\n\u5220\u9664Person.groups\u5173\u7cfb\u3002\u67e5\u627e\u89c4\u5219\u4e3a id \u6216 unique key\n\n\n\nSample Request\n\n\n\u66ff\u6362\u591a\u4e2a\u5b50\u8d44\u6e90\u3002\n\n\nDELETE /api/users/1/groups HTTP/1.1\n\n[\n  {\n    \"name\": \"admin\"\n  }\n]\n\n\n\nSample Response\n\n\nHTTP/1.1 204 No Content", 
+            "title": "Interfaces"
+        }, 
+        {
+            "location": "/guide/interfaces/#get-apiusers", 
+            "text": "\u8fd4\u56de\u6240\u6709\u7684Person instances.\n\n\nGET /api/users\n\nHTTP/1.1 200 OK\n{\n  \"total\": 3,\n  \"items\": [{\"id\": 1, \"name\": \"windpro\"}, ...]\n}  \u8be6\u7ec6\u67e5\u8be2\u53c2\u6570\u53ef\u4ee5\u53c2\u770b GET Params .\n\u4f8b\u5982\uff1a  GET /api/users?name=windpro HTTP/1.1\n\nHTTP/1.1 200 OK\n{\n  \"total\": 1,\n  \"items\": [{\"id\": 1, \"name\": \"windpro\"}]\n}", 
+            "title": "GET /api/users"
+        }, 
+        {
+            "location": "/guide/interfaces/#get-apipersonint-id", 
+            "text": "\u4f7f\u7528id\u67e5\u8be2\u5e76\u8fd4\u56de\u5355\u4e2a\u5b9e\u4f8b\u3002\u540c\u6837\u652f\u6301 GET Params .  HTTP/1.1 200 OK\n\n{\n  \"id\": 1,\n  \"name\": \"windpro\"\n}", 
+            "title": "GET /api/person/(int: id)"
+        }, 
+        {
+            "location": "/guide/interfaces/#get-apipersonstring-key_field", 
+            "text": "\u4f7f\u7528\u914d\u7f6e\u4e2d\u7684keyfield\u67e5\u8be2\u5e76\u8fd4\u56de\u5355\u4e2a\u5b9e\u4f8b\u3002  apimanager.add(User, methods=['GET', 'POST', 'DELETE'], key_field= name )\n# request\nrequests.get( /api/users/@windpro )", 
+            "title": "GET /api/person/(string: key_field)"
+        }, 
+        {
+            "location": "/guide/interfaces/#post-apiperson", 
+            "text": "\u521b\u5efa\u4e00\u4e2a\u6216\u8005\u591a\u4e2a\u5b9e\u4f8b", 
+            "title": "POST /api/person"
+        }, 
+        {
+            "location": "/guide/interfaces/#sample-request", 
+            "text": "\u521b\u5efa\u4e00\u4e2a\u5b9e\u4f8b\u3002  POST /api/users HTTP/1.1\n\n{\n  \"name\": \"windpro\"\n}  \u521b\u5efa\u591a\u4e2a\u5b9e\u4f8b\u3002  POST /api/users HTTP/1.1\n\n[\n  {\n    \"name\": \"windpro\"\n  },\n  {\n    \"name\": \"alex\"\n  }\n]", 
+            "title": "Sample Request"
+        }, 
+        {
+            "location": "/guide/interfaces/#sample-response", 
+            "text": "HTTP/1.1 201 Created\n\n{\n  \"id\": 1,\n  \"name\": \"windpro\"\n}", 
+            "title": "Sample Response"
+        }, 
+        {
+            "location": "/guide/interfaces/#post-apipersonid-or-key_field", 
+            "text": "\u521b\u5efa\u5b9e\u4f8b\u3002\u8bf7\u6c42\u548c\u8fd4\u56de\u7c7b\u4f3c\u4e8e POST /api/person", 
+            "title": "POST /api/person/(id or key_field)"
+        }, 
+        {
+            "location": "/guide/interfaces/#put-or-patch-apiperson", 
+            "text": "\u4fee\u6539\u4e00\u4e2a\u6216\u591a\u4e2a\u5b9e\u4f8b.\u5f53\u5b9e\u4f8b\u4e0d\u5b58\u5728\u7684\u65f6\u5019\u4f1a\u521b\u5efa\u5b9e\u4f8b\u3002", 
+            "title": "PUT or PATCH /api/person"
+        }, 
+        {
+            "location": "/guide/interfaces/#sample-request_1", 
+            "text": "PUT /api/users HTTP/1.1\n\n{\n  \"id\": 1,\n  \"age\": 26\n}", 
+            "title": "Sample Request"
+        }, 
+        {
+            "location": "/guide/interfaces/#sample-response_1", 
+            "text": "HTTP/1.1 200 OK\n\n{\n  \"id\": 1,\n  \"name\": \"windpro\",\n  \"age\": 26\n}", 
+            "title": "Sample Response"
+        }, 
+        {
+            "location": "/guide/interfaces/#put-or-patch-apipersonid-or-key_field", 
+            "text": "\u4fee\u6539\u5b9e\u4f8b\u3002\u8bf7\u6c42\u548c\u8fd4\u56de\u7c7b\u4f3c\u4e8e PUT /api/person", 
+            "title": "PUT or PATCH /api/person/(id or key_field)"
+        }, 
+        {
+            "location": "/guide/interfaces/#delete-apipersonid-or-key_field", 
+            "text": "\u5220\u9664\u5b9e\u4f8b", 
+            "title": "DELETE /api/person/(id or key_field)"
+        }, 
+        {
+            "location": "/guide/interfaces/#sample-response_2", 
+            "text": "HTTP/1.1 204 No Content", 
+            "title": "Sample response:"
+        }, 
+        {
+            "location": "/guide/interfaces/#get-apiusersid-or-key_fieldgroups", 
+            "text": "\u8fd4\u56de\u6240\u6709\u7684Person\u4e0b\u7684groups\u5173\u7cfb  GET /api/users/1/grups\n\nHTTP/1.1 200 OK\n{\n  \"total\": 2,\n  \"items\": [{\"id\": 1, \"name\": \"admin\"}, ...]\n}  \u8be6\u7ec6\u67e5\u8be2\u53c2\u6570\u53ef\u4ee5\u53c2\u770b GET Params .\n\u4f8b\u5982\uff1a  GET /api/users/1/grups?name=admin HTTP/1.1\n\nHTTP/1.1 200 OK\n{\n  \"total\": 1,\n  \"items\": [{\"id\": 1, \"name\": \"admin\"}]\n}", 
+            "title": "GET /api/users/(id or key_field)/groups"
+        }, 
+        {
+            "location": "/guide/interfaces/#post-apiusersid-or-key_fieldgroups", 
+            "text": "\u65b0\u589e\u4e00\u4e2a\u6216\u591a\u4e2aPerson.groups\u5173\u7cfb", 
+            "title": "POST /api/users/(id or key_field)/groups"
+        }, 
+        {
+            "location": "/guide/interfaces/#sample-request_2", 
+            "text": "\u6dfb\u52a0\u4e00\u4e2a\u5b50\u8d44\u6e90\u3002  POST /api/users/1/groups HTTP/1.1\n\n{\n  \"name\": \"admin\"\n}  \u6dfb\u52a0\u591a\u4e2a\u5b50\u8d44\u6e90\u3002  POST /api/users/1/groups HTTP/1.1\n\n[\n  {\n    \"name\": \"admin\"\n  },\n  {\n    \"name\": \"normal\"\n  }\n]", 
+            "title": "Sample Request"
+        }, 
+        {
+            "location": "/guide/interfaces/#sample-response_3", 
+            "text": "HTTP/1.1 200 OK\n\n{\n  \"id\": 1,\n  \"name\": \"windpro\"\n}", 
+            "title": "Sample Response"
+        }, 
+        {
+            "location": "/guide/interfaces/#put-or-patch-apiusersid-or-key_fieldgroups", 
+            "text": "\u66ff\u6362Person.groups\u5173\u7cfb\uff0c\u539f\u6709\u7684groups\u5c06\u88ab\u6e05\u7a7a", 
+            "title": "PUT or PATCH /api/users/(id or key_field)/groups"
+        }, 
+        {
+            "location": "/guide/interfaces/#sample-request_3", 
+            "text": "\u66ff\u6362\u591a\u4e2a\u5b50\u8d44\u6e90\u3002  PUT /api/users/1/groups HTTP/1.1\n\n[\n  {\n    \"name\": \"admin\"\n  },\n  {\n    \"name\": \"normal\"\n  }\n]", 
+            "title": "Sample Request"
+        }, 
+        {
+            "location": "/guide/interfaces/#sample-response_4", 
+            "text": "HTTP/1.1 200 OK\n\n[\n  {\n    \"id\": 1,\n    \"name\": \"admin\"\n  },\n  {\n    \"id\": 2,\n    \"name\": \"normal\"\n  }\n]", 
+            "title": "Sample Response"
+        }, 
+        {
+            "location": "/guide/interfaces/#delete-apiusersid-or-key_fieldgroups", 
+            "text": "\u5220\u9664Person.groups\u5173\u7cfb\u3002\u67e5\u627e\u89c4\u5219\u4e3a id \u6216 unique key", 
+            "title": "DELETE /api/users/(id or key_field)/groups"
+        }, 
+        {
+            "location": "/guide/interfaces/#sample-request_4", 
+            "text": "\u66ff\u6362\u591a\u4e2a\u5b50\u8d44\u6e90\u3002  DELETE /api/users/1/groups HTTP/1.1\n\n[\n  {\n    \"name\": \"admin\"\n  }\n]", 
+            "title": "Sample Request"
+        }, 
+        {
+            "location": "/guide/interfaces/#sample-response_5", 
+            "text": "HTTP/1.1 204 No Content", 
+            "title": "Sample Response"
+        }, 
+        {
+            "location": "/guide/quickstart/", 
+            "text": "\u7f16\u5199\u6a21\u578b\n\n\n#!/usr/bin/python\n# -*- coding: utf-8 -*-\nimport flask\nimport datetime\nfrom flask_sqlalchemy import SQLAlchemy\nfrom rest_utils import APIManager\n\n# Create the Flask application and the Flask-SQLAlchemy object.\napp = flask.Flask(__name__)\napp.config['DEBUG'] = True\napp.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./test.db'\ndb = SQLAlchemy(app)\n\nclass User(db.Model):\n    \n\n    \u7528\u6237\n    \n\n    __tablename__ = 'users'\n\n    id = db.Column(db.Integer, primary_key=True, autoincrement=True)\n    name = db.Column(db.Unicode(32), unique=True)  # \u7528\u6237\u540d\u552f\u4e00\n\n    # \u7ed1\u5b9a\u4e00\u5bf9\u591a\u5173\u7cfb\n    # \u7528\u6237\u6587\u7ae0\u5217\u8868\n    posts = db.relationship(\n        'Post',\n        backref=db.backref('user')\n    )\n\n\nclass Post(db.Model):\n    \n\n    \u6587\u7ae0\n    \n\n    __tablename__ = \nposts\n\n\n    id = db.Column(db.Integer, primary_key=True, autoincrement=True)\n    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))\n    title = db.Column(db.String(80), nullable=False)\n    body = db.Column(db.Text)\n    pub_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now)\n\n\n# db.drop_all()  # clear database\n# Create the database tables.\ndb.create_all()\n\n# Create the API manager.\nmanager = APIManager(app, db=db)\n\n# Create API endpoints, which will be available at /api/\ntablename\n by\n# default. Allowed HTTP methods can be specified as well.\nmanager.add(User, methods=['GET', 'POST', 'PUT', 'DELETE'], key_field=\nname\n)\nmanager.add(Post, methods=['GET', 'POST', 'PUT'])\n\nif __name__ == '__main__':\n    # start the flask loop\n    app.run()\n\n\n\n\n\u8fd0\u884c\n\n\npython run.py\n\n\n\n\u7ed3\u679c:\n\n\n * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)", 
+            "title": "Quickstart"
+        }, 
+        {
+            "location": "/guide/quickstart/#_1", 
+            "text": "#!/usr/bin/python\n# -*- coding: utf-8 -*-\nimport flask\nimport datetime\nfrom flask_sqlalchemy import SQLAlchemy\nfrom rest_utils import APIManager\n\n# Create the Flask application and the Flask-SQLAlchemy object.\napp = flask.Flask(__name__)\napp.config['DEBUG'] = True\napp.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./test.db'\ndb = SQLAlchemy(app)\n\nclass User(db.Model):\n     \n    \u7528\u6237\n     \n    __tablename__ = 'users'\n\n    id = db.Column(db.Integer, primary_key=True, autoincrement=True)\n    name = db.Column(db.Unicode(32), unique=True)  # \u7528\u6237\u540d\u552f\u4e00\n\n    # \u7ed1\u5b9a\u4e00\u5bf9\u591a\u5173\u7cfb\n    # \u7528\u6237\u6587\u7ae0\u5217\u8868\n    posts = db.relationship(\n        'Post',\n        backref=db.backref('user')\n    )\n\n\nclass Post(db.Model):\n     \n    \u6587\u7ae0\n     \n    __tablename__ =  posts \n\n    id = db.Column(db.Integer, primary_key=True, autoincrement=True)\n    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))\n    title = db.Column(db.String(80), nullable=False)\n    body = db.Column(db.Text)\n    pub_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now)\n\n\n# db.drop_all()  # clear database\n# Create the database tables.\ndb.create_all()\n\n# Create the API manager.\nmanager = APIManager(app, db=db)\n\n# Create API endpoints, which will be available at /api/ tablename  by\n# default. Allowed HTTP methods can be specified as well.\nmanager.add(User, methods=['GET', 'POST', 'PUT', 'DELETE'], key_field= name )\nmanager.add(Post, methods=['GET', 'POST', 'PUT'])\n\nif __name__ == '__main__':\n    # start the flask loop\n    app.run()", 
+            "title": "\u7f16\u5199\u6a21\u578b"
+        }, 
+        {
+            "location": "/guide/quickstart/#_2", 
+            "text": "python run.py  \u7ed3\u679c:   * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)", 
+            "title": "\u8fd0\u884c"
+        }, 
+        {
+            "location": "/guide/specification/", 
+            "text": "API words\n\n\nURL\n\n\n|url\u5b57\u6bb5\u540d\u79f0|\u7b80\u8981\u8bf4\u660e|\u4f8b\u5b50\n|\n collection\n | \u8d44\u6e90\u540d\u79f0\uff0c\u652f\u63013\u79cd\u540d\u79f0\uff1a\u6a21\u578b\u540d\u3001\u522b\u540d\u3001\u8868\u540d | \"/Users\", \"/users\", \"/user\"\n|\n key\n | id or key_field | \"/users/1\", \"/users/@windprozhao\"\n|\n attribute\n | \u5b50\u8d44\u6e90\n\n\napi supports\n\n\n\n\n\n\n\n\nmethod\n\n\nscope\n\n\ndescription\n\n\n\n\n\n\n\n\n\n\nGET\n\n\ncollection\n\n\n\u83b7\u53d6\u4e00\u4e2a\u8d44\u6e90\u5217\u8868\n\n\n\n\n\n\nGET\n\n\nresource\n\n\n\u83b7\u53d6\u5355\u4e2a\u8d44\u6e90\n\n\n\n\n\n\nPOST\n\n\nresource\n\n\n\u65b0\u589e\u8d44\u6e90\n\n\n\n\n\n\nPUT,PATCH\n\n\nresource\n\n\n\u66f4\u65b0\u8d44\u6e90\n\n\n\n\n\n\nDELETE\n\n\nresource\n\n\n\u5220\u9664\u8d44\u6e90\n\n\n\n\n\n\n\n\nparams\n\n\n\u67e5\u8be2\u53c2\u6570\n\n\n\n\n\n\n\n\n\u53c2\u6570\n\n\n\u683c\u5f0f\n\n\n\u652f\u6301\u5e76\u5217\u6761\u4ef6\n\n\ndescription\n\n\n\u4f8b\u5b50\n\n\n\n\n\n\n\n\n\n\n_page\n\n\nint\n\n\n\u5426\n\n\n\u6570\u636e\u5206\u9875\u9875\u6570\n\n\n/users?_page=1\n_num=20\n\n\n\n\n\n\n_num\n\n\nint\n\n\n\u5426\n\n\n\u6570\u636e\u5206\u9875\u6bcf\u9875\u6570\u91cf\n\n\n/users?_page=1\n_num=20\n\n\n\n\n\n\n_expand\n\n\nint\n\n\n\u5426\n\n\n\u8d44\u6e90\u5c55\u5f00\u7684\u5c42\u7ea7\n\n\n/users?_expand=1\n\n\n\n\n\n\n_orders\n\n\n\"\u5b57\u6bb5:\u6392\u5e8f\u7c7b\u578b\" asc or desc\n\n\n\u662f\n\n\n\u6570\u636e\u6392\u5e8f\n\n\n\u5355\u4e2a\u5b57\u6bb5\u6392\u5e8f\uff1a/users?_orders=id:asc  \u591a\u4e2a\u5b57\u6bb5\u6392\u5e8f\uff1a/users?_orders[]=id:asc\n_orders[]=code:desc\n\n\n\n\n\n\n_fields\n\n\n\"\u8868\u540d:\u5b57\u6bb51,\u5b57\u6bb52\"\n\n\n\u662f\n\n\n\u5b57\u6bb5\u767d\u540d\u5355\u9650\u5236\n\n\n\u9650\u5236\u5355\u4e00\u79cd\u7c7b\u8d44\u6e90\uff1a/users?_fields=users:id,name,groups  \u9650\u5236\u591a\u79cd\u8d44\u6e90\uff1a/users?_fields[]=users:id,name,groups\n_fields[]=groups:id\n\n\n\n\n\n\n_except\n\n\n\"\u8868\u540d:\u5b57\u6bb51,\u5b57\u6bb52\"\n\n\n\u662f\n\n\n\u5b57\u6bb5\u9ed1\u540d\u5355\u9650\u5236\n\n\n\u9650\u5236\u5355\u4e00\u79cd\u7c7b\u8d44\u6e90\uff1a/users?_except=users:id,name,groups  \u9650\u5236\u591a\u79cd\u8d44\u6e90\uff1a/users?_except[]=users:id,name,groups\n_except[]=groups:id\n\n\n\n\n\n\n_match\n\n\nstring\n\n\n\u5426\n\n\n\u4ee5\"\u6216\"\u4e3a\u6761\u4ef6\u641c\u7d22\u6a21\u578b\u914d\u7f6e\uff1amatch_fields\n\n\n/users?_match=\"zhao\"\n\n\n\n\n\n\n\n\n\u5b57\u6bb5\u8fc7\u6ee4\n\n\n\n\n\n\n\n\n\u683c\u5f0f\n\n\n\u652f\u6301\u5e76\u5217\u6761\u4ef6\n\n\ndescription\n\n\n\u4f8b\u5b50\n\n\n\n\n\n\n\n\n\n\n{attr}={value}\n\n\n\u662f\n\n\n\u8fc7\u6ee4\u6307\u5b9a\u5b57\u6bb5\n\n\n\u8fc7\u6ee4\u5355\u4e00\u503c\uff1a/users?name=windprozhao  \u5217\u8868\u67e5\u8be2\uff1a/users?name[]=windpro1\nname[]=windpro2\n\n\n\n\n\n\n{sub_resource}.{attr}={value}\n\n\n\u662f\n\n\n\u8fc7\u6ee4\u5b50\u8d44\u6e90\u5b57\u6bb5\n\n\n\u7ec4\u4e3a admin \u7684\u7528\u6237\uff1a/users?groups.name=admin  \u5217\u8868\u67e5\u8be2\uff1a/users?groups.name[]=admin\ngroups.name[]=normal\n\n\n\n\n\n\n{sub_resource}.match={value}\n\n\n\u662f\n\n\n\u641c\u7d22\u5b50\u8d44\u6e90\u914d\u7f6e\uff1amatch_fields\n\n\n\u7ec4\u4e3a ad* \u7684\u7528\u6237\uff1a/users?groups._match=ad\n\n\n\n\n\n\n\n\nHTTP status code\n\n\n\u6ce8:[400,503]\u4e3a\u9519\u8bef\u7684\u8303\u56f4\n\n\n\n\n\n\n\n\n\u8fd4\u56de\u7801\n\n\n\u7b80\u8981\u8bf4\u660e\n\n\n\n\n\n\n\n\n\n\n200\n\n\n\u8bf7\u6c42\u6b63\u786e\uff1b\u66f4\u65b0\u6210\u529f(PUT)\n\n\n\n\n\n\n201\n\n\n\u521b\u5efa\u6210\u529f\n\n\n\n\n\n\n204\n\n\n\u5220\u9664\u6210\u529f\n\n\n\n\n\n\n206\n\n\n\u6210\u529f\uff0c\u4f46\u6709warnning\n\n\n\n\n\n\n400\n\n\n\u5931\u8d25\u3002\u5b57\u6bb5\u9519\u8bef, \u5934\u5b57\u6bb5\u4e0d\u652f\u6301, \u975e\u6cd5\u8def\u5f84\n\n\n\n\n\n\n401\n\n\n\u5931\u8d25\u3002\u9a8c\u8bc1\u5931\u8d25\n\n\n\n\n\n\n403\n\n\n\u5931\u8d25\u3002forbidden\n\n\n\n\n\n\n404\n\n\n\u5931\u8d25\u3002\u8d44\u6e90\u672a\u627e\u5230\n\n\n\n\n\n\n406\n\n\n\u5931\u8d25\u3002\u6ee1\u8db3\u8bf7\u6c42\u5934\u4e2d\u7684\u6761\u4ef6\n\n\n\n\n\n\n409\n\n\n\u5931\u8d25\u3002\u8d44\u6e90\u5df2\u5b58\u5728\u3001\u7c7b\u578b\u4e0d\u5339\u914d\n\n\n\n\n\n\n410\n\n\n\u5931\u8d25\u3002\u914d\u7f6e\u751f\u6210\u9519\u8bef\n\n\n\n\n\n\n415\n\n\n\u5931\u8d25\u3002\u6240\u8bf7\u6c42\u7684\u8d44\u6e90\u683c\u5f0f\u4e0d\u652f\u6301\n\n\n\n\n\n\n500\n\n\n\u9519\u8bef\u3002\u5185\u90e8\u9519\u8bef\u3001\u8d85\u65f6\n\n\n\n\n\n\n503\n\n\n\u9519\u8bef\u3002\u670d\u52a1\u5668\u7e41\u5fd9\n\n\n\n\n\n\n\n\nerror type\n\n\n\n\n\n\n\n\n\u7c7b\u578b\n\n\n\u7b80\u8981\u8bf4\u660e\n\n\n\n\n\n\n\n\n\n\nUnknown\n\n\n\u672a\u77e5\u9519\u8bef\u3002\u81ea\u5b9a\u4e49\u9519\u8bef\u3002\n\n\n\n\n\n\nPermissionDenied\n\n\n\u6743\u9650\u9519\u8bef\n\n\n\n\n\n\nAccessDenied\n\n\n\u975e\u6cd5\u8bbf\u95ee\u3002\u4e00\u822c\u51fa\u73b0\u5728\u8def\u5f84\u4e0d\u5b58\u5728\u7b49\n\n\n\n\n\n\nRequestHeadersAcceptNotSupport\n\n\nHeaders:ACCEPT \u7c7b\u578b\u4e0d\u652f\u6301\n\n\n\n\n\n\nRequestHeadersContentTypeNotSupport\n\n\nHeaders:Content-type \u7c7b\u578b\u4e0d\u652f\u6301\n\n\n\n\n\n\nRestAssertionError\n\n\n\u65ad\u8a00\u5f02\u5e38\n\n\n\n\n\n\nResourceNotFound\n\n\n\u8d44\u6e90\u4e0d\u5b58\u5728\n\n\n\n\n\n\nResourceRelationNotExists\n\n\n\u8d44\u6e90\u5173\u7cfb\u4e0d\u5b58\u5728\n\n\n\n\n\n\nIllegalRequestData\n\n\n\u63d0\u4ea4\u6570\u636e\u9519\u8bef\u3002\u4e00\u822c\u51fa\u73b0\u5728\u6570\u636e\u6821\u9a8c\n\n\n\n\n\n\nStatementErrorException,DatabaseExecutionError,DatabaseConnectionError\n\n\n\u6570\u636e\u5e93\u9519\u8bef\n\n\n\n\n\n\nResourcesAlreadyExists\n\n\n\u8d44\u6e90\u5df2\u5b58\u5728\uff0c\u65e0\u6cd5\u521b\u5efa\n\n\n\n\n\n\nForeignKeyConstraintFails\n\n\n\u5916\u952e\u4f9d\u8d56\u5f02\u5e38\n\n\n\n\n\n\nResourcesConstraintNotNullable\n\n\n\u5b57\u6bb5\u5fc5\u987b\u975e\u7a7a\n\n\n\n\n\n\nResourcesConstraintNotDefaultValue\n\n\n\u5b57\u6bb5\u6ca1\u6709\u9ed8\u8ba4\u503c", 
+            "title": "API words"
+        }, 
+        {
+            "location": "/guide/specification/#api-words", 
+            "text": "", 
+            "title": "API words"
+        }, 
+        {
+            "location": "/guide/specification/#url", 
+            "text": "|url\u5b57\u6bb5\u540d\u79f0|\u7b80\u8981\u8bf4\u660e|\u4f8b\u5b50\n|  collection  | \u8d44\u6e90\u540d\u79f0\uff0c\u652f\u63013\u79cd\u540d\u79f0\uff1a\u6a21\u578b\u540d\u3001\u522b\u540d\u3001\u8868\u540d | \"/Users\", \"/users\", \"/user\"\n|  key  | id or key_field | \"/users/1\", \"/users/@windprozhao\"\n|  attribute  | \u5b50\u8d44\u6e90", 
+            "title": "URL"
+        }, 
+        {
+            "location": "/guide/specification/#api-supports", 
+            "text": "method  scope  description      GET  collection  \u83b7\u53d6\u4e00\u4e2a\u8d44\u6e90\u5217\u8868    GET  resource  \u83b7\u53d6\u5355\u4e2a\u8d44\u6e90    POST  resource  \u65b0\u589e\u8d44\u6e90    PUT,PATCH  resource  \u66f4\u65b0\u8d44\u6e90    DELETE  resource  \u5220\u9664\u8d44\u6e90", 
+            "title": "api supports"
+        }, 
+        {
+            "location": "/guide/specification/#params", 
+            "text": "", 
+            "title": "params"
+        }, 
+        {
+            "location": "/guide/specification/#_1", 
+            "text": "\u53c2\u6570  \u683c\u5f0f  \u652f\u6301\u5e76\u5217\u6761\u4ef6  description  \u4f8b\u5b50      _page  int  \u5426  \u6570\u636e\u5206\u9875\u9875\u6570  /users?_page=1 _num=20    _num  int  \u5426  \u6570\u636e\u5206\u9875\u6bcf\u9875\u6570\u91cf  /users?_page=1 _num=20    _expand  int  \u5426  \u8d44\u6e90\u5c55\u5f00\u7684\u5c42\u7ea7  /users?_expand=1    _orders  \"\u5b57\u6bb5:\u6392\u5e8f\u7c7b\u578b\" asc or desc  \u662f  \u6570\u636e\u6392\u5e8f  \u5355\u4e2a\u5b57\u6bb5\u6392\u5e8f\uff1a/users?_orders=id:asc  \u591a\u4e2a\u5b57\u6bb5\u6392\u5e8f\uff1a/users?_orders[]=id:asc _orders[]=code:desc    _fields  \"\u8868\u540d:\u5b57\u6bb51,\u5b57\u6bb52\"  \u662f  \u5b57\u6bb5\u767d\u540d\u5355\u9650\u5236  \u9650\u5236\u5355\u4e00\u79cd\u7c7b\u8d44\u6e90\uff1a/users?_fields=users:id,name,groups  \u9650\u5236\u591a\u79cd\u8d44\u6e90\uff1a/users?_fields[]=users:id,name,groups _fields[]=groups:id    _except  \"\u8868\u540d:\u5b57\u6bb51,\u5b57\u6bb52\"  \u662f  \u5b57\u6bb5\u9ed1\u540d\u5355\u9650\u5236  \u9650\u5236\u5355\u4e00\u79cd\u7c7b\u8d44\u6e90\uff1a/users?_except=users:id,name,groups  \u9650\u5236\u591a\u79cd\u8d44\u6e90\uff1a/users?_except[]=users:id,name,groups _except[]=groups:id    _match  string  \u5426  \u4ee5\"\u6216\"\u4e3a\u6761\u4ef6\u641c\u7d22\u6a21\u578b\u914d\u7f6e\uff1amatch_fields  /users?_match=\"zhao\"", 
+            "title": "\u67e5\u8be2\u53c2\u6570"
+        }, 
+        {
+            "location": "/guide/specification/#_2", 
+            "text": "\u683c\u5f0f  \u652f\u6301\u5e76\u5217\u6761\u4ef6  description  \u4f8b\u5b50      {attr}={value}  \u662f  \u8fc7\u6ee4\u6307\u5b9a\u5b57\u6bb5  \u8fc7\u6ee4\u5355\u4e00\u503c\uff1a/users?name=windprozhao  \u5217\u8868\u67e5\u8be2\uff1a/users?name[]=windpro1 name[]=windpro2    {sub_resource}.{attr}={value}  \u662f  \u8fc7\u6ee4\u5b50\u8d44\u6e90\u5b57\u6bb5  \u7ec4\u4e3a admin \u7684\u7528\u6237\uff1a/users?groups.name=admin  \u5217\u8868\u67e5\u8be2\uff1a/users?groups.name[]=admin groups.name[]=normal    {sub_resource}.match={value}  \u662f  \u641c\u7d22\u5b50\u8d44\u6e90\u914d\u7f6e\uff1amatch_fields  \u7ec4\u4e3a ad* \u7684\u7528\u6237\uff1a/users?groups._match=ad", 
+            "title": "\u5b57\u6bb5\u8fc7\u6ee4"
+        }, 
+        {
+            "location": "/guide/specification/#http-status-code", 
+            "text": "\u6ce8:[400,503]\u4e3a\u9519\u8bef\u7684\u8303\u56f4     \u8fd4\u56de\u7801  \u7b80\u8981\u8bf4\u660e      200  \u8bf7\u6c42\u6b63\u786e\uff1b\u66f4\u65b0\u6210\u529f(PUT)    201  \u521b\u5efa\u6210\u529f    204  \u5220\u9664\u6210\u529f    206  \u6210\u529f\uff0c\u4f46\u6709warnning    400  \u5931\u8d25\u3002\u5b57\u6bb5\u9519\u8bef, \u5934\u5b57\u6bb5\u4e0d\u652f\u6301, \u975e\u6cd5\u8def\u5f84    401  \u5931\u8d25\u3002\u9a8c\u8bc1\u5931\u8d25    403  \u5931\u8d25\u3002forbidden    404  \u5931\u8d25\u3002\u8d44\u6e90\u672a\u627e\u5230    406  \u5931\u8d25\u3002\u6ee1\u8db3\u8bf7\u6c42\u5934\u4e2d\u7684\u6761\u4ef6    409  \u5931\u8d25\u3002\u8d44\u6e90\u5df2\u5b58\u5728\u3001\u7c7b\u578b\u4e0d\u5339\u914d    410  \u5931\u8d25\u3002\u914d\u7f6e\u751f\u6210\u9519\u8bef    415  \u5931\u8d25\u3002\u6240\u8bf7\u6c42\u7684\u8d44\u6e90\u683c\u5f0f\u4e0d\u652f\u6301    500  \u9519\u8bef\u3002\u5185\u90e8\u9519\u8bef\u3001\u8d85\u65f6    503  \u9519\u8bef\u3002\u670d\u52a1\u5668\u7e41\u5fd9", 
+            "title": "HTTP status code"
+        }, 
+        {
+            "location": "/guide/specification/#error-type", 
+            "text": "\u7c7b\u578b  \u7b80\u8981\u8bf4\u660e      Unknown  \u672a\u77e5\u9519\u8bef\u3002\u81ea\u5b9a\u4e49\u9519\u8bef\u3002    PermissionDenied  \u6743\u9650\u9519\u8bef    AccessDenied  \u975e\u6cd5\u8bbf\u95ee\u3002\u4e00\u822c\u51fa\u73b0\u5728\u8def\u5f84\u4e0d\u5b58\u5728\u7b49    RequestHeadersAcceptNotSupport  Headers:ACCEPT \u7c7b\u578b\u4e0d\u652f\u6301    RequestHeadersContentTypeNotSupport  Headers:Content-type \u7c7b\u578b\u4e0d\u652f\u6301    RestAssertionError  \u65ad\u8a00\u5f02\u5e38    ResourceNotFound  \u8d44\u6e90\u4e0d\u5b58\u5728    ResourceRelationNotExists  \u8d44\u6e90\u5173\u7cfb\u4e0d\u5b58\u5728    IllegalRequestData  \u63d0\u4ea4\u6570\u636e\u9519\u8bef\u3002\u4e00\u822c\u51fa\u73b0\u5728\u6570\u636e\u6821\u9a8c    StatementErrorException,DatabaseExecutionError,DatabaseConnectionError  \u6570\u636e\u5e93\u9519\u8bef    ResourcesAlreadyExists  \u8d44\u6e90\u5df2\u5b58\u5728\uff0c\u65e0\u6cd5\u521b\u5efa    ForeignKeyConstraintFails  \u5916\u952e\u4f9d\u8d56\u5f02\u5e38    ResourcesConstraintNotNullable  \u5b57\u6bb5\u5fc5\u987b\u975e\u7a7a    ResourcesConstraintNotDefaultValue  \u5b57\u6bb5\u6ca1\u6709\u9ed8\u8ba4\u503c", 
+            "title": "error type"
+        }, 
+        {
+            "location": "/read-source/other/", 
+            "text": "\u7528\u6237\u81ea\u5b9a\u4e49\u5f02\u5e38\n\n\n\u629b\u51fa\u81ea\u5b9a\u4e49\u5f02\u5e38\n\n\n\u5b9a\u4e49\u5f02\u5e38:\n\n\nfrom rest_utils import RestException\nclass MeException(RestException):\n    \n\n    \u81ea\u5b9a\u4e49\u9519\u8bef\u4fe1\u606f\n    \n\n    status = 403  # HTTP \u9519\u8bef\u7801\n\n\n\n\n\u629b\u51fa\u5f02\u5e38\n\n\nraise MeException({\ninfo\n:\ntest\n})\n\n\n\n\n\u524d\u7aef\u8f93\u51fa:\n\n\nstatus_code:403\n{\n    \ntype\n: \nMeException\n,  # \u5f02\u5e38\u7c7b\u578b\n    \nmsg\n: \n\u81ea\u5b9a\u4e49\u9519\u8bef\u4fe1\u606f\n,  # \u9519\u8bef\u63cf\u8ff0\uff08\u5185\u90e8)\n    \ndetail\n: {\ninfo\n:\ntest\n},  # \u7528\u6237\u81ea\u5b9a\u4e49\u6570\u636e\n}\n\n\n\n\n\u6a21\u578b schema \u53c2\u6570\u8bf4\u660e\n\n\n\u8be5\u53c2\u6570\u4f5c\u7528\u4e8eAPIManager.add \u6216 ModelSchema.Meta:\n\n\n\n\u591a\u6570\u636e\u5e93\n\n\n\u5b9a\u4e49\u65b9\u5f0f\n\n\n\u53ef\u53c2\u8003 \nflask-sqlalchemy\u5b98\u65b9\u6587\u6863\n\n\nQA solution\n\n\nOperationalError: (OperationalError) unable to open database file None None\n\n\nBased on sqlalchemy documentation:\n\nsqlite:////db_absolute_path\n\nsqlite:///db_relative_path\n(notice that the second line above has only 3 slashes) In my case providing relative path helped.", 
+            "title": "Other"
+        }, 
+        {
+            "location": "/read-source/other/#_1", 
+            "text": "", 
+            "title": "\u7528\u6237\u81ea\u5b9a\u4e49\u5f02\u5e38"
+        }, 
+        {
+            "location": "/read-source/other/#_2", 
+            "text": "\u5b9a\u4e49\u5f02\u5e38:  from rest_utils import RestException\nclass MeException(RestException):\n     \n    \u81ea\u5b9a\u4e49\u9519\u8bef\u4fe1\u606f\n     \n    status = 403  # HTTP \u9519\u8bef\u7801  \u629b\u51fa\u5f02\u5e38  raise MeException({ info : test })  \u524d\u7aef\u8f93\u51fa:  status_code:403\n{\n     type :  MeException ,  # \u5f02\u5e38\u7c7b\u578b\n     msg :  \u81ea\u5b9a\u4e49\u9519\u8bef\u4fe1\u606f ,  # \u9519\u8bef\u63cf\u8ff0\uff08\u5185\u90e8)\n     detail : { info : test },  # \u7528\u6237\u81ea\u5b9a\u4e49\u6570\u636e\n}", 
+            "title": "\u629b\u51fa\u81ea\u5b9a\u4e49\u5f02\u5e38"
+        }, 
+        {
+            "location": "/read-source/other/#schema", 
+            "text": "\u8be5\u53c2\u6570\u4f5c\u7528\u4e8eAPIManager.add \u6216 ModelSchema.Meta:", 
+            "title": "\u6a21\u578b schema \u53c2\u6570\u8bf4\u660e"
+        }, 
+        {
+            "location": "/read-source/other/#_3", 
+            "text": "", 
+            "title": "\u591a\u6570\u636e\u5e93"
+        }, 
+        {
+            "location": "/read-source/other/#_4", 
+            "text": "\u53ef\u53c2\u8003  flask-sqlalchemy\u5b98\u65b9\u6587\u6863", 
+            "title": "\u5b9a\u4e49\u65b9\u5f0f"
+        }, 
+        {
+            "location": "/read-source/other/#qa-solution", 
+            "text": "", 
+            "title": "QA solution"
+        }, 
+        {
+            "location": "/read-source/other/#operationalerror-operationalerror-unable-to-open-database-file-none-none", 
+            "text": "Based on sqlalchemy documentation:\n\nsqlite:////db_absolute_path\n\nsqlite:///db_relative_path\n(notice that the second line above has only 3 slashes) In my case providing relative path helped.", 
+            "title": "OperationalError: (OperationalError) unable to open database file None None"
+        }, 
+        {
+            "location": "/read-source/source/", 
+            "text": "\u76ee\u5f55\u7ed3\u6784\u53ca\u4f5c\u7528\n\n\n\u251c\u2500\u2500 rest_utils\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 utils                            # \u5de5\u5177\u65b9\u6cd5\u96c6\u5408\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 date.py\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 decorators.py\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 error_route.py\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 exception.py                     # \u5f02\u5e38\u7c7b\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 exp_format.py\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 flask_engine.py\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 flask_trace.py\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 libs                             # \u7b2c\u4e09\u65b9\u6e90\u7801\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 log.py                           # \u65e5\u5fd7\u76f8\u5173\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 params.py\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 py3to2.py\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 sa_util.py\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 schema.py                        # marshmallow scheme\u57fa\u7c7b\uff0c\u7528\u4e8esqlalchemy model \u548c dict\u76f8\u4e92\u8f6c\u6362\u3002\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 fields.py                        # marshmallow fields\u3002\u7528\u4e8e\u5b57\u6bb5\u5b9a\u4e49\uff0c\u548c\u539f\u751f\u7684\u7528\u6cd5\u4e00\u81f4\u3002\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 static.py                        # \u6846\u67b6\u5b9a\u4e49\u7684\u5e38\u91cf\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 manager.py                       # rest api \u6a21\u5757\n\u2514\u2500\u2500 tests                                # \u6d4b\u8bd5\u7528\u4f8b\n\u251c\u2500\u2500 example                              # \u4f7f\u7528\u4f8b\u5b50\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 api.py\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 demo_app.py\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 demo_data.py\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 init.sh\n\u251c\u2500\u2500 docs                                 # \u6587\u6863\u76ee\u5f55\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 api.md                           # API\u6587\u6863\n\u2502\u00a0\u00a0 \u2514\u2500\u2500 getting_started.md               # \u5feb\u901f\u5f00\u59cb\n\u251c\u2500\u2500 README.MD                            # \u9879\u76ee\u7b80\u4ecb\n\u251c\u2500\u2500 setup.py", 
+            "title": "Source"
+        }, 
+        {
+            "location": "/read-source/source/#_1", 
+            "text": "\u251c\u2500\u2500 rest_utils\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 utils                            # \u5de5\u5177\u65b9\u6cd5\u96c6\u5408\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 date.py\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 decorators.py\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 error_route.py\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 exception.py                     # \u5f02\u5e38\u7c7b\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 exp_format.py\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 flask_engine.py\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 flask_trace.py\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 libs                             # \u7b2c\u4e09\u65b9\u6e90\u7801\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 log.py                           # \u65e5\u5fd7\u76f8\u5173\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 params.py\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 py3to2.py\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 sa_util.py\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 schema.py                        # marshmallow scheme\u57fa\u7c7b\uff0c\u7528\u4e8esqlalchemy model \u548c dict\u76f8\u4e92\u8f6c\u6362\u3002\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 fields.py                        # marshmallow fields\u3002\u7528\u4e8e\u5b57\u6bb5\u5b9a\u4e49\uff0c\u548c\u539f\u751f\u7684\u7528\u6cd5\u4e00\u81f4\u3002\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 static.py                        # \u6846\u67b6\u5b9a\u4e49\u7684\u5e38\u91cf\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 manager.py                       # rest api \u6a21\u5757\n\u2514\u2500\u2500 tests                                # \u6d4b\u8bd5\u7528\u4f8b\n\u251c\u2500\u2500 example                              # \u4f7f\u7528\u4f8b\u5b50\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 api.py\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 demo_app.py\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 demo_data.py\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 init.sh\n\u251c\u2500\u2500 docs                                 # \u6587\u6863\u76ee\u5f55\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 api.md                           # API\u6587\u6863\n\u2502\u00a0\u00a0 \u2514\u2500\u2500 getting_started.md               # \u5feb\u901f\u5f00\u59cb\n\u251c\u2500\u2500 README.MD                            # \u9879\u76ee\u7b80\u4ecb\n\u251c\u2500\u2500 setup.py", 
+            "title": "\u76ee\u5f55\u7ed3\u6784\u53ca\u4f5c\u7528"
+        }, 
+        {
+            "location": "/read-source/testing/", 
+            "text": "\u6d4b\u8bd5\n\n\n\u7f16\u5199\u6d4b\u8bd5\n\n\ntest_api.py\uff1a\u6d4b\u8bd5wsgi\n\n\n#!/usr/bin/python\n# -*- coding: utf-8 -*-\nfrom json import dumps, loads\nfrom quick_start import app\n\nclient = app.test_client()\n\ndef test_func():\n    \n\n    \u521b\u5efa\u7528\u6237\n    :param req: \u8ddfrequests\u5e93\u7684\u7528\u6cd5\u4e00\u81f4\n    :return:\n    \n\n    res = client.post('/api/users', data=dumps({\n        \nname\n: \nwindprozhao\n,\n        'posts': [\n            {\n                'title': 'Hello Python!',\n                'body': 'Python is pretty cool',\n            },\n            {\n                'title': 'Snakes',\n                'body': 'Ssssssss',\n            },\n        ]\n    }))\n    assert res.status_code == 201  # \u521b\u5efa\u5206\u7c7b\u6210\u529f\n    assert loads(res.data)['name'] == 'Python'\n\n    # \u68c0\u67e5\u521b\u5efa\u5206\u7c7b\n    addr = client.get('/api/users/@windprozhao')\n    assert 'name' in loads(addr.data)\n\n    # \u68c0\u67e5\u6587\u7ae0\u521b\u5efa\n    posts = client.get('/api/posts?title=Snakes')\n    assert len(loads(addr.data)[\nitems\n]) == 1\n\n\n\n\n\u8fd0\u884c\u6d4b\u8bd5\n\n\npy.test\n\n\n\n\u7ed3\u679c\n\n\nplatform darwin -- Python 2.7.10, pytest-2.9.1, py-1.4.31, pluggy-0.3.1\nrootdir: /Users/windpro/code/github/rest-utils, inifile: \ncollected 1 items\n\ntest_api.py .", 
+            "title": "Testing"
+        }, 
+        {
+            "location": "/read-source/testing/#_1", 
+            "text": "", 
+            "title": "\u6d4b\u8bd5"
+        }, 
+        {
+            "location": "/read-source/testing/#_2", 
+            "text": "test_api.py\uff1a\u6d4b\u8bd5wsgi  #!/usr/bin/python\n# -*- coding: utf-8 -*-\nfrom json import dumps, loads\nfrom quick_start import app\n\nclient = app.test_client()\n\ndef test_func():\n     \n    \u521b\u5efa\u7528\u6237\n    :param req: \u8ddfrequests\u5e93\u7684\u7528\u6cd5\u4e00\u81f4\n    :return:\n     \n    res = client.post('/api/users', data=dumps({\n         name :  windprozhao ,\n        'posts': [\n            {\n                'title': 'Hello Python!',\n                'body': 'Python is pretty cool',\n            },\n            {\n                'title': 'Snakes',\n                'body': 'Ssssssss',\n            },\n        ]\n    }))\n    assert res.status_code == 201  # \u521b\u5efa\u5206\u7c7b\u6210\u529f\n    assert loads(res.data)['name'] == 'Python'\n\n    # \u68c0\u67e5\u521b\u5efa\u5206\u7c7b\n    addr = client.get('/api/users/@windprozhao')\n    assert 'name' in loads(addr.data)\n\n    # \u68c0\u67e5\u6587\u7ae0\u521b\u5efa\n    posts = client.get('/api/posts?title=Snakes')\n    assert len(loads(addr.data)[ items ]) == 1", 
+            "title": "\u7f16\u5199\u6d4b\u8bd5"
+        }, 
+        {
+            "location": "/read-source/testing/#_3", 
+            "text": "py.test  \u7ed3\u679c  platform darwin -- Python 2.7.10, pytest-2.9.1, py-1.4.31, pluggy-0.3.1\nrootdir: /Users/windpro/code/github/rest-utils, inifile: \ncollected 1 items\n\ntest_api.py .", 
+            "title": "\u8fd0\u884c\u6d4b\u8bd5"
+        }
+    ]
+}
