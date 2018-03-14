@@ -2,6 +2,8 @@
 
     cat ~/.pypirc
     python setup.py sdist upload -r share
+    python setup.py sdist upload -r pypi
+    mkdocs gh-deploy
 
 ## 安装
 
