@@ -141,13 +141,16 @@ from quick_start import app
 
 client = app.test_client()
 
+
 def test_func():
     &quot;&quot;&quot;
     创建用户
     :param req: 跟requests库的用法一致
     :return:
     &quot;&quot;&quot;
-    res = client.post('/api/users', data=dumps({
+    res = client.put('/api/users', headers={
+        &quot;Content-Type&quot;: 'application/json'
+    }, data=dumps({
         &quot;name&quot;: &quot;windprozhao&quot;,
         'posts': [
             {
@@ -160,8 +163,8 @@ def test_func():
             },
         ]
     }))
-    assert res.status_code == 201  # 创建分类成功
-    assert loads(res.data)['name'] == 'Python'
+    assert res.status_code in [201, 200]  # 创建分类成功
+    assert loads(res.data)['name'] == 'windprozhao'
 
     # 检查创建分类
     addr = client.get('/api/users/@windprozhao')
@@ -169,7 +172,7 @@ def test_func():
 
     # 检查文章创建
     posts = client.get('/api/posts?title=Snakes')
-    assert len(loads(addr.data)[&quot;items&quot;]) == 1
+    assert len(loads(posts.data)[&quot;items&quot;]) == 1
 </code></pre>
 
 <h4 id="_3">运行测试</h4>

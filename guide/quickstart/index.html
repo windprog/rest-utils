@@ -126,6 +126,8 @@
     <ul class="nav bs-sidenav">
         <li class="main active"><a href="#_1">编写模型</a></li>
             <li><a href="#_2">运行</a></li>
+            <li><a href="#_3">提交数据</a></li>
+            <li><a href="#_4">验证提交</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
@@ -196,6 +198,12 @@ if __name__ == '__main__':
 </code></pre>
 <p>结果:</p>
 <pre><code> * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+</code></pre>
+<h4 id="_3">提交数据</h4>
+<pre><code>curl -X PUT --data '{"posts": [{"body": "Python is pretty cool", "title": "Hello Python!"}, {"body": "Ssssssss", "title": "Snakes"}], "name": "windprozhao"}' -H "Content-Type:application/json" http://localhost:5000/api/users
+</code></pre>
+<h4 id="_4">验证提交</h4>
+<pre><code>curl http://localhost:5000/api/users
 </code></pre></div>
         </div>
 

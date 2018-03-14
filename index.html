@@ -148,7 +148,24 @@
 pip install Rest-Utils
 </code></pre>
 <h2 id="quick-start">Quick Start</h2>
-<p><a href="guide/quickstart/">快速开始</a></p></div>
+<pre><code>pip install Rest-Utils flask_sqlalchemy
+wget https://github.com/lerocha/chinook-database/raw/master/ChinookDatabase/DataSources/Chinook_Sqlite_AutoIncrementPKs.sqlite
+</code></pre>
+<pre><code class="python">import flask
+from flask_sqlalchemy import SQLAlchemy
+from rest_utils import APIManager
+
+app = flask.Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./Chinook_Sqlite_AutoIncrementPKs.sqlite'
+db = SQLAlchemy(app)
+api = APIManager(app, db=db)
+api.auto_create()
+app.run()
+</code></pre>
+
+<pre><code>curl http://127.0.0.1:5000/api/Track?_num=20&amp;_expand=1
+</code></pre>
+<p>详细使用参见：<a href="https://windprog.github.io/rest-utils/guide/quickstart/">快速开始</a></p></div>
         </div>
 
         <footer class="col-md-12">
@@ -230,5 +247,5 @@ pip install Rest-Utils
 
 <!--
 MkDocs version : 0.17.3
-Build Date UTC : 2018-03-14 06:22:13
+Build Date UTC : 2018-03-14 06:51:41
 -->
