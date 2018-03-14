@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Customizing restful - Rest-Utils Document</title>
+        <title>Deploy - Rest-Utils Document</title>
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome-4.5.0.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -48,53 +48,53 @@
                     <li >
                         <a href="../..">Home</a>
                     </li>
-                    <li class="dropdown active">
+                    <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Guide <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             
 <li >
-    <a href="../auto-bind/">Auto bind</a>
+    <a href="../../guide/auto-bind/">Auto bind</a>
 </li>
                             
 <li >
-    <a href="../creating-api-endpoints/">Creating api endpoints</a>
-</li>
-                            
-<li class="active">
-    <a href="./">Customizing restful</a>
+    <a href="../../guide/creating-api-endpoints/">Creating api endpoints</a>
 </li>
                             
 <li >
-    <a href="../interfaces/">Interfaces</a>
+    <a href="../../guide/customizing-restful/">Customizing restful</a>
 </li>
                             
 <li >
-    <a href="../quickstart/">Quickstart</a>
+    <a href="../../guide/interfaces/">Interfaces</a>
 </li>
                             
 <li >
-    <a href="../specification/">Specification</a>
+    <a href="../../guide/quickstart/">Quickstart</a>
+</li>
+                            
+<li >
+    <a href="../../guide/specification/">API words</a>
 </li>
                         </ul>
                     </li>
-                    <li class="dropdown">
+                    <li class="dropdown active">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Read source <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             
-<li >
-    <a href="../../read-source/deploy/">Deploy</a>
+<li class="active">
+    <a href="./">Deploy</a>
 </li>
                             
 <li >
-    <a href="../../read-source/other/">Other</a>
+    <a href="../other/">Other</a>
 </li>
                             
 <li >
-    <a href="../../read-source/source/">Source</a>
+    <a href="../source/">Source</a>
 </li>
                             
 <li >
-    <a href="../../read-source/testing/">Testing</a>
+    <a href="../testing/">Testing</a>
 </li>
                         </ul>
                     </li>
@@ -107,12 +107,12 @@
                     </a>
                 </li>
                     <li >
-                        <a rel="next" href="../creating-api-endpoints/">
+                        <a rel="next" href="../../guide/specification/">
                             <i class="fa fa-arrow-left"></i> Previous
                         </a>
                     </li>
                     <li >
-                        <a rel="prev" href="../interfaces/">
+                        <a rel="prev" href="../other/">
                             Next <i class="fa fa-arrow-right"></i>
                         </a>
                     </li>
@@ -124,123 +124,27 @@
         <div class="container">
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#methods">methods</a></li>
-        <li class="main "><a href="#endpoint">endpoint</a></li>
-        <li class="main "><a href="#include_fk">include_fk</a></li>
-        <li class="main "><a href="#key_field">key_field</a></li>
-        <li class="main "><a href="#endpoint_1">endpoint</a></li>
-        <li class="main "><a href="#match_fields">match_fields</a></li>
-        <li class="main "><a href="#_1">字段例子</a></li>
-        <li class="main "><a href="#filters">filters</a></li>
-        <li class="main "><a href="#create">create</a></li>
-        <li class="main "><a href="#update">update</a></li>
-        <li class="main "><a href="#delete">delete</a></li>
-        <li class="main "><a href="#created">created</a></li>
-        <li class="main "><a href="#updated">updated</a></li>
-        <li class="main "><a href="#deleted">deleted</a></li>
-        <li class="main "><a href="#_2">回调方法例子</a></li>
+        <li class="main active"><a href="#_1">发布</a></li>
+        <li class="main "><a href="#_2">安装</a></li>
+        <li class="main "><a href="#_3">测试</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-<h2 id="methods">methods</h2>
-<pre><code>注册的HTTP方法。有：'GET': 查询, "POST": 新增, "PUT": 修改, "DELETE": 删除。
-默认情况下，APIManager.create_api() 会创建只读接口; 其他的method会被拒绝访问。
+<h2 id="_1">发布</h2>
+<pre><code>cat ~/.pypirc
+python setup.py sdist upload -r share
 </code></pre>
-<p>apimanager.add(User, methods=['GET', 'POST', 'DELETE'])</p>
-<p>具体添加的内容和使用方法可<a href="../interfaces/">详情</a>.</p>
-<h2 id="endpoint">endpoint</h2>
-<p>默认情况下，APIManager.create_api()添加的模型或schema使用的interface名称为模型表名。可以手动指定名称</p>
-<pre><code class="python">person_blueprint = api.add(User, endpoint=&quot;peoples&quot;)
+<h2 id="_2">安装</h2>
+<pre><code>virtualenv env
+source env/bin/activate
+pip install -i http://10.213.144.145:8080/root/all/+simple/ --trusted-host 10.213.144.145 rest-utils
+cd example
+bash init.sh
+python api.py runserver
 </code></pre>
-
-<h2 id="include_fk">include_fk</h2>
-<pre><code>展示外键. 默认:True
-</code></pre>
-<h2 id="key_field">key_field</h2>
-<pre><code>查找字段。
-如：/users/@windpro
-</code></pre>
-<h2 id="endpoint_1">endpoint</h2>
-<pre><code>资源名称。默认为tablename
-</code></pre>
-<h2 id="match_fields">match_fields</h2>
-<pre><code>搜索的字段。默认：[].
-</code></pre>
-<h2 id="_1">字段例子</h2>
-<pre><code class="python">from models import Users
-from rest_utils import ModelSchema
-
-class UsersSchema(ModelSchema):
-    class Meta:
-        model = Users
-        methods = ['GET', &quot;POST&quot;, &quot;PUT&quot;, &quot;DELETE&quot;]
-        include_fk = True
-        key_field = &quot;name&quot;
-        endpoint = &quot;users&quot;
-        match_fields = [&quot;name&quot;]
-
-api.add(UsersSchema)
-</code></pre>
-
-<h2 id="filters">filters</h2>
-<pre><code>查询资源时使用的filters。如def get_users(): return [Users.name=="windpro"]
-</code></pre>
-<h2 id="create">create</h2>
-<pre><code>创建实例回调方法。(model, data)
-</code></pre>
-<h2 id="update">update</h2>
-<pre><code>修改实例回调方法。(instance, data)
-</code></pre>
-<h2 id="delete">delete</h2>
-<pre><code>删除实例回调方法。(instance)
-</code></pre>
-<h2 id="created">created</h2>
-<pre><code>commit数据库之后的创建实例回调方法。(instance)
-</code></pre>
-<h2 id="updated">updated</h2>
-<pre><code>commit数据库之后的修改实例回调方法。(instance)
-</code></pre>
-<h2 id="deleted">deleted</h2>
-<pre><code>commit数据库之后的删除实例回调方法。(instance)
-</code></pre>
-<h2 id="_2">回调方法例子</h2>
-<pre><code class="python">from models import Users
-from rest_utils import ModelSchema
-
-class UsersSchema(ModelSchema):
-    class Meta:
-        model = Users
-        methods = ['GET', &quot;POST&quot;, &quot;PUT&quot;, &quot;DELETE&quot;]
-
-        @staticmethod
-        def filters():
-            return [Users.name==&quot;windprozhao&quot;]
-
-        @staticmethod
-        def create(model, data):
-            return model(**data)
-
-        @staticmethod
-        def update(instance, data):
-            for key, value in data.items():
-                setattr(instance, key, value)
-            return instance
-        @staticmethod
-        def delete(instance):
-            return instance
-
-        @staticmethod
-        def created(instance):
-            return instance
-        @staticmethod
-        def updated(instance):
-            return instance
-        @staticmethod
-        def deleted(instance):
-            return instance
-
-api.add(UsersSchema)
+<h2 id="_3">测试</h2>
+<pre><code>curl http://localhost:4488/api/post
 </code></pre></div>
         </div>
 

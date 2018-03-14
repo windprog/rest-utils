@@ -52,6 +52,12 @@
     
         
     <url>
+     <loc>/read-source/deploy/</loc>
+     <lastmod>2018-03-14</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
      <loc>/read-source/other/</loc>
      <lastmod>2018-03-14</lastmod>
      <changefreq>daily</changefreq>

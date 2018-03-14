@@ -321,6 +321,26 @@
             "title": "error type"
         }, 
         {
+            "location": "/read-source/deploy/", 
+            "text": "\u53d1\u5e03\n\n\ncat ~/.pypirc\npython setup.py sdist upload -r share\n\n\n\n\u5b89\u88c5\n\n\nvirtualenv env\nsource env/bin/activate\npip install -i http://10.213.144.145:8080/root/all/+simple/ --trusted-host 10.213.144.145 rest-utils\ncd example\nbash init.sh\npython api.py runserver\n\n\n\n\u6d4b\u8bd5\n\n\ncurl http://localhost:4488/api/post", 
+            "title": "Deploy"
+        }, 
+        {
+            "location": "/read-source/deploy/#_1", 
+            "text": "cat ~/.pypirc\npython setup.py sdist upload -r share", 
+            "title": "\u53d1\u5e03"
+        }, 
+        {
+            "location": "/read-source/deploy/#_2", 
+            "text": "virtualenv env\nsource env/bin/activate\npip install -i http://10.213.144.145:8080/root/all/+simple/ --trusted-host 10.213.144.145 rest-utils\ncd example\nbash init.sh\npython api.py runserver", 
+            "title": "\u5b89\u88c5"
+        }, 
+        {
+            "location": "/read-source/deploy/#_3", 
+            "text": "curl http://localhost:4488/api/post", 
+            "title": "\u6d4b\u8bd5"
+        }, 
+        {
             "location": "/read-source/other/", 
             "text": "\u7528\u6237\u81ea\u5b9a\u4e49\u5f02\u5e38\n\n\n\u629b\u51fa\u81ea\u5b9a\u4e49\u5f02\u5e38\n\n\n\u5b9a\u4e49\u5f02\u5e38:\n\n\nfrom rest_utils import RestException\nclass MeException(RestException):\n    \n\n    \u81ea\u5b9a\u4e49\u9519\u8bef\u4fe1\u606f\n    \n\n    status = 403  # HTTP \u9519\u8bef\u7801\n\n\n\n\n\u629b\u51fa\u5f02\u5e38\n\n\nraise MeException({\ninfo\n:\ntest\n})\n\n\n\n\n\u524d\u7aef\u8f93\u51fa:\n\n\nstatus_code:403\n{\n    \ntype\n: \nMeException\n,  # \u5f02\u5e38\u7c7b\u578b\n    \nmsg\n: \n\u81ea\u5b9a\u4e49\u9519\u8bef\u4fe1\u606f\n,  # \u9519\u8bef\u63cf\u8ff0\uff08\u5185\u90e8)\n    \ndetail\n: {\ninfo\n:\ntest\n},  # \u7528\u6237\u81ea\u5b9a\u4e49\u6570\u636e\n}\n\n\n\n\n\u6a21\u578b schema \u53c2\u6570\u8bf4\u660e\n\n\n\u8be5\u53c2\u6570\u4f5c\u7528\u4e8eAPIManager.add \u6216 ModelSchema.Meta:\n\n\n\n\u591a\u6570\u636e\u5e93\n\n\n\u5b9a\u4e49\u65b9\u5f0f\n\n\n\u53ef\u53c2\u8003 \nflask-sqlalchemy\u5b98\u65b9\u6587\u6863\n\n\nQA solution\n\n\nOperationalError: (OperationalError) unable to open database file None None\n\n\nBased on sqlalchemy documentation:\n\nsqlite:////db_absolute_path\n\nsqlite:///db_relative_path\n(notice that the second line above has only 3 slashes) In my case providing relative path helped.", 
             "title": "Other"
