@@ -69,3 +69,10 @@ if __name__ == '__main__':
 
      * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
 
+#### 提交数据
+
+    curl -X PUT --data '{"posts": [{"body": "Python is pretty cool", "title": "Hello Python!"}, {"body": "Ssssssss", "title": "Snakes"}], "name": "windprozhao"}' -H "Content-Type:application/json" http://localhost:5000/api/users
+
+#### 验证提交
+
+    curl http://localhost:5000/api/users
