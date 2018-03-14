@@ -322,12 +322,12 @@
         }, 
         {
             "location": "/read-source/deploy/", 
-            "text": "\u53d1\u5e03\n\n\ncat ~/.pypirc\npython setup.py sdist upload -r share\n\n\n\n\u5b89\u88c5\n\n\nvirtualenv env\nsource env/bin/activate\npip install -i http://10.213.144.145:8080/root/all/+simple/ --trusted-host 10.213.144.145 rest-utils\ncd example\nbash init.sh\npython api.py runserver\n\n\n\n\u6d4b\u8bd5\n\n\ncurl http://localhost:4488/api/post", 
+            "text": "\u53d1\u5e03\n\n\ncat ~/.pypirc\npython setup.py sdist upload -r share\npython setup.py sdist upload -r pypi\nmkdocs gh-deploy\n\n\n\n\u5b89\u88c5\n\n\nvirtualenv env\nsource env/bin/activate\npip install -i http://10.213.144.145:8080/root/all/+simple/ --trusted-host 10.213.144.145 rest-utils\ncd example\nbash init.sh\npython api.py runserver\n\n\n\n\u6d4b\u8bd5\n\n\ncurl http://localhost:4488/api/post", 
             "title": "Deploy"
         }, 
         {
             "location": "/read-source/deploy/#_1", 
-            "text": "cat ~/.pypirc\npython setup.py sdist upload -r share", 
+            "text": "cat ~/.pypirc\npython setup.py sdist upload -r share\npython setup.py sdist upload -r pypi\nmkdocs gh-deploy", 
             "title": "\u53d1\u5e03"
         }, 
         {
