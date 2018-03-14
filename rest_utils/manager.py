@@ -330,10 +330,23 @@ class RouteApiView(object):
 
         # 注册子资源链接
         sub_attr = route_get(self, "%s_%s" % (http_method, "attr"), None)
-        if sub_attr:
+        for attr in inspect(self.model).mapper.relationships.keys():
+            # @functools.wraps(func)
+            # def wrapper(key):
+            #     return func(key=key, attribute=attr)
+            if not sub_attr:
+                continue
+            attr_func = functools.partial(sub_attr, attribute=attr)
+            view_func = functools.update_wrapper(attr_func, sub_attr)  # 添加名称信息
+            endpoint = "%s_%s" % (attr, view_func.__name__)
+            if http_method not in endpoint:
+                endpoint = "%s_%s" % (http_method, endpoint)
             self.blueprint.add_url_rule(
-                "/<key>/<attribute>", methods=ms,
-                view_func=sub_attr
+                "/<key>/{attr}".format(
+                    attr=attr,
+                ), methods=ms,
+                view_func=view_func,
+                endpoint=endpoint
             )
 
     @classmethod

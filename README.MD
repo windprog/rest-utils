@@ -43,3 +43,4 @@ app.run()
 * 0.4.1 添加 RESTful marshmallow support
 * 0.4.2 添加 RESTful api doc
 * 0.4.3 添加 auto bind database
+* 0.4.5 bugfix 移除默认注册路由
