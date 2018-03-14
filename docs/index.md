@@ -11,6 +11,7 @@ For more information, see the
   * [documentation](https://windprog.github.io/rest-utils/),
   * [Python Package Index listing](https://pypi.python.org/pypi/rest-utils),
   * [source code repository](https://github.com/windprog/rest-utils).
+  * [最佳实践](https://github.com/windprog/rest-utils-sample).
 
 ## Install
 
