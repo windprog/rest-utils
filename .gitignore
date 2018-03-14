@@ -101,6 +101,5 @@ ENV/
 .mypy_cache/
 .pytest_cache
 
-example/test.db
-example/migrations/
+example/Chinook_Sqlite_AutoIncrementPKs.sqlite
 stuff/

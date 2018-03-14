@@ -7,7 +7,6 @@ E-mail  :   windprog@gmail.com
 Date    :   2018/3/13
 Desc    :   
 """
-from os import path
 import datetime
 import flask
 from flask_sqlalchemy import SQLAlchemy
@@ -102,13 +101,13 @@ class Post(db.Model):
 db.create_all()
 
 # Create the API manager.
-manager = APIManager(app, db=db)
+api = APIManager(app, db=db)
 
 # Create API endpoints, which will be available at /api/<tablename> by
 # default. Allowed HTTP methods can be specified as well.
-manager.add(User, methods=['GET', 'POST', 'PUT', 'DELETE'], key_field="name")
-manager.add(Group, methods=['GET'])
-manager.add(Post, methods=['GET', 'POST', 'PUT'])
+api.add(User, methods=['GET', 'POST', 'PUT', 'DELETE'], key_field="name")
+api.add(Group, methods=['GET'])
+api.add(Post, methods=['GET', 'POST', 'PUT'])
 
 if __name__ == '__main__':
     # start the flask loop
