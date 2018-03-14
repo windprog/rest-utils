@@ -231,13 +231,23 @@ class RouteApiView(object):
         self.blueprint = Blueprint(blueprint_name, __name__)
         self.blueprint.view = self
         self.endpont = get_schema_endpoint(schema)
+        self.register_route()
 
     def register_route(self):
         # 路由注册
-        for method in set(self.schema.opts.methods) & ALL_METHODS:
-            self.register_uri(method)
+        current_methods = set(self.schema.opts.methods)
+        # "PATCH" 和 "PUT" 含义一样
+        if current_methods & UPDATE_METHODS:
+            current_methods = current_methods - UPDATE_METHODS
+            current_methods.add("PUT")
+        for method in ALL_METHODS:
+            if method in current_methods:
+                self.register_uri(method)
+            else:
+                self.register_uri(method, lambda o, *args: o.handle_unmatchable)
 
     def register_default(self):
+        # TODO 不再使用
         # 注册非法路径
         self.blueprint.add_url_rule(
             "/<path:invalid_path>",
@@ -283,13 +293,16 @@ class RouteApiView(object):
         res.status_code = status_code
         return res
 
-    def register_uri(self, http_method):
+    def register_uri(self, http_method, route_get=None):
         """
         注册路由
         :param endpoint:
         :param http_method:
+        :param route_get: 获取路由handler
         :return:
         """
+        if route_get is None:
+            route_get = getattr
         http_method = http_method.lower()
         if http_method == "put":
             # 同时注册：PUT PATCH
@@ -297,41 +310,30 @@ class RouteApiView(object):
         else:
             ms = (http_method.upper(),)
 
-        cls_attr = "%s_%s" % (http_method, "cls")
-        if hasattr(self, cls_attr):
+        cls_attr = route_get(self, "%s_%s" % (http_method, "cls"), None)
+        if cls_attr:
             self.blueprint.add_url_rule(
                 "", methods=ms,
-                view_func=getattr(self, cls_attr)
+                view_func=cls_attr
             )
             self.blueprint.add_url_rule(
                 "/", methods=ms,
-                view_func=getattr(self, cls_attr)
+                view_func=cls_attr
             )
 
-        one_attr = "%s_%s" % (http_method, "one")
-        if hasattr(self, one_attr):
+        one_attr = route_get(self, "%s_%s" % (http_method, "one"), None)
+        if one_attr:
             self.blueprint.add_url_rule(
                 "/<key>", methods=ms,
-                view_func=getattr(self, one_attr)
+                view_func=one_attr
             )
 
         # 注册子资源链接
-        sub_attr = "%s_%s" % (http_method, "attr")
-        for attr in inspect(self.model).mapper.relationships.keys():
-            # @functools.wraps(func)
-            # def wrapper(key):
-            #     return func(key=key, attribute=attr)
-            if not hasattr(self, sub_attr):
-                continue
-            sub_attr_func = getattr(self, sub_attr)
-            attr_func = functools.partial(sub_attr_func, attribute=attr)
-            view_func = functools.update_wrapper(attr_func, sub_attr_func)  # 添加名称信息
+        sub_attr = route_get(self, "%s_%s" % (http_method, "attr"), None)
+        if sub_attr:
             self.blueprint.add_url_rule(
-                "/<key>/{attr}".format(
-                    attr=attr,
-                ), methods=ms,
-                view_func=view_func,
-                endpoint="%s_%s" % (attr, view_func.__name__)
+                "/<key>/<attribute>", methods=ms,
+                view_func=sub_attr
             )
 
     @classmethod
@@ -839,8 +841,6 @@ class APIManager(object):
             manager=self,
             schema=schema,
         )
-        view.register_route()
-        view.register_default()
         self.app.register_blueprint(view.blueprint, url_prefix="/".join([self.prefix, view.endpont]))
 
         # 记录schemas

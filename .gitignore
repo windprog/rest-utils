@@ -102,4 +102,5 @@ ENV/
 .pytest_cache
 
 example/Chinook_Sqlite_AutoIncrementPKs.sqlite
+example/test.db
 stuff/

@@ -57,7 +57,7 @@ class User(db.Model):
     groups = db.relationship(
         'Group',
         secondary=user_groups,
-        backref=db.backref('user')  # 组内的用户
+        backref=db.backref('users')  # 组内的用户
     )
 
 

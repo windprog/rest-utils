@@ -75,8 +75,8 @@ class CollectionKeyAttributeTestCase(ChinookMemoryManagerTestBase):
 
     def test_get_error(self):
         res = self.get('/Track/@CollectionKeyAttributeTestCase_name/NotFound')
-        assert res.status_code == 403
-        self.assertRestException(res, "AccessDenied")
+        assert res.status_code == 404
+        self.assertRestException(res, "ResourceRelationNotExists")
 
     def test_get_obj(self):
         result = self.get('/Track/@CollectionKeyAttributeTestCase_name/MediaType').json()
@@ -90,15 +90,15 @@ class CollectionKeyAttributeTestCase(ChinookMemoryManagerTestBase):
             u'Name': u"On-The-Go 1",
             u'PlaylistId': 18
         })
-        assert res.status_code == 403
-        self.assertRestException(res, "AccessDenied")
+        assert res.status_code == 404
+        self.assertRestException(res, "ResourceRelationNotExists")
 
     def test_post_not_relationships(self):
         res = self.post('/Track/@CollectionKeyAttributeTestCase_name/Bytes', json={
             u'Bytes': 112233,
         })
-        assert res.status_code == 403
-        self.assertRestException(res, "AccessDenied")
+        assert res.status_code == 404
+        self.assertRestException(res, "ResourceRelationNotExists")
 
     def test_post_add_sub_resource(self):
         res = self.post('/Track/@CollectionKeyAttributeTestCase_name/PlaylistCollection', json={
@@ -180,8 +180,8 @@ class CollectionKeyAttributeTestCase(ChinookMemoryManagerTestBase):
         res = self.put('/Track/@CollectionKeyAttributeTestCase_name/Bytes', json={
             u'Bytes': 112233,
         })
-        assert res.status_code == 403
-        self.assertRestException(res, "AccessDenied")
+        assert res.status_code == 404
+        self.assertRestException(res, "ResourceRelationNotExists")
 
     def test_put_not_list_relationships(self):
         # 替换关系不成功, 字典关系不能用列表替换
@@ -196,8 +196,8 @@ class CollectionKeyAttributeTestCase(ChinookMemoryManagerTestBase):
             u'Name': u'Heavy Metal Classic',
             u'PlaylistId': 17,
         })
-        assert res.status_code == 403
-        self.assertRestException(res, "AccessDenied")
+        assert res.status_code == 404
+        self.assertRestException(res, "ResourceRelationNotExists")
         self.test_get_sub_collection_and_data_not_change()  # 删除不成功
 
     def test_delete_not_relationships(self):
@@ -205,8 +205,8 @@ class CollectionKeyAttributeTestCase(ChinookMemoryManagerTestBase):
             u'Name': u'Heavy Metal Classic',
             u'PlaylistId': 17,
         })
-        assert res.status_code == 403
-        self.assertRestException(res, "AccessDenied")
+        assert res.status_code == 404
+        self.assertRestException(res, "ResourceRelationNotExists")
         self.test_get_sub_collection_and_data_not_change()  # 删除不成功
 
     def test_delete_not_exist_sub_resource(self):

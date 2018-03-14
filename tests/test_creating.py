@@ -204,7 +204,7 @@ class TestCreating(MemoryManagerTestBase):
         self.assertRestException(res, u"ResourcesAlreadyExists")
 
     def test_get_not_exist_path(self):
-        res = self.req.get('/tag/xx/xx/xx')
+        res = self.req.get('/person/1')
         self.assertRestException(res, u"AccessDenied")
 
     def test_put_muti_resource(self):
