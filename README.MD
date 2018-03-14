@@ -6,7 +6,7 @@ Rest-Utils 为使用 SQLAlchemy (or Flask-SQLAlchemy) 定义的数据库模型�
 
 For more information, see the
 
-  * [documentation](http://localhost:8000),
+  * [documentation](https://windprog.github.io/rest-utils/),
   * [Python Package Index listing](https://pypi.python.org/pypi/rest-utils),
   * [source code repository](https://github.com/windprog/rest-utils).
 
@@ -17,31 +17,7 @@ For more information, see the
 
 ## Quick Start
 
-[快速开始](/guide/quickstart.md)
-
-
-## 发布
-
-    cat ~/.pypirc
-    python setup.py sdist upload -r share
-
-## 安装
-
-    virtualenv env
-    source env/bin/activate
-    pip install -i http://10.213.144.145:8080/root/all/+simple/ --trusted-host 10.213.144.145 rest-utils
-    cd example
-    bash init.sh
-    python api.py runserver
-    
-## 测试
-
-    curl http://localhost:4488/api/post
-
-
-## example
-
-    查看exmaple/api.py
+[快速开始](https://windprog.github.io/rest-utils/guide/quickstart/)
 
 
 # Change Log

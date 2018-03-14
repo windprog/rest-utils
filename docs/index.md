@@ -8,7 +8,7 @@ Rest-Utils 为使用 SQLAlchemy (or Flask-SQLAlchemy) 定义的数据库模型�
 
 For more information, see the
 
-  * [documentation](http://localhost:8000),
+  * [documentation](https://windprog.github.io/rest-utils/),
   * [Python Package Index listing](https://pypi.python.org/pypi/rest-utils),
   * [source code repository](https://github.com/windprog/rest-utils).
 
