@@ -270,14 +270,21 @@ class RouteApiView(object):
     def _key_field_cond(self, key):
         key_field = self.schema.opts.key_field
         if key.startswith(self.manager.key_field_prefix) and key_field:
+            value = key[len(self.manager.key_field_prefix):]
             return {
-                key_field: key[len(self.manager.key_field_prefix):]
+                key_field: value
             }
         else:
             attr = cls_primary_key(self.model)
             column = getattr(self.model, attr)
+            try:
+                value = column.type.python_type(key)
+            except:
+                raise ResourceNotFound(dict(
+                    endpoint=self.endpont, key=key
+                ))
             return {
-                attr: column.type.python_type(key)
+                attr: value
             }
 
     def _get_resource(self, key):
