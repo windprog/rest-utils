@@ -421,8 +421,6 @@ class RouteApiView(object):
         else:
             session.add(ins)
         session.commit()
-        # 回调创建成功方法
-        do_padding_callback()
         if many:
             return self.res([self.dump_one(
                 self.schema, item
@@ -468,8 +466,6 @@ class RouteApiView(object):
             # 纯创建的情况，status code为201
             status_code = 201
         session.commit()
-        # 回调更新成功方法
-        do_padding_callback()
         if many:
             return self.res([self.dump_one(
                 self.schema, item
@@ -498,8 +494,6 @@ class RouteApiView(object):
             add_padding_callback(self.schema.opts.deleted, instance)
             session.delete(instance)
         session.commit()
-        # 回调删除成功方法
-        do_padding_callback()
         return no_content_response()
 
     def _get_keyfield_instance(self, key):
@@ -538,8 +532,6 @@ class RouteApiView(object):
         )
         session.add(ins)
         session.commit()
-        # 回调删除成功方法
-        do_padding_callback()
         return self.res(self.dump_one(
             self.schema, ins
         ), 201)
@@ -570,8 +562,6 @@ class RouteApiView(object):
             session.merge(ins)
             status_code = 200
         session.commit()
-        # 回调删除成功方法
-        do_padding_callback()
         return self.res(self.dump_one(
             self.schema, ins
         ), status_code)
@@ -582,7 +572,6 @@ class RouteApiView(object):
         add_padding_callback(self.schema.opts.deleted, resource)
         session.delete(resource)
         session.commit()
-        do_padding_callback()
         return no_content_response()
 
     def _get_attr_info(self, key, attribute):
@@ -674,8 +663,6 @@ class RouteApiView(object):
         # 对关系的操作相当于对主资源的修改
         add_padding_callback(self.schema.opts.updated, resource)  # commit数据库之后调用
         session.commit()
-        # 回调更新成功方法
-        do_padding_callback()
 
         if rela_prop.uselist:
             return self.res([self.dump_one(
@@ -789,6 +776,13 @@ class APIManager(object):
 
         if app.json_encoder == JSONEncoder:
             app.json_encoder = self.JSON_ENCODER
+
+        @app.after_request
+        def do_callback(response, *args, **kwargs):
+            if response.status_code < 300:
+                # 正常的请求，执行回调方法
+                do_padding_callback()
+            return response
 
     @property
     def register_schemas(self):

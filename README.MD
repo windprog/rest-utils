@@ -41,7 +41,8 @@ app.run()
 
 # Change Log
 
-* 0.4.1 添加 RESTful marshmallow support
-* 0.4.2 添加 RESTful api doc
-* 0.4.3 添加 auto bind database
-* 0.4.5 bugfix 移除默认注册路由
+## 1.0.0
+
+    * RESTful API风格，完整CRUD支持。
+    * sqlachemy ORM 模型生成 marshmallow schema and fields
+    * 从已有数据库自动生成API。
