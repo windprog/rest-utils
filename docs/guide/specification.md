@@ -1,20 +1,21 @@
 # API words
 ## URL
 
-|url字段名称|简要说明|例子
-|< collection> | 资源名称，支持3种名称：模型名、别名、表名 | "/Users", "/users", "/user"
-|< key> | id or key_field | "/users/1", "/users/@windprozhao"
-|< attribute> | 子资源
+|url字段名称|简要说明|例子|
+| --- | --- | --- |
+| < collection> | 资源名称，支持3种名称：模型名、别名、表名 | "/Users", "/users", "/user" |
+| < key> | id or key_field | "/users/1", "/users/@windprozhao"|
+| < attribute> | 子资源 | |
 
 # api supports
 
 |method|scope|description
---|--|--
-|GET | collection | 获取一个资源列表
-|GET | resource |获取单个资源
-|POST | resource | 新增资源
-|PUT,PATCH | resource | 更新资源
-|DELETE | resource | 删除资源
+|---|---|---|
+| GET | collection | 获取一个资源列表
+| GET | resource |获取单个资源
+| POST | resource | 新增资源
+| PUT,PATCH | resource | 更新资源
+| DELETE | resource | 删除资源
 
 # params
 
