@@ -13,7 +13,7 @@ For more information, see the
 
 ## Install
 
-    # 可以从GitHub的页面下载。 不过推荐使用pip，virtualenv安装。
+    # 可以从页面下载。不过推荐使用pip，virtualenv安装。
     pip install Rest-Utils
 
 ## Quick Start
