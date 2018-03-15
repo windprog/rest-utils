@@ -43,6 +43,6 @@ app.run()
 
 ## 1.0.0
 
-    * RESTful API风格，完整CRUD支持。
-    * sqlachemy ORM 模型生成 marshmallow schema and fields
-    * 从已有数据库自动生成API。
+* RESTful API风格，完整CRUD支持。
+* sqlachemy ORM 模型生成 marshmallow Schema and fields。
+* 从已有数据库自动生成API。
