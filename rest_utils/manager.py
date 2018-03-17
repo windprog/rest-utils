@@ -842,3 +842,15 @@ class APIManager(object):
         else:
             raise ValueError
         self.add_all(cls_list)
+        return cls_list
+
+    def register_admin(self, name='Admin', template_mode='bootstrap3', url="/admin", **kwargs):
+        try:
+            from flask_admin import Admin
+            from flask_admin.contrib.sqla import ModelView
+        except:
+            raise ImportError("Please install flask_admin")
+        self.admin = admin = Admin(self.app, name=name, template_mode=template_mode, url=url, **kwargs)
+        for schema in itervalues(self.schemas):
+            cls = schema.opts.model
+            admin.add_view(ModelView(cls, self.get_session))
