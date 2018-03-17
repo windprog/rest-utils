@@ -11,7 +11,7 @@ import requests
 
 
 def ensure_data():
-    res = requests.put("http://127.0.0.1:5000/api/users", json={
+    res = requests.put("http://127.0.0.1:5001/api/users", json={
         "name": "windpro",
         "email": "windprog@gmail.com",
         "phone": "18900000000",

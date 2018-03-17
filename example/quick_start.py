@@ -111,4 +111,4 @@ api.add(Post, methods=['GET', 'POST', 'PUT'])
 
 if __name__ == '__main__':
     # start the flask loop
-    app.run()
+    app.run(port=5001)
