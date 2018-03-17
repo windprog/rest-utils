@@ -130,6 +130,13 @@ def get_prop_nullable(prop):
     return nullable
 
 
+def get_tablename(model):
+    mapper = inspect(model)
+    if not getattr(mapper, "tables", None):
+        return None
+    return mapper.tables[0].name
+
+
 if __name__ == '__main__':
     # TODO move to test
     from modules.api.app import app

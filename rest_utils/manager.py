@@ -22,9 +22,10 @@ from flask.json import _json
 from flask.json import JSONEncoder
 from sqlalchemy.engine import reflection
 from sqlalchemy.schema import Table
+from sqlalchemy.ext.automap import automap_base
 
 from .utils import jsonres, get_session, get_resource_data
-from .sa_util import get_instance, get_list_attr_query
+from .sa_util import get_instance, get_list_attr_query, get_tablename
 from .decorators import no_cache
 from .error_route import register_err_route
 from .ma.model_registry import get_schemas
@@ -81,7 +82,7 @@ def _get_schema_endpoint(schema):
     :param schema:
     :return:
     """
-    tablename = schema.opts.model.__tablename__
+    tablename = get_tablename(schema.opts.model)
     if not schema.opts.endpoint:
         # 默认使用表名
         return tablename,
@@ -164,65 +165,13 @@ def get_related_kwargs():
     return related_kwargs
 
 
-def prepare_relationships(engine, known_tables):
-    """Enrich the registered Models with SQLAlchemy ``relationships``
-    so that related tables are correctly processed up by the admin.
-
-    """
-    inspector = reflection.Inspector.from_engine(engine)
-    for cls in set(known_tables.values()):
-        for foreign_key in inspector.get_foreign_keys(cls.__tablename__):
-            if foreign_key['referred_table'] in known_tables:
-                other = known_tables[foreign_key['referred_table']]
-                constrained_column = foreign_key['constrained_columns']
-
-                if not hasattr(cls, "__related_tables__"):
-                    cls.__related_tables__ = set()
-                if not hasattr(other, "__related_tables__"):
-                    other.__related_tables__ = set()
-
-                if other not in cls.__related_tables__ and cls not in (
-                        other.__related_tables__) and other != cls:
-                    cls.__related_tables__.add(other)
-                    # Add a SQLAlchemy relationship as an attribute
-                    # on the class
-                    setattr(cls, other.__table__.name, relationship(
-                        other.__name__, backref=backref(
-                            cls.__name__.lower()),
-                        foreign_keys=str(cls.__name__) + '.' +
-                                     ''.join(constrained_column)))
-
-
-def add_pk_if_required(engine, base_model, table, name):
-    """Return a class deriving from our Model class as well as the SQLAlchemy
-    model.
-
-    :param `sqlalchemy.schema.Table` table: table to create primary key for
-    :param  table: table to create primary key for
-
-    """
-
-    base_model.metadata.reflect(bind=engine)
-    cls_dict = {
-        '__tablename__': name
-    }
-    if not table.primary_key:
-        for column in table.columns:
-            column.primary_key = True
-        Table(name, base_model.metadata, *table.columns, extend_existing=True)
-        cls_dict['__table__'] = table
-        base_model.metadata.create_all(bind=engine)
-
-    return type(str(name), (base_model,), cls_dict)
-
-
 class RouteApiView(object):
     def __init__(self, manager, schema):
         assert isinstance(manager, APIManager)
         self.manager = manager
         self.schema = schema
         self.model = model = schema.opts.model
-        self.table_name = model.__tablename__
+        self.table_name = get_tablename(model)
 
         blueprint_name = "_".join([name for name in [
             self.table_name,
@@ -861,30 +810,6 @@ class APIManager(object):
         self.schemas[view.endpont] = schema
         return view
 
-    def _auto_create(self, base_model, generate_pks=False):
-        cls_items = {}
-        for name, table in base_model.metadata.tables.items():
-            # 跳过 sqlite 自动编号表
-            if name in [
-                'sqlite_sequence'
-            ]:
-                continue
-
-            # 开始创建模型
-            if name not in cls_items:
-                if not table.primary_key and generate_pks:
-                    cls = add_pk_if_required(self.get_engine(), base_model, table, name)
-                else:
-                    cls = type(
-                        str(name),
-                        (base_model,),
-                        {
-                            '__tablename__': name
-                        })
-                cls_items[name] = cls
-        prepare_relationships(self.get_engine(), cls_items)
-        return cls_items.values()
-
     def add_all(self, container):
         if isinstance(container, ModuleType):
             # obj is from module.
@@ -899,25 +824,21 @@ class APIManager(object):
         for cls in cls_list:
             self.add(cls, methods=ALL_METHODS)
 
-    def auto_create(self, base_model=None, generate_pks=False):
+    def auto_create(self, metadata=None, generate_pks=False):
         if self.use_flask_sqlalchemy:
             with self.app.app_context():
-                if base_model:
-                    metadata = base_model.metadata
-                else:
+                if not metadata:
                     metadata = self.db.metadata
                 metadata.reflect(bind=self.db.engine)
-                cls_list = self._auto_create(
-                    base_model or self.db.Model,
-                    generate_pks=generate_pks
-                )
+                auto_base = automap_base(metadata=metadata)
+                auto_base.prepare()
+                cls_list = auto_base.classes.values()
         elif self.use_pure_sqlalchemy:
-            assert base_model, "pure SQLAlchemy must provide BaseModel"
-            base_model.metadata.reflect(bind=self.get_engine())
-            cls_list = self._auto_create(
-                base_model,
-                generate_pks=generate_pks
-            )
+            assert metadata, "pure SQLAlchemy must provide BaseModel.metadata"
+            metadata.reflect(bind=self.get_engine())
+            auto_base = automap_base(metadata=metadata)
+            auto_base.prepare()
+            cls_list = auto_base.classes.values()
         else:
             raise ValueError
         self.add_all(cls_list)

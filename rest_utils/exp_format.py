@@ -11,52 +11,16 @@ import json
 from flask import request
 from .exception import (
     PermissionDenied,
-    ResourceRelationNotExists,
     IllegalRequestData,
     # MethodNotAcceptable,
 )
-from .utils import get_class
-
-
-def get_resource_desc(resource):
-    cls = get_class(resource)
-    collection = cls.__tablename__
-    if hasattr(cls, '__key_field__'):
-        key = "@" + getattr(resource, getattr(cls, '__key_field__'))
-    else:
-        key = getattr(resource, resource.primary_key())
-    return collection, key
-
-
-def raise_filters_not_exist(resource, _type):
-    table, key = get_resource_desc(resource)
-    raise PermissionDenied(dict(
-        prompt=u'table:%s key_field:%s %s Filters Error.' % (table, key, _type)
-    ))
-
-
-def raise_not_exist(fa_item, sub_item):
-    # 关系不存在
-    fa_collection, fa_key = get_resource_desc(fa_item)
-    sub_collection, sub_key = get_resource_desc(sub_item)
-    raise ResourceRelationNotExists(dict(
-        collection=fa_collection, key=fa_key,
-        sub_collection=sub_collection, sub_key=sub_key
-    ))
-
-
-def raise_sub_filters_not_exist(function, resource, attr, _type):
-    table, key = get_resource_desc(resource)
-    raise PermissionDenied(dict(
-        function=repr(function),
-        prompt=u'table:%s key_field:%s attr:%s %s Filters Error.' % (table, key, attr, _type)
-    ))
+from .sa_util import get_tablename
 
 
 def raise_main_filters_not_exist(function, class_, _type):
     raise PermissionDenied(dict(
         function=repr(function),
-        prompt=u'table:%s %s Filters Error.' % (class_.__tablename__, _type)
+        prompt=u'table:%s %s Filters Error.' % (get_tablename(class_), _type)
     ))
 
 

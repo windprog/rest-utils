@@ -1,6 +1,7 @@
 requests
 flask
 flask_script
+SQLAlchemy>=0.9.1
 gunicorn
 marshmallow
 six

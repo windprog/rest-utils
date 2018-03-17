@@ -1,5 +1,6 @@
 requests
 flask
+SQLAlchemy>=0.9.1
 flask_sqlalchemy
 flask_script
 Flask-Migrate

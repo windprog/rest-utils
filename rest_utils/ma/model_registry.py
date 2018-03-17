@@ -36,9 +36,11 @@ def register(model, schema):
         # }
 
     """
+    from ..sa_util import get_tablename
     exists_schemas = _registry.setdefault(model, [])
-    if hasattr(model, "__tablename__"):
-        _registry[model.__tablename__] = exists_schemas
+    table_name = get_tablename(model)
+    if table_name:
+        _registry[table_name] = exists_schemas
     if schema not in exists_schemas:
         exists_schemas.append(schema)
     return None
