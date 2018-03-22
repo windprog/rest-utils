@@ -48,8 +48,8 @@ app.run()
 * sqlachemy ORM 模型生成 marshmallow Schema and fields。
 * 从已有数据库自动生成API。
 
-## 1.0.3
+## 1.0.4
 
 * Change APIManager.auto_create to SQLAlchemy Automap.
 * 添加APIManager.register_admin.详情可参见：/example/auto_create_admin.py
-
+* add windows support

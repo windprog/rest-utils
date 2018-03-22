@@ -21,9 +21,6 @@ from rest_utils.utils import null_context
 IS_WINDOWS = get_system() == "windows"
 logger = logging.getLogger(__name__)
 
-if IS_WINDOWS:
-    raise Exception("Not Support Windows!")
-
 
 def set_uonblock(f):
     """
@@ -59,6 +56,8 @@ class Command(object):
         :param lock: 是否启用线程锁
         :param output_count: 内存中保存的输出数量
         """
+        if IS_WINDOWS:
+            raise Exception("Not Support Windows!")
         # 字段初始化
         self._raw_arg = arg
         if shell:
