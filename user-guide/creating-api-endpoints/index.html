@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>sqlachemy模型例子 - Rest-Utils Document</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "sqlachemy\u6a21\u578b\u4f8b\u5b50";
+    var mkdocs_page_input_path = "user-guide/creating-api-endpoints.md";
+    var mkdocs_page_url = "/user-guide/creating-api-endpoints/";
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js"></script>
+  <script src="../../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Rest-Utils Document</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Document</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../quickstart/">快速开始</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">sqlachemy模型例子</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#_1">数据库模型例子</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#models">Models</a></li>
+        
+            <li><a class="toctree-l4" href="#apimanager">APIManager</a></li>
+        
+            <li><a class="toctree-l4" href="#create-the-api">create the API</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../restful-inferface/">Restful API规范</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../specification/">框架规范和支持的参数</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../customizing-restful/">自定义资源权限</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../schema/">自定义API</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../auto-bind/">自动绑定数据库</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Advanced</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../read-source/testing/">编写测试用例</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../read-source/source/">源码目录结构</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">Rest-Utils Document</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Document &raquo;</li>
+        
+      
+    
+    <li>sqlachemy模型例子</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="_1">数据库模型例子</h1>
+<h2 id="models">Models</h2>
+<pre><code>想使用本框架，你需要先定义数据库模型。可选：SQLAlchemy or Flask-SQLALchemy.
+</code></pre>
+<pre><code class="python">#!/usr/bin/python
+# -*- coding: utf-8 -*-
+import flask
+from flask_sqlalchemy import SQLAlchemy
+
+app = flask.Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./test.db'
+db = SQLAlchemy(app)
+
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.Unicode(32), unique=True)
+    posts = db.relationship(
+        'Post',
+        backref=db.backref('user')
+    )
+
+
+class Post(db.Model):
+    __tablename__ = &quot;posts&quot;
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    title = db.Column(db.String(80), nullable=False)
+    body = db.Column(db.Text)
+    pub_date = db.Column(db.DateTime, nullable=False)
+
+
+db.create_all()
+</code></pre>
+
+<p>If you are using pure SQLAlchemy:</p>
+<pre><code class="python">#!/usr/bin/python
+# -*- coding: utf-8 -*-
+from flask import Flask
+from sqlalchemy import Column, Date, DateTime, Float, Integer, Unicode, Text, String
+from sqlalchemy import ForeignKey
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import backref, relationship
+
+app = Flask(__name__)
+engine = create_engine('sqlite:///./test.db', convert_unicode=True)
+
+Base = declarative_base()
+Base.metadata.bind = engine
+
+class User(Base):
+    __tablename__ = 'users'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(Unicode(32), unique=True)
+    posts = relationship(
+        'Post',
+        backref=backref('user')
+    )
+
+
+class Post(Base):
+    __tablename__ = &quot;posts&quot;
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.id'))
+    title = Column(String(80), nullable=False)
+    body = Column(Text)
+    pub_date = Column(DateTime, nullable=False)
+
+
+Base.metadata.create_all()
+</code></pre>
+
+<h2 id="apimanager">APIManager</h2>
+<pre><code>拥有模型之后，就可以开始添加api。
+</code></pre>
+<pre><code class="python">import rest_utils
+
+api = rest_utils.APIManager(app, db=db)
+</code></pre>
+
+<pre><code>Or if you are using pure SQLAlchemy, specify the session you created above instead:
+</code></pre>
+<pre><code class="python">api = rest_utils.APIManager(app, engine=engine)
+</code></pre>
+
+<h2 id="create-the-api">create the API</h2>
+<pre><code class="python">person_blueprint = api.add(User, methods=['GET', 'POST', 'DELETE'])
+</code></pre>
+
+<p>Note that you can specify which HTTP methods are available for each API endpoint. There are several more customization options; for more information, see <a href="../customizing-restful/">Customizing the Restful interface</a>.</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../restful-inferface/" class="btn btn-neutral float-right" title="Restful API规范">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../quickstart/" class="btn btn-neutral" title="快速开始"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../quickstart/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../restful-inferface/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/require.js"></script>
+      <script src="../../search/search.js"></script>
+
+</body>
+</html>

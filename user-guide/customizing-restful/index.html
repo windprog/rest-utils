@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>自定义资源权限 - Rest-Utils Document</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "\u81ea\u5b9a\u4e49\u8d44\u6e90\u6743\u9650";
+    var mkdocs_page_input_path = "user-guide/customizing-restful.md";
+    var mkdocs_page_url = "/user-guide/customizing-restful/";
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js"></script>
+  <script src="../../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Rest-Utils Document</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Document</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../quickstart/">快速开始</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../creating-api-endpoints/">sqlachemy模型例子</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../restful-inferface/">Restful API规范</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../specification/">框架规范和支持的参数</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">自定义资源权限</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#_1">自定义资源权限</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#methods">methods</a></li>
+        
+            <li><a class="toctree-l4" href="#endpoint">endpoint</a></li>
+        
+            <li><a class="toctree-l4" href="#include_fk">include_fk</a></li>
+        
+            <li><a class="toctree-l4" href="#key_field">key_field</a></li>
+        
+            <li><a class="toctree-l4" href="#endpoint_1">endpoint</a></li>
+        
+            <li><a class="toctree-l4" href="#match_fields">match_fields</a></li>
+        
+            <li><a class="toctree-l4" href="#_2">字段例子</a></li>
+        
+            <li><a class="toctree-l4" href="#filters">filters</a></li>
+        
+            <li><a class="toctree-l4" href="#create">create</a></li>
+        
+            <li><a class="toctree-l4" href="#update">update</a></li>
+        
+            <li><a class="toctree-l4" href="#delete">delete</a></li>
+        
+            <li><a class="toctree-l4" href="#created">created</a></li>
+        
+            <li><a class="toctree-l4" href="#updated">updated</a></li>
+        
+            <li><a class="toctree-l4" href="#deleted">deleted</a></li>
+        
+            <li><a class="toctree-l4" href="#_3">回调方法例子</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../schema/">自定义API</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../auto-bind/">自动绑定数据库</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Advanced</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../read-source/testing/">编写测试用例</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../read-source/source/">源码目录结构</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">Rest-Utils Document</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Document &raquo;</li>
+        
+      
+    
+    <li>自定义资源权限</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="_1">自定义资源权限</h1>
+<h2 id="methods">methods</h2>
+<pre><code>注册的HTTP方法。有：'GET': 查询, "POST": 新增, "PUT": 修改, "DELETE": 删除。
+默认情况下，APIManager.create_api() 会创建只读接口; 其他的method会被拒绝访问。
+</code></pre>
+<p>apimanager.add(User, methods=['GET', 'POST', 'DELETE'])</p>
+<h2 id="endpoint">endpoint</h2>
+<p>默认情况下，APIManager.create_api()添加的模型或schema使用的interface名称为模型表名。可以手动指定名称</p>
+<pre><code class="python">person_blueprint = api.add(User, endpoint=&quot;peoples&quot;)
+</code></pre>
+
+<h2 id="include_fk">include_fk</h2>
+<pre><code>展示外键. 默认:True
+</code></pre>
+<h2 id="key_field">key_field</h2>
+<pre><code>查找字段。
+如：/users/@windpro
+</code></pre>
+<h2 id="endpoint_1">endpoint</h2>
+<pre><code>资源名称。默认为tablename
+</code></pre>
+<h2 id="match_fields">match_fields</h2>
+<pre><code>搜索的字段。默认：[].
+</code></pre>
+<h2 id="_2">字段例子</h2>
+<pre><code class="python">from models import Users
+from rest_utils import ModelSchema
+
+class UsersSchema(ModelSchema):
+    class Meta:
+        model = Users
+        methods = ['GET', &quot;POST&quot;, &quot;PUT&quot;, &quot;DELETE&quot;]
+        include_fk = True
+        key_field = &quot;name&quot;
+        endpoint = &quot;users&quot;
+        match_fields = [&quot;name&quot;]
+
+api.add(UsersSchema)
+</code></pre>
+
+<h2 id="filters">filters</h2>
+<pre><code>查询资源时使用的filters。如def get_users(): return [Users.name=="windpro"]
+</code></pre>
+<h2 id="create">create</h2>
+<pre><code>创建实例回调方法。(model, data)
+</code></pre>
+<h2 id="update">update</h2>
+<pre><code>修改实例回调方法。(instance, data)
+</code></pre>
+<h2 id="delete">delete</h2>
+<pre><code>删除实例回调方法。(instance)
+</code></pre>
+<h2 id="created">created</h2>
+<pre><code>commit数据库之后的创建实例回调方法。(instance)
+</code></pre>
+<h2 id="updated">updated</h2>
+<pre><code>commit数据库之后的修改实例回调方法。(instance)
+</code></pre>
+<h2 id="deleted">deleted</h2>
+<pre><code>commit数据库之后的删除实例回调方法。(instance)
+</code></pre>
+<h2 id="_3">回调方法例子</h2>
+<pre><code class="python">from models import Users
+from rest_utils import ModelSchema
+
+class UsersSchema(ModelSchema):
+    class Meta:
+        model = Users
+        methods = ['GET', &quot;POST&quot;, &quot;PUT&quot;, &quot;DELETE&quot;]
+
+        @staticmethod
+        def filters():
+            return [Users.name==&quot;windprozhao&quot;]
+
+        @staticmethod
+        def create(model, data):
+            return model(**data)
+
+        @staticmethod
+        def update(instance, data):
+            for key, value in data.items():
+                setattr(instance, key, value)
+            return instance
+        @staticmethod
+        def delete(instance):
+            return instance
+
+        @staticmethod
+        def created(instance):
+            return instance
+        @staticmethod
+        def updated(instance):
+            return instance
+        @staticmethod
+        def deleted(instance):
+            return instance
+
+api.add(UsersSchema)
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../schema/" class="btn btn-neutral float-right" title="自定义API">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../specification/" class="btn btn-neutral" title="框架规范和支持的参数"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../specification/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../schema/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/require.js"></script>
+      <script src="../../search/search.js"></script>
+
+</body>
+</html>

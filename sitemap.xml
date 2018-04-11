@@ -4,7 +4,7 @@
     
     <url>
      <loc>/</loc>
-     <lastmod>2018-03-17</lastmod>
+     <lastmod>2018-04-11</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -12,38 +12,44 @@
     
         
     <url>
-     <loc>/guide/auto-bind/</loc>
-     <lastmod>2018-03-17</lastmod>
+     <loc>/user-guide/quickstart/</loc>
+     <lastmod>2018-04-11</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>/guide/creating-api-endpoints/</loc>
-     <lastmod>2018-03-17</lastmod>
+     <loc>/user-guide/creating-api-endpoints/</loc>
+     <lastmod>2018-04-11</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>/guide/customizing-restful/</loc>
-     <lastmod>2018-03-17</lastmod>
+     <loc>/user-guide/restful-inferface/</loc>
+     <lastmod>2018-04-11</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>/guide/interfaces/</loc>
-     <lastmod>2018-03-17</lastmod>
+     <loc>/user-guide/specification/</loc>
+     <lastmod>2018-04-11</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>/guide/quickstart/</loc>
-     <lastmod>2018-03-17</lastmod>
+     <loc>/user-guide/customizing-restful/</loc>
+     <lastmod>2018-04-11</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>/guide/specification/</loc>
-     <lastmod>2018-03-17</lastmod>
+     <loc>/user-guide/schema/</loc>
+     <lastmod>2018-04-11</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/user-guide/auto-bind/</loc>
+     <lastmod>2018-04-11</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
@@ -52,26 +58,14 @@
     
         
     <url>
-     <loc>/read-source/deploy/</loc>
-     <lastmod>2018-03-17</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>/read-source/other/</loc>
-     <lastmod>2018-03-17</lastmod>
+     <loc>/read-source/testing/</loc>
+     <lastmod>2018-04-11</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/read-source/source/</loc>
-     <lastmod>2018-03-17</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>/read-source/testing/</loc>
-     <lastmod>2018-03-17</lastmod>
+     <lastmod>2018-04-11</lastmod>
      <changefreq>daily</changefreq>
     </url>
         

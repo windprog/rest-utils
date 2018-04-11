@@ -8,7 +8,7 @@
   
   
   <link rel="shortcut icon" href="../../img/favicon.ico">
-  <title>源码目录结构 - Rest-Utils Document</title>
+  <title>自动绑定数据库 - Rest-Utils Document</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
@@ -17,9 +17,9 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "\u6e90\u7801\u76ee\u5f55\u7ed3\u6784";
-    var mkdocs_page_input_path = "read-source/source.md";
-    var mkdocs_page_url = "/read-source/source/";
+    var mkdocs_page_name = "\u81ea\u52a8\u7ed1\u5b9a\u6570\u636e\u5e93";
+    var mkdocs_page_input_path = "user-guide/auto-bind.md";
+    var mkdocs_page_url = "/user-guide/auto-bind/";
   </script>
   
   <script src="../../js/jquery-2.1.1.min.js"></script>
@@ -58,31 +58,43 @@
     <ul class="subnav">
                 <li class="">
                     
-    <a class="" href="../../user-guide/quickstart/">快速开始</a>
+    <a class="" href="../quickstart/">快速开始</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../../user-guide/creating-api-endpoints/">sqlachemy模型例子</a>
+    <a class="" href="../creating-api-endpoints/">sqlachemy模型例子</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../../user-guide/restful-inferface/">Restful API规范</a>
+    <a class="" href="../restful-inferface/">Restful API规范</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../../user-guide/specification/">框架规范和支持的参数</a>
+    <a class="" href="../specification/">框架规范和支持的参数</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../../user-guide/customizing-restful/">自定义资源权限</a>
+    <a class="" href="../customizing-restful/">自定义资源权限</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../../user-guide/schema/">自定义API</a>
+    <a class="" href="../schema/">自定义API</a>
                 </li>
-                <li class="">
+                <li class=" current">
                     
-    <a class="" href="../../user-guide/auto-bind/">自动绑定数据库</a>
+    <a class="current" href="./">自动绑定数据库</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#_1">自动绑定数据库</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#_2">测试</a></li>
+        
+        </ul>
+    
+
+    </ul>
                 </li>
     </ul>
 	    </li>
@@ -93,17 +105,11 @@
     <ul class="subnav">
                 <li class="">
                     
-    <a class="" href="../testing/">编写测试用例</a>
+    <a class="" href="../../read-source/testing/">编写测试用例</a>
                 </li>
-                <li class=" current">
+                <li class="">
                     
-    <a class="current" href="./">源码目录结构</a>
-    <ul class="subnav">
-            
-    <li class="toctree-l3"><a href="#_1">目录结构</a></li>
-    
-
-    </ul>
+    <a class="" href="../../read-source/source/">源码目录结构</a>
                 </li>
     </ul>
 	    </li>
@@ -130,11 +136,11 @@
     
       
         
-          <li>Advanced &raquo;</li>
+          <li>Document &raquo;</li>
         
       
     
-    <li>源码目录结构</li>
+    <li>自动绑定数据库</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -144,36 +150,24 @@
           <div role="main">
             <div class="section">
               
-                <h2 id="_1">目录结构</h2>
-<pre><code>├── rest_utils
-│   ├── utils                            # 工具方法集合
-│   ├── date.py
-│   ├── decorators.py
-│   ├── error_route.py
-│   ├── exception.py                     # 异常类
-│   ├── exp_format.py
-│   ├── flask_engine.py
-│   ├── flask_trace.py
-│   ├── libs                             # 第三方源码
-│   ├── log.py                           # 日志相关
-│   ├── params.py
-│   ├── py3to2.py
-│   ├── sa_util.py
-│   ├── schema.py                        # marshmallow scheme基类，用于sqlalchemy model 和 dict相互转换。
-│   ├── fields.py                        # marshmallow fields。用于字段定义，和原生的用法一致。
-│   ├── static.py                        # 框架定义的常量
-│   ├── manager.py                       # rest api 模块
-└── tests                                # 测试用例
-├── example                              # 使用例子
-│   ├── api.py
-│   ├── demo_app.py
-│   ├── demo_data.py
-│   ├── init.sh
-├── docs                                 # 文档目录
-│   ├── api.md                           # API文档
-│   └── getting_started.md               # 快速开始
-├── README.MD                            # 项目简介
-├── setup.py
+                <h1 id="_1">自动绑定数据库</h1>
+<pre><code>本框架支持利用sqlachemy automap，直接从已有数据库中导入字段和关系，生成api。实现无编码情况下的restful api 操作数据库。
+</code></pre>
+<pre><code class="python"># wget https://github.com/lerocha/chinook-database/raw/master/ChinookDatabase/DataSources/Chinook_Sqlite_AutoIncrementPKs.sqlite
+import flask
+from flask_sqlalchemy import SQLAlchemy
+from rest_utils import APIManager
+
+app = flask.Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./Chinook_Sqlite_AutoIncrementPKs.sqlite'
+db = SQLAlchemy(app)
+api = APIManager(app, db=db)
+api.auto_create()
+app.run()
+</code></pre>
+
+<h2 id="_2">测试</h2>
+<pre><code>curl http://127.0.0.1:5000/api/Track?_num=20&amp;_expand=1
 </code></pre>
               
             </div>
@@ -182,8 +176,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
+        <a href="../../read-source/testing/" class="btn btn-neutral float-right" title="编写测试用例">Next <span class="icon icon-circle-arrow-right"></span></a>
       
-        <a href="../testing/" class="btn btn-neutral" title="编写测试用例"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+        <a href="../schema/" class="btn btn-neutral" title="自定义API"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -209,8 +205,10 @@
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../testing/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../schema/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
+      
+        <span style="margin-left: 15px"><a href="../../read-source/testing/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

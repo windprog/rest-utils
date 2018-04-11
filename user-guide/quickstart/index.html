@@ -8,7 +8,7 @@
   
   
   <link rel="shortcut icon" href="../../img/favicon.ico">
-  <title>源码目录结构 - Rest-Utils Document</title>
+  <title>快速开始 - Rest-Utils Document</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
@@ -17,9 +17,9 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "\u6e90\u7801\u76ee\u5f55\u7ed3\u6784";
-    var mkdocs_page_input_path = "read-source/source.md";
-    var mkdocs_page_url = "/read-source/source/";
+    var mkdocs_page_name = "\u5feb\u901f\u5f00\u59cb";
+    var mkdocs_page_input_path = "user-guide/quickstart.md";
+    var mkdocs_page_url = "/user-guide/quickstart/";
   </script>
   
   <script src="../../js/jquery-2.1.1.min.js"></script>
@@ -56,33 +56,45 @@
 		
     <span class="caption-text">Document</span>
     <ul class="subnav">
-                <li class="">
+                <li class=" current">
                     
-    <a class="" href="../../user-guide/quickstart/">快速开始</a>
+    <a class="current" href="./">快速开始</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#_1">快速开始</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#_2">编写模型</a></li>
+        
+        </ul>
+    
+
+    </ul>
                 </li>
                 <li class="">
                     
-    <a class="" href="../../user-guide/creating-api-endpoints/">sqlachemy模型例子</a>
+    <a class="" href="../creating-api-endpoints/">sqlachemy模型例子</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../../user-guide/restful-inferface/">Restful API规范</a>
+    <a class="" href="../restful-inferface/">Restful API规范</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../../user-guide/specification/">框架规范和支持的参数</a>
+    <a class="" href="../specification/">框架规范和支持的参数</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../../user-guide/customizing-restful/">自定义资源权限</a>
+    <a class="" href="../customizing-restful/">自定义资源权限</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../../user-guide/schema/">自定义API</a>
+    <a class="" href="../schema/">自定义API</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../../user-guide/auto-bind/">自动绑定数据库</a>
+    <a class="" href="../auto-bind/">自动绑定数据库</a>
                 </li>
     </ul>
 	    </li>
@@ -93,17 +105,11 @@
     <ul class="subnav">
                 <li class="">
                     
-    <a class="" href="../testing/">编写测试用例</a>
+    <a class="" href="../../read-source/testing/">编写测试用例</a>
                 </li>
-                <li class=" current">
+                <li class="">
                     
-    <a class="current" href="./">源码目录结构</a>
-    <ul class="subnav">
-            
-    <li class="toctree-l3"><a href="#_1">目录结构</a></li>
-    
-
-    </ul>
+    <a class="" href="../../read-source/source/">源码目录结构</a>
                 </li>
     </ul>
 	    </li>
@@ -130,11 +136,11 @@
     
       
         
-          <li>Advanced &raquo;</li>
+          <li>Document &raquo;</li>
         
       
     
-    <li>源码目录结构</li>
+    <li>快速开始</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -144,36 +150,79 @@
           <div role="main">
             <div class="section">
               
-                <h2 id="_1">目录结构</h2>
-<pre><code>├── rest_utils
-│   ├── utils                            # 工具方法集合
-│   ├── date.py
-│   ├── decorators.py
-│   ├── error_route.py
-│   ├── exception.py                     # 异常类
-│   ├── exp_format.py
-│   ├── flask_engine.py
-│   ├── flask_trace.py
-│   ├── libs                             # 第三方源码
-│   ├── log.py                           # 日志相关
-│   ├── params.py
-│   ├── py3to2.py
-│   ├── sa_util.py
-│   ├── schema.py                        # marshmallow scheme基类，用于sqlalchemy model 和 dict相互转换。
-│   ├── fields.py                        # marshmallow fields。用于字段定义，和原生的用法一致。
-│   ├── static.py                        # 框架定义的常量
-│   ├── manager.py                       # rest api 模块
-└── tests                                # 测试用例
-├── example                              # 使用例子
-│   ├── api.py
-│   ├── demo_app.py
-│   ├── demo_data.py
-│   ├── init.sh
-├── docs                                 # 文档目录
-│   ├── api.md                           # API文档
-│   └── getting_started.md               # 快速开始
-├── README.MD                            # 项目简介
-├── setup.py
+                <h1 id="_1">快速开始</h1>
+<h2 id="_2">编写模型</h2>
+<pre><code class="python">#!/usr/bin/python
+# -*- coding: utf-8 -*-
+import flask
+import datetime
+from flask_sqlalchemy import SQLAlchemy
+from rest_utils import APIManager
+
+# Create the Flask application and the Flask-SQLAlchemy object.
+app = flask.Flask(__name__)
+app.config['DEBUG'] = True
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./test.db'
+db = SQLAlchemy(app)
+
+class User(db.Model):
+    &quot;&quot;&quot;
+    用户
+    &quot;&quot;&quot;
+    __tablename__ = 'users'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.Unicode(32), unique=True)  # 用户名唯一
+
+    # 绑定一对多关系
+    # 用户文章列表
+    posts = db.relationship(
+        'Post',
+        backref=db.backref('user')
+    )
+
+
+class Post(db.Model):
+    &quot;&quot;&quot;
+    文章
+    &quot;&quot;&quot;
+    __tablename__ = &quot;posts&quot;
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    title = db.Column(db.String(80), nullable=False)
+    body = db.Column(db.Text)
+    pub_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now)
+
+
+# db.drop_all()  # clear database
+# Create the database tables.
+db.create_all()
+
+# Create the API manager.
+manager = APIManager(app, db=db)
+
+# Create API endpoints, which will be available at /api/&lt;tablename&gt; by
+# default. Allowed HTTP methods can be specified as well.
+manager.add(User, methods=['GET', 'POST', 'PUT', 'DELETE'], key_field=&quot;name&quot;)
+manager.add(Post, methods=['GET', 'POST', 'PUT'])
+
+if __name__ == '__main__':
+    # start the flask loop
+    app.run()
+</code></pre>
+
+<h4 id="_3">运行</h4>
+<pre><code>python run.py
+</code></pre>
+<p>结果:</p>
+<pre><code> * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+</code></pre>
+<h4 id="_4">提交数据</h4>
+<pre><code>curl -X PUT --data '{"posts": [{"body": "Python is pretty cool", "title": "Hello Python!"}, {"body": "Ssssssss", "title": "Snakes"}], "name": "windprozhao"}' -H "Content-Type:application/json" http://localhost:5000/api/users
+</code></pre>
+<h4 id="_5">验证提交</h4>
+<pre><code>curl http://localhost:5000/api/users
 </code></pre>
               
             </div>
@@ -182,8 +231,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
+        <a href="../creating-api-endpoints/" class="btn btn-neutral float-right" title="sqlachemy模型例子">Next <span class="icon icon-circle-arrow-right"></span></a>
       
-        <a href="../testing/" class="btn btn-neutral" title="编写测试用例"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+        <a href="../.." class="btn btn-neutral" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -209,8 +260,10 @@
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../testing/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../.." style="color: #fcfcfc;">&laquo; Previous</a></span>
       
+      
+        <span style="margin-left: 15px"><a href="../creating-api-endpoints/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

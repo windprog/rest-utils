@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>Restful API规范 - Rest-Utils Document</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Restful API\u89c4\u8303";
+    var mkdocs_page_input_path = "user-guide/restful-inferface.md";
+    var mkdocs_page_url = "/user-guide/restful-inferface/";
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js"></script>
+  <script src="../../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Rest-Utils Document</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Document</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../quickstart/">快速开始</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../creating-api-endpoints/">sqlachemy模型例子</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">Restful API规范</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#restful-api">Restful API设计规范</a></li>
+    
+
+    <li class="toctree-l3"><a href="#_1">数据查询</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#get-apiendpoint">GET /api/{endpoint}</a></li>
+        
+            <li><a class="toctree-l4" href="#get-apiendpointid">GET /api/{endpoint}/{id}</a></li>
+        
+            <li><a class="toctree-l4" href="#get-apiendpointidsub_field">GET /api/{endpoint}/{id}/{sub_field}</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#_2">创建资源</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#post-apiendpoint">POST /api/{endpoint}</a></li>
+        
+            <li><a class="toctree-l4" href="#post-apiusersidsub_field">POST /api/users/{id}/{sub_field}</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#_3">修改资源</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#put-apiendpointid">PUT /api/{endpoint}/{id}</a></li>
+        
+            <li><a class="toctree-l4" href="#put-apiusersidsub_field">PUT /api/users/{id}/{sub_field}</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#_4">删除资源</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#delete-apiendpointid">DELETE /api/{endpoint}/{id}</a></li>
+        
+            <li><a class="toctree-l4" href="#delete-apiusersidsub_field">DELETE /api/users/{id}/{sub_field}</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../specification/">框架规范和支持的参数</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../customizing-restful/">自定义资源权限</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../schema/">自定义API</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../auto-bind/">自动绑定数据库</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Advanced</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../read-source/testing/">编写测试用例</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../read-source/source/">源码目录结构</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">Rest-Utils Document</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Document &raquo;</li>
+        
+      
+    
+    <li>Restful API规范</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="restful-api">Restful API设计规范</h1>
+<p>api设计遵循RESTful API设计规范。可以参考：<a href="http://www.ruanyifeng.com/blog/2014/05/restful_api.html">《RESTful API 设计指南》</a></p>
+<p>关键字介绍：</p>
+<ul>
+<li>{endpoint}: 路径，在这里具体指的是表名</li>
+<li>{id}: 表的主键。一般为int的自增id。</li>
+<li>{key_field}: 表的唯一字段，用于快速定位资源。使用格式："/api/users/@windpro"</li>
+<li>{sub_field}: 子资源字段。例如用户组的字段为: <a href="https://github.com/windprog/rest-utils/blob/master/example/quick_start.py#L57">groups</a>. 则这样使用："/api/users/@windpro/groups"</li>
+</ul>
+<h1 id="_1">数据查询</h1>
+<h2 id="get-apiendpoint">GET /api/{endpoint}</h2>
+<p>集合查询。支持的参数：<a href="../specification/#params">GET Params</a>.</p>
+<p>例子：返回所有 users instances. </p>
+<pre><code>GET /api/users
+
+HTTP/1.1 200 OK
+{
+  &quot;total&quot;: 3,
+  &quot;items&quot;: [{&quot;id&quot;: 1, &quot;name&quot;: &quot;windpro&quot;}, ...]
+}
+</code></pre>
+
+<p>例子：返回名称为"windpro"的用户</p>
+<pre><code>GET /api/users?name=windpro
+
+HTTP/1.1 200 OK
+{
+  &quot;total&quot;: 1,
+  &quot;items&quot;: [{&quot;id&quot;: 1, &quot;name&quot;: &quot;windpro&quot;}]
+}
+</code></pre>
+
+<h2 id="get-apiendpointid">GET /api/{endpoint}/{id}</h2>
+<p>返回单个资源对象。支持<a href="../specification/#params">GET Params</a>.</p>
+<p>相同功能api：</p>
+<ul>
+<li>GET /api/{endpoint}/{key_field}</li>
+</ul>
+<p>例子：获取id为1的用户</p>
+<pre><code>GET /api/users/1
+
+HTTP/1.1 200 OK    
+{
+  &quot;id&quot;: 1,
+  &quot;name&quot;: &quot;windpro&quot;
+}
+</code></pre>
+
+<h3 id="keyfield">使用keyfield获取例子</h3>
+<pre><code class="python">class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.Unicode(32), unique=True)
+
+apimanager.add(User, methods=['GET', 'POST', 'DELETE'], key_field=&quot;name&quot;)
+</code></pre>
+
+<pre><code>GET /api/users/@windpro
+
+HTTP/1.1 200 OK    
+{
+  &quot;id&quot;: 1,
+  &quot;name&quot;: &quot;windpro&quot;
+}
+</code></pre>
+
+<h2 id="get-apiendpointidsub_field">GET /api/{endpoint}/{id}/{sub_field}</h2>
+<p>返回所有的子资源。支持的参数：<a href="../specification/#params">GET Params</a>.</p>
+<p>相同功能api：</p>
+<ul>
+<li>GET /api/users/{key_field}/{sub_field}</li>
+</ul>
+<p>例子：返回windpro用户所有组</p>
+<pre><code>GET /api/users/1/groups
+
+HTTP/1.1 200 OK
+{
+  &quot;total&quot;: 2,
+  &quot;items&quot;: [{&quot;id&quot;: 1, &quot;name&quot;: &quot;admin&quot;}, ...]
+}
+</code></pre>
+
+<p>例子：返回windpro用户的admin组信息</p>
+<pre><code>GET /api/users/1/grups?name=admin HTTP/1.1
+
+HTTP/1.1 200 OK
+{
+  &quot;total&quot;: 1,
+  &quot;items&quot;: [{&quot;id&quot;: 1, &quot;name&quot;: &quot;admin&quot;}]
+}
+</code></pre>
+
+<h1 id="_2">创建资源</h1>
+<h2 id="post-apiendpoint">POST /api/{endpoint}</h2>
+<pre><code>创建一个或者多个实例
+</code></pre>
+<p>具有相同作用的api，区别是它们将url字段数据填入request data中：</p>
+<ul>
+<li>POST /api/{endpoint}/{id}</li>
+<li>POST /api/{endpoint}/{key_field}</li>
+</ul>
+<p>例子：创建一个用户。</p>
+<pre><code>POST /api/users
+{
+  &quot;name&quot;: &quot;windpro&quot;
+}
+
+HTTP/1.1 201 Created
+{
+  &quot;id&quot;: 1,
+  &quot;name&quot;: &quot;windpro&quot;
+}
+</code></pre>
+
+<p>例子：创建多个用户。</p>
+<pre><code>POST /api/users
+[
+  {
+    &quot;name&quot;: &quot;windpro&quot;
+  },
+  {
+    &quot;name&quot;: &quot;alex&quot;
+  }
+]
+
+HTTP/1.1 201 Created
+[
+  {
+    &quot;id&quot;: 1,
+    &quot;name&quot;: &quot;windpro&quot;
+  },
+  {
+    &quot;id&quot;: 1,
+    &quot;name&quot;: &quot;alex&quot;
+  }
+]
+</code></pre>
+
+<h2 id="post-apiusersidsub_field">POST /api/users/{id}/{sub_field}</h2>
+<pre><code>新增一个或多个子资源。被添加的资源不存在会自动创建。
+</code></pre>
+<p>具有相同作用的api：</p>
+<ul>
+<li>POST /api/users/{key_field}/{sub_field}</li>
+</ul>
+<h3 id="sample-request">Sample Request</h3>
+<p>这里以Users.groups关系作为例子</p>
+<p>例子：windpro 用户添加一个 admin 组。</p>
+<pre><code>POST /api/users/1/groups HTTP/1.1
+{
+  &quot;name&quot;: &quot;admin&quot;
+}
+
+HTTP/1.1 200 OK
+{
+  &quot;id&quot;: 1,
+  &quot;name&quot;: &quot;admin&quot;
+}
+</code></pre>
+
+<p>例子：windpro 添加 admin 和 normal 组。</p>
+<pre><code>POST /api/users/1/groups HTTP/1.1
+[
+  {
+    &quot;name&quot;: &quot;admin&quot;
+  },
+  {
+    &quot;name&quot;: &quot;normal&quot;
+  }
+]
+
+HTTP/1.1 200 OK
+[
+  {
+    &quot;id&quot;: 1,
+    &quot;name&quot;: &quot;windpro&quot;
+  },
+  {
+    &quot;id&quot;: 2,
+    &quot;name&quot;: &quot;normal&quot;
+  }
+]
+</code></pre>
+
+<h1 id="_3">修改资源</h1>
+<h2 id="put-apiendpointid">PUT /api/{endpoint}/{id}</h2>
+<pre><code>修改一个或多个实例.
+当实例不存在的时候会创建实例。
+</code></pre>
+<p>具有相同作用的api:</p>
+<ul>
+<li>PUT /api/{endpoint}</li>
+<li>PUT /api/{endpoint}/{key_field}</li>
+<li>PATCH /api/{endpoint}</li>
+<li>PATCH /api/{endpoint}/{id}</li>
+<li>PATCH /api/{endpoint}/{key_field}</li>
+</ul>
+<p>例子：修改用户的年龄</p>
+<pre><code>PUT /api/users/1 HTTP/1.1
+{
+  &quot;age&quot;: 26
+}
+
+HTTP/1.1 200 OK
+{
+  &quot;id&quot;: 1,
+  &quot;name&quot;: &quot;windpro&quot;,
+  &quot;age&quot;: 26
+}
+</code></pre>
+
+<h2 id="put-apiusersidsub_field">PUT /api/users/{id}/{sub_field}</h2>
+<pre><code>替换子资源，原有的关系将被清空
+</code></pre>
+<p>具有相同作用的api:</p>
+<ul>
+<li>PUT /api/users/{key_field}/{sub_field}</li>
+<li>PATCH /api/users/{id}/{sub_field}</li>
+<li>PATCH /api/users/{key_field}/{sub_field}</li>
+</ul>
+<p>例子：替换windpro用户的所有组</p>
+<pre><code>PUT /api/users/@windpro/groups HTTP/1.1
+[
+  {
+    &quot;name&quot;: &quot;admin&quot;
+  },
+  {
+    &quot;name&quot;: &quot;normal&quot;
+  }
+]
+
+HTTP/1.1 200 OK
+[
+  {
+    &quot;id&quot;: 1,
+    &quot;name&quot;: &quot;admin&quot;
+  },
+  {
+    &quot;id&quot;: 2,
+    &quot;name&quot;: &quot;normal&quot;
+  }
+]
+</code></pre>
+
+<h1 id="_4">删除资源</h1>
+<h2 id="delete-apiendpointid">DELETE /api/{endpoint}/{id}</h2>
+<p>删除单个实例</p>
+<p>具有相同作用的api:</p>
+<ul>
+<li>DELETE /api/{endpoint}/{key_field}</li>
+<li>DELETE /api/{endpoint}：可批量操作，查找规则为 id 或 unique key。</li>
+</ul>
+<p>删除windpro用户</p>
+<pre><code class="bash">DELETE /api/users/@windpro
+
+HTTP/1.1 204 No Content
+</code></pre>
+
+<h2 id="delete-apiusersidsub_field">DELETE /api/users/{id}/{sub_field}</h2>
+<pre><code>删除关系。查找规则为 id 或 unique key
+</code></pre>
+<p>具有相同作用的api</p>
+<ul>
+<li>DELETE /api/users/{key_field}/{sub_field}</li>
+</ul>
+<p>例子：删除 windpro 用户的 admin 组</p>
+<pre><code>DELETE /api/users/1/groups HTTP/1.1
+[
+  {
+    &quot;name&quot;: &quot;admin&quot;
+  }
+]
+
+HTTP/1.1 204 No Content
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../specification/" class="btn btn-neutral float-right" title="框架规范和支持的参数">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../creating-api-endpoints/" class="btn btn-neutral" title="sqlachemy模型例子"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../creating-api-endpoints/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../specification/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/require.js"></script>
+      <script src="../../search/search.js"></script>
+
+</body>
+</html>

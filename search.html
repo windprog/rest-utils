@@ -5,22 +5,15 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="None">
+  
   
   <link rel="shortcut icon" href="./img/favicon.ico">
-  <title>Home - Rest-Utils Document</title>
+  <title>Rest-Utils Document</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="./css/theme.css" type="text/css" />
   <link rel="stylesheet" href="./css/theme_extra.css" type="text/css" />
   <link rel="stylesheet" href="./css/highlight.css">
-  
-  <script>
-    // Current page data
-    var mkdocs_page_name = "Home";
-    var mkdocs_page_input_path = "index.md";
-    var mkdocs_page_url = "/";
-  </script>
   
   <script src="./js/jquery-2.1.1.min.js"></script>
   <script src="./js/modernizr-2.8.3.min.js"></script>
@@ -47,25 +40,9 @@
 	<ul class="current">
 	  
           
-            <li class="toctree-l1 current">
+            <li class="toctree-l1">
 		
-    <a class="current" href=".">Home</a>
-    <ul class="subnav">
-            
-    <li class="toctree-l2"><a href="#home">Home</a></li>
-    
-        <ul>
-        
-            <li><a class="toctree-l3" href="#introduction">Introduction</a></li>
-        
-            <li><a class="toctree-l3" href="#install">Install</a></li>
-        
-            <li><a class="toctree-l3" href="#quick-start">Quick Start</a></li>
-        
-        </ul>
-    
-
-    </ul>
+    <a class="" href=".">Home</a>
 	    </li>
           
             <li class="toctree-l1">
@@ -138,9 +115,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href=".">Docs</a> &raquo;</li>
     
-      
     
-    <li>Home</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -150,53 +125,22 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="home">Home</h1>
-<h2 id="introduction">Introduction</h2>
-<p>Rest-Utils 为使用 SQLAlchemy (or Flask-SQLAlchemy) 定义的数据库模型提供简单的Restful APIs生成。
-生成的API以JSON格式发送和接收消息。
-使用 marshmallow 使得转换非常便捷。</p>
-<p>For more information, see the</p>
-<ul>
-<li><a href="https://windprog.github.io/rest-utils/">documentation</a>,</li>
-<li><a href="https://pypi.python.org/pypi/rest-utils">Python Package Index listing</a>,</li>
-<li><a href="https://github.com/windprog/rest-utils">source code repository</a>.</li>
-<li><strong>Online Example</strong>: <a href="http://rest-utils.codedig.com:5000/admin">ADMIN</a>, <a href="http://rest-utils.codedig.com:5000/api/Track?_num=20&amp;_expand=1">API</a>, </li>
-<li><a href="https://github.com/windprog/rest-utils-sample">最佳实践</a>.</li>
-</ul>
-<h2 id="install">Install</h2>
-<pre><code># 可以从页面下载。不过推荐使用pip，virtualenv安装。
-pip install Rest-Utils
-</code></pre>
-<h2 id="quick-start">Quick Start</h2>
-<pre><code>pip install Rest-Utils flask_sqlalchemy
-wget https://github.com/lerocha/chinook-database/raw/master/ChinookDatabase/DataSources/Chinook_Sqlite_AutoIncrementPKs.sqlite
-</code></pre>
-<pre><code class="python">import flask
-from flask_sqlalchemy import SQLAlchemy
-from rest_utils import APIManager
 
-app = flask.Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./Chinook_Sqlite_AutoIncrementPKs.sqlite'
-db = SQLAlchemy(app)
-api = APIManager(app, db=db)
-api.auto_create()
-app.run()
-</code></pre>
+  <h1 id="search">Search Results</h1>
 
-<pre><code>curl http://127.0.0.1:5000/api/Track?_num=20&amp;_expand=1
-</code></pre>
-<p>详细使用参见：<a href="https://windprog.github.io/rest-utils/guide/quickstart/">快速开始</a></p>
-              
+  <form id="content_search" action="search.html">
+    <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+    <input name="q" id="mkdocs-search-query" type="text" class="search_input search-query ui-autocomplete-input" placeholder="Search the Docs" autocomplete="off" autofocus>
+  </form>
+
+  <div id="mkdocs-search-results" class="search-results">
+    Searching...
+  </div>
+
+
             </div>
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="user-guide/quickstart/" class="btn btn-neutral float-right" title="快速开始">Next <span class="icon icon-circle-arrow-right"></span></a>
-      
-      
-    </div>
   
 
   <hr/>
@@ -221,8 +165,6 @@ app.run()
       
       
       
-        <span style="margin-left: 15px"><a href="user-guide/quickstart/" style="color: #fcfcfc">Next &raquo;</a></span>
-      
     </span>
 </div>
     <script>var base_url = '.';</script>
@@ -232,8 +174,3 @@ app.run()
 
 </body>
 </html>
-
-<!--
-MkDocs version : 0.17.3
-Build Date UTC : 2018-04-11 09:43:09
--->
