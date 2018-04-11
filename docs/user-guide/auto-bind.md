@@ -1,6 +1,6 @@
-## 自动绑定数据库模式
+# 自动绑定数据库
 
-    本框架支持直接从已有数据库中导入字段和关系，生成api。实现无编码情况下的restful api 操作数据库。
+    本框架支持利用sqlachemy automap，直接从已有数据库中导入字段和关系，生成api。实现无编码情况下的restful api 操作数据库。
     
 ```python
 # wget https://github.com/lerocha/chinook-database/raw/master/ChinookDatabase/DataSources/Chinook_Sqlite_AutoIncrementPKs.sqlite

@@ -1,3 +1,5 @@
+# 框架规范和支持的参数
+
 # API words
 ## URL
 
@@ -35,6 +37,7 @@
 |格式|支持并列条件|description|例子
 | --- | --- | --- | --- |
 | {attr}={value} | 是 | 过滤指定字段 | 过滤单一值：/users?name=windprozhao  列表查询：/users?name[]=windpro1&name[]=windpro2
+| {attr}=%{value}% | 否 | 模糊查询指定字段 | 过滤单一值：/users?name=windpro% 语法与mysql like 类似。
 | {sub_resource}.{attr}={value} | 是 | 过滤子资源字段 | 组为 admin 的用户：/users?groups.name=admin  列表查询：/users?groups.name[]=admin&groups.name[]=normal
 | {sub_resource}.match={value} | 是 | 搜索子资源配置：match_fields | 组为 ad* 的用户：/users?groups._match=ad
 

@@ -1,1 +1,15 @@
 site_name: Rest-Utils Document
+pages:
+    - Home: index.md
+    - Document:
+        - 快速开始: user-guide/quickstart.md
+        - sqlachemy模型例子: user-guide/creating-api-endpoints.md
+        - Restful API规范: user-guide/restful-inferface.md
+        - 框架规范和支持的参数: user-guide/specification.md
+        - 自定义资源权限: user-guide/customizing-restful.md
+        - 自定义API: user-guide/schema.md
+        - 自动绑定数据库: user-guide/auto-bind.md
+    - Advanced:
+        - 编写测试用例: read-source/testing.md
+        - 源码目录结构: read-source/source.md
+theme: readthedocs

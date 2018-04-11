@@ -53,3 +53,9 @@ app.run()
 * Change APIManager.auto_create to SQLAlchemy Automap.
 * 添加APIManager.register_admin.详情可参见：/example/auto_create_admin.py
 * add windows support
+
+
+# TODO
+
+* 添加schema文档
+* 在整理切分文档

@@ -1,11 +1,11 @@
+# 自定义资源权限
+
 ## methods
 
     注册的HTTP方法。有：'GET': 查询, "POST": 新增, "PUT": 修改, "DELETE": 删除。
     默认情况下，APIManager.create_api() 会创建只读接口; 其他的method会被拒绝访问。
     
 apimanager.add(User, methods=['GET', 'POST', 'DELETE'])
-
-具体添加的内容和使用方法可[详情](/guide/interfaces.md).
 
 ## endpoint
 

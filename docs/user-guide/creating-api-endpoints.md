@@ -1,3 +1,5 @@
+# 数据库模型例子
+
 ## Models
 
     想使用本框架，你需要先定义数据库模型。可选：SQLAlchemy or Flask-SQLALchemy.
@@ -96,5 +98,5 @@ api = rest_utils.APIManager(app, engine=engine)
 person_blueprint = api.add(User, methods=['GET', 'POST', 'DELETE'])
 ```
 
-Note that you can specify which HTTP methods are available for each API endpoint. There are several more customization options; for more information, see [Customizing the Restful interface](/guide/customizing-restful.md).
+Note that you can specify which HTTP methods are available for each API endpoint. There are several more customization options; for more information, see [Customizing the Restful interface](/user-guide/customizing-restful.md).
 
