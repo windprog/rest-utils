@@ -195,23 +195,38 @@ class UserSchema(ModelSchema):
 <p>编写完 schemas 之后，我们可以随时在自己的api中序列化和反序列化数据库对象。
 在这个过程中可以利用marshmallow的能力添加动态字段。</p>
 <h2 id="apppy">app.py</h2>
-<pre><code class="python">from api import app
-from flask import jsonify
+<pre><code class="python">from flask import jsonify
+from rest_utils.utils import get_session
+import random
+from api import app
 from models import User
 from schemas import UserSchema
 
-@app.route('/api/random_sort_user')
-def random_sort_users():
+@app.route('/api/query_first_user')
+def query_first_user():
     first_user = User.query.first()
     data, errors = UserSchema().dump(first_user)
     return jsonify({
         &quot;first_user&quot;: data
     })
+
+@app.route('/api/create_random_user')
+def create_random_user():
+    session = get_session()
+    schema = UserSchema(session=session)
+    ins, errors = schema.load({
+        &quot;name&quot;: &quot;test_user&quot; + str(random.randint(1, 100))
+    })
+    session.add(ins)
+    session.commit()
+    return jsonify({
+        &quot;random_user&quot;: schema.dump(ins).data
+    })
 </code></pre>
 
 <h2 id="request">Request</h2>
 <p>这样我们就可以访问自定义api了</p>
-<pre><code>GET /api/random_sort_user
+<pre><code>GET /api/query_first_user
 
 HTTP/1.1 200 OK
 {
