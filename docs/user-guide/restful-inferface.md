@@ -4,8 +4,8 @@ api设计遵循RESTful API设计规范。可以参考：[《RESTful API 设计�
 
 关键字介绍：
 
-* {endpoint}: 路径，在这里具体指的是表名
-* {id}: 表的主键。一般为int的自增id。
+* {endpoint}: 路径，在这里具体指的是表名。如："/api/users"
+* {id}: 表的主键。一般为int的自增id。如："/api/users/1"
 * {key_field}: 表的唯一字段，用于快速定位资源。使用格式："/api/users/@windpro"
 * {sub_field}: 子资源字段。例如用户组的字段为: [groups](https://github.com/windprog/rest-utils/blob/master/example/quick_start.py#L57). 则这样使用："/api/users/@windpro/groups"
 
