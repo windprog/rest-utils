@@ -46,17 +46,32 @@ class UserSchema(ModelSchema):
 ## app.py
 
 ```python
-from api import app
 from flask import jsonify
+from rest_utils.utils import get_session
+import random
+from api import app
 from models import User
 from schemas import UserSchema
 
-@app.route('/api/random_sort_user')
-def random_sort_users():
+@app.route('/api/query_first_user')
+def query_first_user():
     first_user = User.query.first()
     data, errors = UserSchema().dump(first_user)
     return jsonify({
         "first_user": data
+    })
+
+@app.route('/api/create_random_user')
+def create_random_user():
+    session = get_session()
+    schema = UserSchema(session=session)
+    ins, errors = schema.load({
+        "name": "test_user" + str(random.randint(1, 100))
+    })
+    session.add(ins)
+    session.commit()
+    return jsonify({
+        "random_user": schema.dump(ins).data
     })
 ```
 
@@ -64,7 +79,7 @@ def random_sort_users():
 这样我们就可以访问自定义api了
 
 ```
-GET /api/random_sort_user
+GET /api/query_first_user
 
 HTTP/1.1 200 OK
 {
