@@ -297,7 +297,7 @@ HTTP/1.1 200 OK
 * DELETE /api/{endpoint}：可批量操作，查找规则为 id 或 unique key。
 
 删除windpro用户
-```bash
+```
 DELETE /api/users/@windpro
 
 HTTP/1.1 204 No Content
