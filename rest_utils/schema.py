@@ -6,7 +6,7 @@ Author  :   windpro
 E-mail  :   windprog@gmail.com
 Date    :   2018/2/8
 Desc    :
-manager.create(model_or_schema, attr=None, filters=[])
+manager.add(model_or_schema, methods=["GET"])
 """
 import datetime as dt
 import uuid
@@ -239,7 +239,7 @@ class ModelSchemaMeta(SchemaMeta):
 class TableSchema(with_metaclass(TableSchemaMeta, ma.Schema)):
     """Base class for SQLAlchemy model-based Schemas.
     Example: ::
-        from marshmallow_sqlalchemy import TableSchema
+        from rest_utils import TableSchema
         from mymodels import engine, users
         class UserSchema(TableSchema):
             class Meta:
@@ -257,7 +257,7 @@ class ModelSchema(with_metaclass(ModelSchemaMeta, ma.Schema)):
 
     Example: ::
 
-        from marshmallow_sqlalchemy import ModelSchema
+        from rest_utils import ModelSchema
         from mymodels import User, session
 
         class UserSchema(ModelSchema):
@@ -281,8 +281,6 @@ class ModelSchema(with_metaclass(ModelSchemaMeta, ma.Schema)):
 
     def __init__(self, related_kwargs={}, check_existence=False, *args, **kwargs):
         """
-
-
         :param only:
         :param exclude:
         :param related_kwargs: fields.Related字段展开时的参数。如{UserSchema: {"exclude": ["id"]}}
@@ -290,7 +288,6 @@ class ModelSchema(with_metaclass(ModelSchemaMeta, ma.Schema)):
         :param args:
         :param kwargs:
         """
-
         if not self.opts.model:
             raise ValueError('ModelSchema requires a sa orm model.')
         self.model = self.opts.model

@@ -1,8 +1,7 @@
 ## Introduction ##
 
-Rest-Utils 为使用 SQLAlchemy (or Flask-SQLAlchemy) 定义的数据库模型提供简单的Restful APIs生成。
-生成的API以JSON格式发送和接收消息。
-使用 marshmallow 使得转换非常便捷。
+Rest-Utils 为使用 SQLAlchemy (or Flask-SQLAlchemy) 定义的数据库模型提供简单的Restful APIs生成。 
+生成的API以JSON格式转换数据。内部使用 marshmallow 使得复用数据转换非常简单。
 
 For more information, see the
 
