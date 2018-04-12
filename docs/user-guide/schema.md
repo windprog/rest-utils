@@ -6,7 +6,7 @@
 
 例子如下，具体项目可以参考：[最佳实践](https://github.com/windprog/rest-utils-sample/blob/master/api/user_api.py)
 
-## models.py
+## models
 
 ```python
 class User(db.Model):
@@ -19,7 +19,7 @@ class User(db.Model):
     name = db.Column(db.Unicode(32), unique=True)
 ```
 
-## schemas.py
+## schemas
 
 ```python
 import random
@@ -43,7 +43,7 @@ class UserSchema(ModelSchema):
 编写完 schemas 之后，我们可以随时在自己的api中序列化和反序列化数据库对象。
 在这个过程中可以利用marshmallow的能力添加动态字段。
 
-## app.py
+## route
 
 ```python
 from flask import jsonify
