@@ -225,7 +225,6 @@ class ModelConverter(object):
 
         # Add a length validator if a max length is set on the column
         # Skip UUID columns
-        # (see https://github.com/marshmallow-code/marshmallow-sqlalchemy/issues/54)
         if hasattr(column.type, 'length'):
             try:
                 python_type = column.type.python_type

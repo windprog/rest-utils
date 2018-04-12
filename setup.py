@@ -14,7 +14,7 @@ from pip.req import parse_requirements
 from pip.download import PipSession
 from setuptools import setup
 
-__version__ = "1.0.4"
+__version__ = "1.0.5"
 __author__ = "Windpro"
 __author_email__ = "windprog@gmail.com"
 __description__ = "Rest-Utils provides simple generation of Restful APIs for database models defined using SQLAlchemy (or Flask-SQLAlchemy). The generated APIs send and receive messages in JSON format. support gunicorn and multiline process worker. "
