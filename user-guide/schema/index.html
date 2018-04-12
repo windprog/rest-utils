@@ -85,11 +85,11 @@
     
         <ul>
         
-            <li><a class="toctree-l4" href="#modelspy">models.py</a></li>
+            <li><a class="toctree-l4" href="#models">models</a></li>
         
-            <li><a class="toctree-l4" href="#schemaspy">schemas.py</a></li>
+            <li><a class="toctree-l4" href="#schemas">schemas</a></li>
         
-            <li><a class="toctree-l4" href="#apppy">app.py</a></li>
+            <li><a class="toctree-l4" href="#route">route</a></li>
         
             <li><a class="toctree-l4" href="#request">Request</a></li>
         
@@ -162,7 +162,7 @@
 <p>利用schema可以让 <strong>数据校验</strong> 和 <strong>动态字段</strong> 变得非常简单。</p>
 </blockquote>
 <p>例子如下，具体项目可以参考：<a href="https://github.com/windprog/rest-utils-sample/blob/master/api/user_api.py">最佳实践</a></p>
-<h2 id="modelspy">models.py</h2>
+<h2 id="models">models</h2>
 <pre><code class="python">class User(db.Model):
     &quot;&quot;&quot;
     用户
@@ -173,7 +173,7 @@
     name = db.Column(db.Unicode(32), unique=True)
 </code></pre>
 
-<h2 id="schemaspy">schemas.py</h2>
+<h2 id="schemas">schemas</h2>
 <pre><code class="python">import random
 from rest_utils import ModelSchema
 from rest_utils import fields
@@ -194,7 +194,7 @@ class UserSchema(ModelSchema):
 
 <p>编写完 schemas 之后，我们可以随时在自己的api中序列化和反序列化数据库对象。
 在这个过程中可以利用marshmallow的能力添加动态字段。</p>
-<h2 id="apppy">app.py</h2>
+<h2 id="route">route</h2>
 <pre><code class="python">from flask import jsonify
 from rest_utils.utils import get_session
 import random
