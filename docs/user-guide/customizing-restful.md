@@ -9,7 +9,7 @@ apimanager.add(User, methods=['GET', 'POST', 'DELETE'])
 
 ## endpoint
 
-默认情况下，APIManager.create_api()添加的模型或schema使用的interface名称为模型表名。可以手动指定名称
+默认情况下，APIManager.add()添加的模型或schema使用的interface名称为模型表名。可以手动指定名称
 
 ```python
 person_blueprint = api.add(User, endpoint="peoples")
@@ -96,7 +96,6 @@ class UsersSchema(ModelSchema):
         @staticmethod
         def create(model, data):
             return model(**data)
-
         @staticmethod
         def update(instance, data):
             for key, value in data.items():
