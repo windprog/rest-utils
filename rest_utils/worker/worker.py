@@ -24,6 +24,7 @@ def ignore_signal():
 
 class Worker(object):
     __metaclass__ = ABCMeta
+    QUEUE_LEN = 10  # 最大队列长度
 
     def __init__(self, total, index):
         """
@@ -31,7 +32,7 @@ class Worker(object):
         :param total: 总worker数量
         :param index: 当前worker index
         """
-        self.queue = ProcessQueue()
+        self.queue = ProcessQueue(self.QUEUE_LEN)
         self.process = Process(target=self.run_forever, args=())
         self.total, self.index = total, index
 
@@ -41,10 +42,11 @@ class Worker(object):
     def feed(self, msg):
         """
         投喂数据，从fetch进程调用
+        timeout 错误由 fetcher do_feed 捕获并重试
         :param msg:
         :return:
         """
-        self.queue.put(msg)
+        self.queue.put(msg, timeout=5)
 
     @abstractmethod
     def parse(self, msg):

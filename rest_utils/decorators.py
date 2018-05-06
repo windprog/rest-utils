@@ -56,18 +56,21 @@ def etag(f):
 
 
 def not_modified():
-    response = jsonify({'status': 304, 'error': 'not modified'})
+    response = jsonify({
+        'status': 304,
+        'error': 'not modified'
+    })
     response.status_code = 304
     return response
 
 
 def precondition_failed():
-    response = jsonify({'status': 412, 'error': 'precondition failed'})
+    response = jsonify({
+        'status': 412,
+        'error': 'precondition failed'
+    })
     response.status_code = 412
     return response
-
-
-
 
 
 def catch_exc(func):

@@ -9,6 +9,8 @@ Desc    :
 """
 from abc import ABCMeta, abstractmethod
 from multiprocessing import Process
+from Queue import Full
+import logging
 
 
 class Fetcher(object):
@@ -56,7 +58,15 @@ class Fetcher(object):
     def do_feed(self, msg):
         index = self.choose(msg)
         assert isinstance(index, int) and index < len(self.worker_list)
-        self.worker_list[index].feed(msg)
+        while True:
+            try:
+                self.worker_list[index].feed(msg)
+            except Full:
+                # 队列满了重试发送
+                logging.error("pid:%s worker is full. Please check the Thread blocking situation." % str(
+                    self.worker_list[index].pid))
+                continue
+            break
 
     @abstractmethod
     def run_forever(self):
