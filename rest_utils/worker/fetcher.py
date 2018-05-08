@@ -8,8 +8,8 @@ Date    :   17/10/25
 Desc    :   
 """
 from abc import ABCMeta, abstractmethod
-from multiprocessing import Process
 from Queue import Full
+from multiprocessing.process import Process
 import logging
 
 
@@ -62,9 +62,10 @@ class Fetcher(object):
             try:
                 self.worker_list[index].feed(msg)
             except Full:
+                p = self.worker_list[index].process
+                assert isinstance(p, Process)
                 # 队列满了重试发送
-                logging.error("pid:%s worker is full. Please check the Thread blocking situation." % str(
-                    self.worker_list[index].pid))
+                logging.error("pid:%s worker is full. Please check the Thread blocking situation." % str(p.pid))
                 continue
             break
 
