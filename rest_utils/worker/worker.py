@@ -25,6 +25,7 @@ def ignore_signal():
 class Worker(object):
     __metaclass__ = ABCMeta
     QUEUE_LEN = 10  # 最大队列长度
+    TIMEOUT = 120
 
     def __init__(self, total, index):
         """
@@ -46,7 +47,7 @@ class Worker(object):
         :param msg:
         :return:
         """
-        self.queue.put(msg, timeout=5)
+        self.queue.put(msg, timeout=self.TIMEOUT)
 
     @abstractmethod
     def parse(self, msg):
