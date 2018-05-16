@@ -103,13 +103,11 @@ def catch_exc(func):
             arg_str = ",".join([get_arg_str(arg) for arg in args])
             kwargs_str = ",".join(["%s=%s" % (k, get_arg_str(v)) for k, v in kwargs.items()])
             func_args_str = ",".join([item for item in [arg_str, kwargs_str] if item])
-            logging.error('{pid}:{module}.{func}({func_args_str}): {tb}'.format(
+            logging.error('{module}.{func}({func_args_str}): {tb}'.format(
                 module=six.get_function_globals(func).get('__name__', ''),
                 func=func.__name__,
                 tb=traceback.format_exc(),
-                date=datetime.datetime.now().strftime("%m-%d %H:%M"),
                 func_args_str=func_args_str,
-                pid=os.getpid()
             ))
 
     return execute
@@ -120,8 +118,7 @@ def log_exe_time(func):
         ''' 修饰器代理函数 '''
         start = time.time()
         ret = func(*args, **kwargs)
-        logging.info("{pid}:{module}.{func} execute sec:{total_sec}".format(
-            pid=os.getpid(),
+        logging.info("{module}.{func} execute sec:{total_sec}".format(
             date=datetime.datetime.now().strftime("%m-%d %H:%M"),
             module=six.get_function_globals(func).get('__name__', ''),
             func=func.__name__,

@@ -246,6 +246,7 @@ class Runserver(Command):
         if not logging.getLogger().handlers:
             # 设置默认日志处理
             set_log_format(
+                logger=logging.getLogger(),  # 获取全局 logger
                 id_getter=get_flask_id,
                 level=getattr(logging, kwargs.get("loglevel", "info").upper()),
                 enable_err2out=True,

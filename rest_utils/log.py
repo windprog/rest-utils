@@ -46,6 +46,7 @@ def get_handler(fmt, datefmt, stream, level, filter):
 
 
 def set_log_format(
+        logger,
         id_getter=lambda log: log.name,
         level=logging.INFO,
         enable_err2out=True,
@@ -54,6 +55,7 @@ def set_log_format(
 ):
     """
     ERROR日志打印到stderr里，可由enable_err2out控制是否输出到stdout里
+    :param logger: logger 对象.通常以:logging.getLogger() 获取
     :param id_getter: 获取id的方式,默认为log名称
     :param level: 日志级别
     :param enable_err2out: 把ERROR日志打印到stdout里
@@ -61,14 +63,13 @@ def set_log_format(
     :param datefmt: Formatter datefmt
     :return:
     """
-    global_logger = logging.getLogger()
-    global_logger.setLevel(level)
+    logger.setLevel(level)
 
     # 清空原有handler
-    for handler in global_logger.handlers:
-        global_logger.removeHandler(handler)
+    for handler in logger.handlers:
+        logger.removeHandler(handler)
     # 添加handler
-    global_logger.addHandler(get_handler(
+    logger.addHandler(get_handler(
         fmt=fmt,
         datefmt=datefmt,
         stream=sys.stdout,
@@ -79,7 +80,7 @@ def set_log_format(
             upper=logging.CRITICAL if enable_err2out else logging.WARNING,
         )
     ))
-    global_logger.addHandler(get_handler(
+    logger.addHandler(get_handler(
         fmt=fmt,
         datefmt=datefmt,
         stream=sys.stderr,
@@ -97,7 +98,7 @@ if __name__ == '__main__':
     from flask_trace import get_flask_id
 
     app = Flask(__name__)
-    set_log_format(get_flask_id, enable_err2out=False)
+    set_log_format(logger=logging.getLogger(), id_getter=get_flask_id, enable_err2out=False)
     with app.app_context():
         # normal env
         logging.info("normal env info")
