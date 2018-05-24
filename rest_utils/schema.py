@@ -336,8 +336,8 @@ class ModelSchema(with_metaclass(ModelSchemaMeta, ma.Schema)):
         try:
             self._current_expand = expand
             if self._current_expand is not None and self._current_expand <= 0:
-                exclude = list(old_exclude)
-                only = list(old_only)
+                exclude = list(old_exclude) if old_exclude else []
+                only = list(old_only) if old_only else []
                 for key, field in iteritems(self._declared_fields):
                     if isinstance(field, Related):
                         if key not in exclude:

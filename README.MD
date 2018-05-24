@@ -53,7 +53,7 @@ app.run()
 * 添加APIManager.register_admin.详情可参见：/example/auto_create_admin.py
 * add windows support
 
-## 1.1.1 2018-05-24
+## 1.1.2 2018-05-24
 
 * 添加日志初始化方法
 * 支持marshmallow 2.15.0最新版
