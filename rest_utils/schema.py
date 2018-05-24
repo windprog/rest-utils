@@ -344,8 +344,10 @@ class ModelSchema(with_metaclass(ModelSchemaMeta, ma.Schema)):
                             exclude.append(key)
                         if key in only:
                             only.remove(key)
-                self.exclude = exclude
-                self.only = only
+                if exclude:
+                    self.exclude = exclude
+                if only:
+                    self.only = only
             return super(ModelSchema, self).dump(obj, many=many, **kwargs)
         finally:
             self._current_expand = None

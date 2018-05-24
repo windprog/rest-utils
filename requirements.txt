@@ -3,5 +3,5 @@ flask
 flask_script
 SQLAlchemy>=0.9.1
 gunicorn
-marshmallow
+marshmallow==2.15.0
 six
