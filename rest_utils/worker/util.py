@@ -11,6 +11,12 @@ import signal
 import threading
 import time
 from abc import ABCMeta, abstractmethod
+from multiprocessing import Process
+
+
+def register_signal(on_sigterm):
+    signal.signal(signal.SIGTERM, on_sigterm)
+    signal.signal(signal.SIGINT, on_sigterm)
 
 
 class SleepMixin(object):
@@ -36,8 +42,7 @@ class ThreadMixin(SleepMixin):
         def on_sigterm(*ignore):
             self.join(*args, **kwargs)
 
-        signal.signal(signal.SIGTERM, on_sigterm)
-        signal.signal(signal.SIGINT, on_sigterm)
+        register_signal(on_sigterm)
 
     def setup_thread_name(self, thread_name):
         self._serve_thread.setName(thread_name)
@@ -62,6 +67,39 @@ class ThreadMixin(SleepMixin):
             _serve_thread.join(timeout=timeout)
 
 
+class ProcessMixin(SleepMixin):
+    def run_forever_decorator(self, func, process_name):
+        def wrapper(*args, **kwargs):
+            if process_name:
+                set_process_name(process_name)
+            self.running = True
+            register_signal(self.process_join)
+            return func(*args, **kwargs)
+
+        return wrapper
+
+    def serve_async(self, process_name=None, args=()):
+        run_forever = self.run_forever_decorator(self.serve_forever, process_name)
+        self._process = Process(target=run_forever, args=args)
+        self._process.start()
+
+    def shutdown(self):
+        self.running = False
+
+    def process_join(self, *args, **kwargs):
+        super(ProcessMixin, self).join()
+        self.shutdown()
+
+    def join(self, timeout=None):
+        self._process.join(timeout=timeout)
+
+    def setup_self_join(self, args=(), kwargs={}):
+        def on_sigterm(*ignore):
+            self.join(*args, **kwargs)
+
+        register_signal(on_sigterm)
+
+
 class CrontabThread(ThreadMixin):
     __metaclass__ = ABCMeta
 
@@ -84,6 +122,64 @@ class CrontabThread(ThreadMixin):
                 self.sleep(next_ts - cur_ts)
 
 
+class CrontabProcess(ProcessMixin):
+    __metaclass__ = ABCMeta
+
+    def __init__(self, interval):
+        self.interval = interval
+        super(CrontabProcess, self).__init__()
+
+    @abstractmethod
+    def run(self):
+        pass
+
+    def serve_forever(self):
+        self.running = True
+        while self.running:
+            this_ts = time.time()
+            self.run()
+            next_ts = this_ts + self.interval
+            cur_ts = time.time()
+            if next_ts > cur_ts:
+                self.sleep(next_ts - cur_ts)
+
+
 def set_process_name(name):
     import setproctitle
     setproctitle.setproctitle(name)
+
+
+if __name__ == '__main__':
+    def test_process_crontab():
+        class TestCrontab(CrontabProcess):
+            def run(self):
+                print("running")
+
+            def shutdown(self):
+                super(TestCrontab, self).shutdown()
+                print("exiting process")
+
+        job = TestCrontab(1)
+        job.setup_self_join()
+        job.serve_async('test_name')
+        job.join()
+        print("main process exit")
+
+
+    def test_thread_crontab():
+        class TestCrontab(CrontabThread):
+            def run(self):
+                print("running")
+
+            def shutdown(self):
+                super(TestCrontab, self).shutdown()
+                print("exiting thread")
+
+        job = TestCrontab(1)
+        job.setup_self_join()
+        job.serve_async('test_name')
+        for i in range(10):
+            print("main thread wating:%s" % i)
+            time.sleep(10)
+
+    test_process_crontab()
