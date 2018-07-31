@@ -80,7 +80,7 @@ class ConfigCenter(CrontabThread):
         for fetcher in self.fetcher_list:
             if fetcher.process.is_alive():
                 fetcher_alive += 1
-        if not worker_alive or not fetcher_alive:
+        if worker_alive != self.worker_num or fetcher_alive != self.fetcher_num:
             logging.error("worker_num:%s fetcher_alive:%s. exiting program." % (
                 str(worker_alive), str(fetcher_alive)
             ))

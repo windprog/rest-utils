@@ -58,4 +58,8 @@ app.run()
 * 添加日志初始化方法
 * 支持marshmallow 2.15.0最新版
 
+## 1.1.4
+
+* 添加 worker 存活性检测逻辑
+
 # TODO
