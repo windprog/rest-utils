@@ -180,7 +180,6 @@ def is_open(ip, port, timeout=2):
 
 
 def _get_ip_udp(ip):
-    # 默认为：api.tof.oss.com
     import socket
     udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     udp.connect((ip, 8))
@@ -194,12 +193,12 @@ def _get_ip_hostname():
     return ip
 
 
-def get_ip(ip):
+def get_ip(check_ip):
     import platform
     if platform.system().lower() == "windows":
         ip = _get_ip_hostname()
     else:
-        ip = _get_ip_udp(ip)
+        ip = _get_ip_udp(check_ip)
     return ip
 
 
