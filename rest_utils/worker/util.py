@@ -52,8 +52,8 @@ class ThreadMixin(SleepMixin):
         if thread_name is not None:
             self.setup_thread_name(thread_name=thread_name)
         self._serve_thread.setDaemon(daemon)
-        self._serve_thread.start()
         self.running = True
+        self._serve_thread.start()
 
     def shutdown(self):
         self.running = False
