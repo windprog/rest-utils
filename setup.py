@@ -10,11 +10,9 @@ Date    :   14-12-1
 Desc    :   
 """
 import os
-from pip.req import parse_requirements
-from pip.download import PipSession
 from setuptools import setup
 
-__version__ = "1.1.7"
+__version__ = "1.1.9"
 __author__ = "Windpro"
 __author_email__ = "windprog@gmail.com"
 __description__ = "Rest-Utils provides simple generation of Restful APIs for database models defined using SQLAlchemy (or Flask-SQLAlchemy). The generated APIs send and receive messages in JSON format. support gunicorn and multiline process worker. "
@@ -22,8 +20,8 @@ __title__ = 'Rest-Utils'
 __url__ = "https://github.com/windprog/rest-utils"
 
 req = os.path.join(os.path.dirname(__file__), 'requirements.txt')
-install_reqs = parse_requirements(req, session=PipSession())
-install_requires = [str(ir.req) for ir in install_reqs]
+with open(req) as f:
+    install_requires = [line for line in f.read().split("\n") if line]
 
 setup(
     name=__title__,
