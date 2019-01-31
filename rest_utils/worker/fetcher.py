@@ -8,8 +8,14 @@ Date    :   17/10/25
 Desc    :   
 """
 from abc import ABCMeta, abstractmethod
-from Queue import Full
-from multiprocessing.process import Process
+import six
+
+if six.PY2:
+    from Queue import Full
+    from multiprocessing.process import Process
+else:
+    from queue import Full
+    from multiprocessing import Process
 import logging
 
 

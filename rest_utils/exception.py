@@ -7,7 +7,6 @@ E-mail  :   windprog@gmail.com
 Date    :   16/9/18
 Desc    :
 """
-from types import NoneType
 import inspect
 import sys
 import re
@@ -18,7 +17,13 @@ import six
 from requests import codes
 from marshmallow.compat import iteritems
 
-JSON_TYPES = tuple([float, unicode, str, NoneType] + list(six.integer_types))
+if six.PY3:
+    # 不再使用from types import NoneType,不兼容py3
+    JSON_TYPES = tuple([float, str, type(None)] + list(six.integer_types))
+else:
+    from types import NoneType
+
+    JSON_TYPES = tuple([float, unicode, str, NoneType] + list(six.integer_types))
 
 
 class RestException(Exception):

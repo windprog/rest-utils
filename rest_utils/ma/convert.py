@@ -20,7 +20,7 @@ import sqlalchemy as sa
 from marshmallow import class_registry
 from marshmallow.exceptions import RegistryError
 
-import model_registry
+from rest_utils.ma import model_registry
 
 
 class ModelConversionError(Exception):
