@@ -135,15 +135,3 @@ def get_tablename(model):
     if not getattr(mapper, "tables", None):
         return None
     return mapper.tables[0].name
-
-
-if __name__ == '__main__':
-    # TODO move to test
-    from modules.api.app import app
-    from modules.models import ModuleMachineTypeInfo, db, ModuleIpInfo
-
-    context = app.app_context().__enter__()
-    print get_unique_keys_list(ModuleMachineTypeInfo)
-    print get_instance(db.session, ModuleIpInfo, {
-        "ip": "10.56.236.150"
-    })

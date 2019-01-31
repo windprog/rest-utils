@@ -12,7 +12,7 @@ Desc    :
 import os
 from setuptools import setup
 
-__version__ = "1.1.9"
+__version__ = "1.1.10"
 __author__ = "Windpro"
 __author_email__ = "windprog@gmail.com"
 __description__ = "Rest-Utils provides simple generation of Restful APIs for database models defined using SQLAlchemy (or Flask-SQLAlchemy). The generated APIs send and receive messages in JSON format. support gunicorn and multiline process worker. "

@@ -280,10 +280,10 @@ class Command(object):
 
 if __name__ == '__main__':
     cmd = ['ping', '-c', '10', 'www.baidu.com']
-    print cmd
+    print(cmd)
     c = Command(arg=cmd)
     c.wait_kill(timeout=20)
-    print c.finish
-    print c.killed
-    print repr(c.last_stdout)
-    print repr(c.last_stderr)
+    print(c.finish)
+    print(c.killed)
+    print(repr(c.last_stdout))
+    print(repr(c.last_stderr))
