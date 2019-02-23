@@ -13,6 +13,6 @@ db = SQLAlchemy(app)
 api = APIManager(app, db=db)
 api.auto_create()
 api.register_admin()
-app.run(host="0.0.0.0")
+app.run(host="0.0.0.0", debug=False, threaded=True)
 # curl http://127.0.0.1:5000/api/Track?_num=20&_expand=1
 # open http://127.0.0.1:5000/admin
