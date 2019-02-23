@@ -8,7 +8,7 @@ For more information, see the
   * [documentation](https://windprog.github.io/rest-utils/),
   * [Python Package Index listing](https://pypi.python.org/pypi/rest-utils),
   * [source code repository](https://github.com/windprog/rest-utils).
-  * **Online Example**: [ADMIN](http://rest-utils.codedig.com:5000/admin), [API](http://rest-utils.codedig.com:5000/api/Track?_num=20&_expand=1), 
+  * **Online Example**: [ADMIN](http://rest-utils.codedig.com:5000/admin/), [API](http://rest-utils.codedig.com:5000/api/Track?_num=20&_expand=1), 
   * [最佳实践](https://github.com/windprog/rest-utils-sample).
 
 ## Install
@@ -36,7 +36,7 @@ app.run()
 
     curl http://127.0.0.1:5000/api/Track?_num=20&_expand=1
 
-详细使用参见：[快速开始](https://windprog.github.io/rest-utils/guide/quickstart/)
+详细使用参见：[快速开始](https://windprog.github.io/rest-utils/#quick-start)
 
 
 # Change Log
