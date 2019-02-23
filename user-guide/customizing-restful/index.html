@@ -255,7 +255,6 @@ class UsersSchema(ModelSchema):
         @staticmethod
         def create(model, data):
             return model(**data)
-
         @staticmethod
         def update(instance, data):
             for key, value in data.items():
