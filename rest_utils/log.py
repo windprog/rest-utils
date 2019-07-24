@@ -80,17 +80,19 @@ def set_log_format(
             upper=logging.CRITICAL if enable_err2out else logging.WARNING,
         )
     ))
-    logger.addHandler(get_handler(
-        fmt=fmt,
-        datefmt=datefmt,
-        stream=sys.stderr,
-        level=logging.ERROR,
-        filter=LevelFilter(
-            id_getter=id_getter,
-            lower=logging.ERROR,
-            upper=logging.CRITICAL,
-        )
-    ))
+    if not enable_err2out:
+        # 打印在 stdout 里就不打印 stderr
+        logger.addHandler(get_handler(
+            fmt=fmt,
+            datefmt=datefmt,
+            stream=sys.stderr,
+            level=logging.ERROR,
+            filter=LevelFilter(
+                id_getter=id_getter,
+                lower=logging.ERROR,
+                upper=logging.CRITICAL,
+            )
+        ))
 
 
 if __name__ == '__main__':
