@@ -18,8 +18,9 @@ from marshmallow import fields
 from marshmallow.compat import with_metaclass, iteritems
 
 from sqlalchemy import Integer, DateTime, Date, Numeric, JSON
+from sqlalchemy.orm.dynamic import AppenderQuery
 
-from .sa_util import get_instance
+from .sa_util import get_instance, get_instance_by_cond
 from .ma.convert import ModelConverter
 from .utils import add_padding_callback, check_need_modify
 from .ma import model_registry
@@ -38,6 +39,8 @@ def default_create(model, data):
 
 def default_update(instance, data):
     for key, value in iteritems(data):
+        if isinstance(getattr(instance, key, None), AppenderQuery):
+            continue
         setattr(instance, key, value)
     return instance
 
@@ -279,12 +282,12 @@ class ModelSchema(with_metaclass(ModelSchemaMeta, ma.Schema)):
     """
     OPTIONS_CLASS = ModelSchemaOpts
 
-    def __init__(self, related_kwargs={}, check_existence=False, *args, **kwargs):
+    def __init__(self, related_kwargs={}, check_existence=True, *args, **kwargs):
         """
         :param only:
         :param exclude:
         :param related_kwargs: fields.Related字段展开时的参数。如{UserSchema: {"exclude": ["id"]}}
-        :param check_existence: 创建资源之前先检查是否存在
+        :param check_existence: 创建资源之前先检查是否存在,默认检查
         :param args:
         :param kwargs:
         """
@@ -292,7 +295,17 @@ class ModelSchema(with_metaclass(ModelSchemaMeta, ma.Schema)):
             raise ValueError('ModelSchema requires a sa orm model.')
         self.model = self.opts.model
         self._instance = kwargs.pop('instance', None)  # instance必须存在于数据库中
+        # 存在instance则不能为many
+        if self._instance and kwargs.get("many", False) is True:
+            raise ValueError('ModelSchema instance require many=False')
         self._session = kwargs.pop('session', None)
+
+        # 上层对象的AppenderQuery对象
+        # 必须已存在db
+        # 如ins.relationship.filter
+        # with lazy='dynamic' option gives you a query (AppenderQuery object which allows you to add/remove items)
+        self._owner_query = kwargs.pop('owner_query', None)
+
         # self.ext_data = dict()
         # 展开层级
         self._current_expand = None
@@ -310,7 +323,12 @@ class ModelSchema(with_metaclass(ModelSchemaMeta, ma.Schema)):
         :param data: Data to deserialize.
         """
         if self._check_existence:
-            instance = self._instance or get_instance(self._session, self.model, data)
+            # 存在 _owner_query 则使用 ins.relationship.filter 查询
+            instance = self._instance or (
+                get_instance_by_cond(self._owner_query, self.model, data)
+                if self._owner_query else
+                get_instance(self._session, self.model, data)
+            )
             if instance is not None:
                 # 检查是否需要变更
                 if check_need_modify(instance, data):
@@ -362,6 +380,13 @@ class ModelSchema(with_metaclass(ModelSchemaMeta, ma.Schema)):
         """
         if not self._session:
             raise ValueError('Deserialization requires a session')
+        many = self.many if kwargs.get("many") is None else bool(kwargs.get("many"))
+        if self._check_existence and not many and not self._instance:
+            self._instance = (
+                get_instance_by_cond(self._owner_query, self.model, data)
+                if self._owner_query else
+                get_instance(self._session, self.model, data)
+            )
         return super(ModelSchema, self).load(data, *args, **kwargs)
 
     def validate(self, data, *args, **kwargs):

@@ -54,6 +54,27 @@ def get_instance(session, model, data):
     return None
 
 
+def get_instance_by_cond(query_condition, model, data):
+    """Retrieve an existing record by primary key(s) or unique key(s)."""
+    unique_list = [
+        get_primary_keys(model)
+    ]
+    unique_list.extend(get_unique_keys_list(model))
+    for props in unique_list:
+        keys = set(prop.key for prop in props)
+        cond = {
+            key: data[key]
+            for key in keys if key in data
+        }
+        if set(cond) == keys:
+            # field all exists
+            return query_condition.filter_by(**cond).first()
+        elif len(cond) > 0:
+            # filter by primary key and unique key
+            return query_condition.filter_by(**cond).first()
+    return None
+
+
 def get_list_attr_query(resource, attr):
     """
     获取子资源的query,主资源不存在则自动session.add

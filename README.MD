@@ -62,4 +62,9 @@ app.run()
 
 * 添加 worker 存活性检测逻辑
 
+## 1.2.1
+
+* 改变Schema check_existence默认为True,子资源跟随父资源的check_existence
+* 支持自增外检不填写更新: 通过lazy="dynamic" 的 relationship(AppenderQuery)过滤
+
 # TODO

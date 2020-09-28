@@ -160,7 +160,7 @@ class Related(fields.Field):
             raise ValidationError(errors, data=ret)
         return ret
 
-    def _deserialize(self, value, attr, data):
+    def _deserialize_one(self, value, attr, data):
         father_schema = get_schema_for_field(self)
         # schema展开配置
         related_kwargs = father_schema._related_kwargs
@@ -168,12 +168,22 @@ class Related(fields.Field):
         schema_class = self.schema_class
 
         schema_kwargs = dict(
-            many=self.related_prop.uselist,
+            # many=self.related_prop.uselist,
             session=getattr(father_schema, "_session", None),
-            check_existence=True,  # 子资源创建默认都是先查询存在性再决定是否创建
+            check_existence=father_schema._check_existence,  # 子资源创建检查策略跟随父策略
             related_kwargs=related_kwargs,
             **related_kwargs.get(schema_class, {})
         )
+
+        # 上一级的查询
+        if self.related_prop.uselist:
+            if father_schema._instance and self.related_prop.lazy == 'dynamic':
+                schema_kwargs["owner_query"] = getattr(father_schema._instance, self.attribute or self.name)
+        else:
+            # uselist=False
+            old = getattr(father_schema._instance, self.attribute or self.name)
+            if father_schema._instance and self.related_prop.lazy == 'select' and old:
+                schema_kwargs["instance"] = old
 
         schema = schema_class(**schema_kwargs)
 
@@ -181,3 +191,26 @@ class Related(fields.Field):
         if errors:
             raise ValidationError(errors, data=ins)
         return ins
+
+    def _deserialize(self, value, attr, data):
+        from marshmallow import utils
+
+        if not self.related_prop.uselist:
+            return self._deserialize_one(value, attr, data)
+
+        if not utils.is_collection(value):
+            self.fail('invalid')
+
+        result = []
+        errors = {}
+        for idx, each in enumerate(value):
+            try:
+                result.append(self._deserialize_one(each, attr, data))
+            except ValidationError as e:
+                result.append(e.data)
+                errors.update({idx: e.messages})
+
+        if errors:
+            raise ValidationError(errors, data=result)
+
+        return result
