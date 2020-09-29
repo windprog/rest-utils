@@ -39,8 +39,9 @@ def default_create(model, data):
 
 def default_update(instance, data):
     for key, value in iteritems(data):
-        if isinstance(getattr(instance, key, None), AppenderQuery):
-            continue
+        # AppenderQuery 必须整体替换,不然无法实现替换子资源操作
+        # if isinstance(getattr(instance, key, None), AppenderQuery):
+        #     continue
         setattr(instance, key, value)
     return instance
 
@@ -300,11 +301,10 @@ class ModelSchema(with_metaclass(ModelSchemaMeta, ma.Schema)):
             raise ValueError('ModelSchema instance require many=False')
         self._session = kwargs.pop('session', None)
 
-        # 上层对象的AppenderQuery对象
-        # 必须已存在db
-        # 如ins.relationship.filter
-        # with lazy='dynamic' option gives you a query (AppenderQuery object which allows you to add/remove items)
-        self._owner_query = kwargs.pop('owner_query', None)
+        # 上层对象的attr(uslist=True的情况下)
+        self._father_attr = kwargs.pop('father_attr', None)
+        # 上层对象
+        self._father_instance = kwargs.pop('father_instance', None)
 
         # self.ext_data = dict()
         # 展开层级
@@ -324,11 +324,11 @@ class ModelSchema(with_metaclass(ModelSchemaMeta, ma.Schema)):
         """
         if self._check_existence:
             # 存在 _owner_query 则使用 ins.relationship.filter 查询
-            instance = self._instance or (
-                get_instance_by_cond(self._owner_query, self.model, data)
-                if self._owner_query else
-                get_instance(self._session, self.model, data)
-            )
+            if self.many:
+                # 一般情况下都是schema 一对一 ins.如果用到了many,则只能重新查询一次
+                instance = get_instance(self._session, self.model, data)
+            else:
+                instance = self._instance
             if instance is not None:
                 # 检查是否需要变更
                 if check_need_modify(instance, data):
@@ -383,8 +383,8 @@ class ModelSchema(with_metaclass(ModelSchemaMeta, ma.Schema)):
         many = self.many if kwargs.get("many") is None else bool(kwargs.get("many"))
         if self._check_existence and not many and not self._instance:
             self._instance = (
-                get_instance_by_cond(self._owner_query, self.model, data)
-                if self._owner_query else
+                get_instance_by_cond(self._session, self._father_instance, self._father_attr, self.model, data)
+                if self._father_attr else
                 get_instance(self._session, self.model, data)
             )
         return super(ModelSchema, self).load(data, *args, **kwargs)

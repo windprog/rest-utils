@@ -15,6 +15,8 @@ from marshmallow.compat import basestring
 from marshmallow.exceptions import ValidationError
 from marshmallow.fields import *
 
+from sqlalchemy import inspect as sa_inspect
+
 from .utils import is_sa_mapped
 from .ma import model_registry
 from .sa_util import get_prop_nullable
@@ -176,14 +178,18 @@ class Related(fields.Field):
         )
 
         # 上一级的查询
-        if self.related_prop.uselist:
-            if father_schema._instance and self.related_prop.lazy == 'dynamic':
-                schema_kwargs["owner_query"] = getattr(father_schema._instance, self.attribute or self.name)
-        else:
-            # uselist=False
-            old = getattr(father_schema._instance, self.attribute or self.name)
-            if father_schema._instance and self.related_prop.lazy == 'select' and old:
-                schema_kwargs["instance"] = old
+        if father_schema._instance:
+            father_class = sa_inspect(father_schema._instance).mapper.class_
+            father_attr = getattr(father_class, self.attribute or self.name)
+
+            schema_kwargs["father_instance"] = father_schema._instance
+            if self.related_prop.uselist:
+                schema_kwargs["father_attr"] = father_attr
+            else:
+                # uselist=False
+                old = getattr(father_schema._instance, self.attribute or self.name)
+                if self.related_prop.lazy == 'select' and old:
+                    schema_kwargs["instance"] = old
 
         schema = schema_class(**schema_kwargs)
 

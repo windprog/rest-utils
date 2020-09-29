@@ -12,6 +12,7 @@ from flask import g, current_app
 from sqlalchemy import inspect
 from sqlalchemy import UniqueConstraint
 from sqlalchemy.orm import object_session, object_mapper, properties
+from sqlalchemy import inspect as sa_inspect
 from .utils import get_session, get_class
 
 
@@ -54,24 +55,45 @@ def get_instance(session, model, data):
     return None
 
 
-def get_instance_by_cond(query_condition, model, data):
+def get_instance_by_cond(session, father_instance, father_attr, model, data):
     """Retrieve an existing record by primary key(s) or unique key(s)."""
+    # m = m.data_bindings.parent.class_
+    # m.data_bindings.expression.clauses[0].left.table == sa_inspect(m).tables[0]
+    # query_condition.attr.parent_token.primaryjoin.clauses
+    from sqlalchemy.sql.elements import BinaryExpression
     unique_list = [
         get_primary_keys(model)
     ]
+    copy_data = dict(data)
+    father_mapper = sa_inspect(father_instance).mapper
+    father_table = father_mapper.tables[0]
+    clauses = (
+        [father_attr.expression]
+        if isinstance(father_attr.expression, BinaryExpression) else
+        father_attr.expression.clauses
+    )
+    for be in clauses:
+        if be.left.table == father_table:
+            father_val = getattr(father_instance, be.left.key)
+            child_key = be.right.key
+        elif be.right.table == father_table:
+            father_val = getattr(father_instance, be.right.key)
+            child_key = be.left.key
+        else:
+            # 多对多关系会捕获无效条件
+            # father_attr.prop.direction: sqlalchemy.util.langhelpers.symbol
+            continue
+        copy_data[child_key] = father_val
     unique_list.extend(get_unique_keys_list(model))
     for props in unique_list:
         keys = set(prop.key for prop in props)
         cond = {
-            key: data[key]
-            for key in keys if key in data
+            key: copy_data[key]
+            for key in keys if key in copy_data
         }
         if set(cond) == keys:
             # field all exists
-            return query_condition.filter_by(**cond).first()
-        elif len(cond) > 0:
-            # filter by primary key and unique key
-            return query_condition.filter_by(**cond).first()
+            return session.query(model).filter_by(**cond).first()
     return None
 
 
