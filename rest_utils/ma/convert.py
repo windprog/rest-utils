@@ -5,16 +5,19 @@
 Author  :   windpro
 E-mail  :   windprog@gmail.com
 Date    :   2018/2/9
-Desc    :   
+Desc    :
+https://github.com/marshmallow-code/marshmallow-sqlalchemy/blob/dev/src/marshmallow_sqlalchemy/convert.py
 """
 import inspect
 import functools
+import six
 
 import uuid
 import datetime
 import marshmallow as ma
 from marshmallow import validate, fields
 from sqlalchemy.dialects import postgresql, mysql, mssql
+from sqlalchemy.sql import sqltypes
 import sqlalchemy as sa
 
 from marshmallow import class_registry
@@ -66,6 +69,13 @@ def _should_exclude_field(column, fields=None, exclude=None):
     return False
 
 
+class MysqlTimestampField(fields.DateTime):
+    def _serialize(self, value, attr, obj):
+        if isinstance(value, six.string_types) and value.startswith("0000"):
+            return None
+        return super(MysqlTimestampField, self)._serialize(value, attr, obj)
+
+
 class ModelConverter(object):
     """Class that converts a SQLAlchemy model into a dictionary of corresponding
     marshmallow `Fields <marshmallow.fields.Field>`.
@@ -87,6 +97,13 @@ class ModelConverter(object):
         mysql.YEAR: fields.Integer,
         mysql.SET: fields.List,
         mysql.ENUM: fields.Field,
+
+        # for mysql timestamp "0000-00-00 00:00:00"
+        mysql.TIMESTAMP: MysqlTimestampField,
+        mysql.DATETIME: MysqlTimestampField,
+        sqltypes.DATETIME: MysqlTimestampField,
+        sqltypes.TIMESTAMP: MysqlTimestampField,
+        # end mysql timestamp
 
         mssql.BIT: fields.Integer,
     }
