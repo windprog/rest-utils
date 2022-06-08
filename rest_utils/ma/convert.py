@@ -99,9 +99,7 @@ class ModelConverter(object):
         mysql.ENUM: fields.Field,
 
         # for mysql timestamp "0000-00-00 00:00:00"
-        mysql.TIMESTAMP: MysqlTimestampField,
-        mysql.DATETIME: MysqlTimestampField,
-        sqltypes.DATETIME: MysqlTimestampField,
+        sqltypes.DateTime: MysqlTimestampField,
         sqltypes.TIMESTAMP: MysqlTimestampField,
         # end mysql timestamp
 
