@@ -5,6 +5,11 @@
     python setup.py sdist upload -r pypi
     mkdocs gh-deploy
 
+## new upload
+
+    python setup.py sdist bdist_wheel
+    twine upload dist/*
+
 ## 安装
 
     virtualenv env
