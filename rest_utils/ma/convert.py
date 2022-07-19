@@ -76,6 +76,11 @@ class MysqlTimestampField(fields.DateTime):
         return super(MysqlTimestampField, self)._serialize(value, attr, obj)
 
 
+class BigNumberField(fields.Integer):
+    def _serialize(self, value, attr, obj):
+        return str(value)
+
+
 class ModelConverter(object):
     """Class that converts a SQLAlchemy model into a dictionary of corresponding
     marshmallow `Fields <marshmallow.fields.Field>`.
@@ -102,6 +107,8 @@ class ModelConverter(object):
         sqltypes.DateTime: MysqlTimestampField,
         sqltypes.TIMESTAMP: MysqlTimestampField,
         # end mysql timestamp
+
+        sqltypes.BIGINT: BigNumberField,
 
         mssql.BIT: fields.Integer,
     }

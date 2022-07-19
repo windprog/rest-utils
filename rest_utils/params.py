@@ -139,9 +139,9 @@ class PageArgs(BaseArgs):
 
         filters = []
         relationships = sqla_inspect(cls).mapper.relationships
-        all_field_items = self.array_field.items() + \
-                          self.equal_field.items() + \
-                          self.like_field.items()
+        all_field_items = list(self.array_field.items()) + \
+                          list(self.equal_field.items()) + \
+                          list(self.like_field.items())
 
         for key, value in all_field_items:
             if '.' in key:
